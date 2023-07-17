@@ -1,0 +1,62 @@
+.button-brochure-container {
+    position: relative;
+}
+
+.download-brochure-button-grad {
+    position: relative;
+    display: inline-block;
+    width: 277px;
+    height: 50px;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 60px;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: transparent;
+    cursor: pointer;
+    text-decoration:none;
+    font-family: 'Roboto', sans-serif;
+    font-weight:900;
+    font-size:17px;
+    letter-spacing: 0.045em;
+    
+}
+
+.download-brochure-button-grad svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.download-brochure-button-grad svg rect {
+    stroke: rgba(83, 207, 205, 1);;
+    stroke-width: 4;
+    stroke-dasharray: 353, 0;
+    stroke-dashoffset: 0;
+    -webkit-transition: all 600ms ease;
+    transition: all 600ms ease;
+}
+
+.download-brochure-button-grad  span{
+    background: rgba(83, 207, 205, 1);;
+    background: -moz-linear-gradient(left,  rgba(83, 207, 205, 1) 0%, rgba(83, 207, 205, 1) 100%);
+    background: -webkit-linear-gradient(left,  rgba(83, 207, 205, 1) 0%,rgba(83, 207, 205, 1) 100%);
+    background: linear-gradient(to right,  rgb(60, 142, 141) 0%,rgb(75, 129, 128) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8282', endColorstr='#e178ed',GradientType=1 );
+    
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.download-brochure-button-grad:hover svg rect {
+    stroke-width: 4;
+    stroke-dasharray: 196, 543;
+    stroke-dashoffset: 437;
+}
+
+.about-us-row {
+    position: relative;
+}

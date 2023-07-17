@@ -1,0 +1,35 @@
+.caraousal-com {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.imgSlider-com {
+    width: 95%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+    background-image: url("../../assets/image12.jpeg");
+    background-size: cover;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    animation: newImage 20s linear infinite;
+}
+
+@keyframes newImage {
+    0% {
+        background-image: url("../../assets/image12.jpeg");
+    }
+    25% {
+        background-image: url("../../assets/image14.jpeg");
+    }
+    50% {
+        background-image: url("../../assets/image12.jpeg");
+    }
+    50% {
+        background-image: url("../../assets/image16.jpeg");
+    }
+    100% {
+        background-image: url("../../assets/image14.jpeg");
+    }
+}
+
+

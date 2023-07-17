@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap");
+
+/* custom colors  */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --bgcolor: rgb(234, 252, 252);
+  /* --primary-color: rgba(222, 205, 43, 1); */
+  --primary-color: rgb(83, 207, 205);
+  --secondary-color: #e8effd;
+  --design-color: #6fccdd;
+  --design-secondary-color: #cfb1d4;
+  --text-color: #828286;
+  --main-text-color: #131313;
+
+
+  --background-modal-color: #fff;
+  --body-color: #fff;
+  --color-timeline-default: #D2D3D8;
+  --color-step-completed: #5C6174;
+  --color-checkmark-completed: #fff;
+  --color-in-progress: #13CB8F;
+  --color-label-default: var(--color-timeline-default);
+  --color-label-completed: var(--color-step-completed);
+  --color-label-loading: var(--color-checkmark-completed);
+  --color-icon-completed: var(--color-step-completed);
+  --color-icon-default: var(--color-timeline-default);
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #333333;
+}
+
+@media (min-width: 1500px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl,
+    .container-xxl {
+      max-width: 1500px !important;
+    }
+  }
+  
+  @media (min-width: 1400px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl,
+    .container-xxl {
+      max-width: 1400px;
+    }
+  }

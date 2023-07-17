@@ -1,0 +1,58 @@
+.tag {
+    outline: none;
+    border: 1px solid #eee;
+    border-radius: .5rem;
+    padding: .5rem 0.5rem;
+    color: rgb(55, 55, 55);
+    margin: 0 10px;
+    background-color: none;
+    cursor: pointer;
+    font-size: 1.8rem;
+    transition: ease-in;
+}
+
+.tag:hover {
+    outline: none;
+    border: 0.5px solid rgb(255, 255, 255);
+    border-radius: .5rem;
+    padding: .5rem 0.5rem;
+    color: #eee;
+    margin: 0 10px;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1.8rem;
+}
+
+.active {
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    background-color: var(--primary-color);
+}
+
+@media (max-width: 550px) {
+    .tag {
+        padding: .5rem 0.5rem;
+        color: rgb(121, 120, 120);
+        margin: 0 0.5rem;
+        background-color: #fff;
+        font-size: 1.4rem;
+        border: none;
+        border-radius: 0.5rem;
+
+    }
+
+    .tag:hover {
+        outline: none;
+        border: 0.5px solid rgb(209, 208, 208);
+        border-radius: .5rem;
+        padding: .5rem 0.5rem;
+        color: #eee;
+        margin: 0 10px;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+
+
+
+}

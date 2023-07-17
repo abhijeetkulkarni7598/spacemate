@@ -1,0 +1,21 @@
+.print_div{
+    width: 200px;
+    background-color: red;
+}
+.color-theme{
+    color: #00afe2;
+}
+.fixed{
+    background-color: #00afe2!important;
+}
+.job-card-lg-color{
+    background-color: #00afe2 ;
+    border:1px solid #00afe2 !important;
+
+}
+.color-white{
+    color: white;
+}
+.special-border-white{
+    border-bottom: 4px solid white!important;
+}

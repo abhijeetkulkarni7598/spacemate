@@ -1,0 +1,14 @@
+.login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+.login-box{
+    background-color: white;
+    box-shadow: 0px 0px 7px #323a3d;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 100px;
+}

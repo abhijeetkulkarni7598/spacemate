@@ -1,0 +1,20 @@
+.for-etable{
+    width: 70%;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.e-table-h2{
+    background-color: #323a3d;
+    margin: 50px 0px;
+    padding: 20px 15px;
+    font-weight: bolder;
+    border-radius: 7px;
+    color: white;
+    text-align: center!important;
+}
+.h1-create-cus{
+    text-align: center;
+font-size: 4rem;
+    margin: 50px 0px;
+}

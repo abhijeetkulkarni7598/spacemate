@@ -1,0 +1,108 @@
+footer {
+    padding: 5rem 0;
+    background-color: #182334;
+    color: #fff;
+}
+
+footer .main-hero-para__abt {
+    font-size: 1.5rem;
+    color: lightgray;
+}
+
+.footer-brand {
+    font-size: 2.5rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    background: -webkit-linear-gradient(rgb(223, 223, 223), rgba(83, 207, 205, 1));
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+footer h2 {
+    color: #fff;
+    font-weight:500;
+}
+
+footer li {
+    list-style: none;
+    font-size: 1.5rem;
+    font-weight: lighter;
+    color: #fff;
+    cursor: pointer;
+    margin: 1rem 0;
+}
+
+footer li:hover {
+    color: var(--primary-color);
+}
+
+footer .main-hero-para {
+    margin: 0;
+    color: gray;
+}
+
+footer .fontawesome-style {
+    font-size: 2.3rem;
+    color: var(--primary-color);
+    background-color: transparent;
+    width: 0rem;
+    height: 0rem;
+    margin: 2rem 0;
+    cursor: pointer;
+  }
+
+footer .social-links {
+  margin-left: -2rem;
+  margin-top: 2rem;
+  
+}
+
+/* footer .socil-links a:hover {
+  color: var(--primary-color);
+} */
+
+  .footer__add__pa {
+      font-size: 1.5rem;
+  }
+  footer .fontawesome-style {
+    color: white;
+  }
+  footer .fontawesome-style:hover {
+    transition: all 1s;
+    animation: rotatefont 1s linear infinite alternate-reverse;
+    color: var(--primary-color);
+  }
+  
+  @keyframes rotatefont {
+    0% {
+      transform: scale(0.6);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }
+
+  @media (max-width: 550px) {
+    .social-links{
+      margin-bottom: 5rem;
+    }
+    .main-hero-para__abt {
+      text-align: justify;
+      padding: 1rem 2rem;
+    }
+
+    .for-social {
+      margin-top: 5rem;
+    }
+
+    .for-company ul {
+      padding-left: 0;
+    }
+
+    .for-company {
+      margin-top: 5rem;
+    }
+    
+  }
+

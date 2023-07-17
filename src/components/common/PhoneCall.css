@@ -1,0 +1,28 @@
+.float-p {
+  position: fixed;
+  width: 58px;
+  height: 58px;
+  bottom: 40px;
+  right: 95px;
+  /* border-radius: 50px; */
+  text-align: center;
+  /* font-size: 30px; */
+
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(243, 243, 243, 0.9);
+  /* background: rgba(0, 0, 0, 0.5); */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10%;
+}
+
+.m-float {
+  margin-top: 1px;
+  color: var(--primary-color);
+  font-size: 5rem;
+  font-weight: 500;
+
+  /* box-shadow: 2px 2px 3px #999; */
+}

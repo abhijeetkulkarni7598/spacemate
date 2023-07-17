@@ -1,0 +1,80 @@
+.form-box{
+    width: 90%;
+    padding: 20px;
+    background-color: #ffffff;
+    /* border-radius: 7px; */
+    margin: auto;
+    margin-bottom: 100px;
+    box-shadow: 0px 0px 4px grey;
+    
+}
+form{
+    /* margin: auto!important; */
+}
+
+.b{
+ 
+    /* margin-top: 20px; */
+    width: 200px!important;
+}
+.c{
+    position: relative;
+    top: 5px;
+}
+.add-amount{
+ padding-top: 100px;
+ border-top: 1px solid #000;
+}
+.row{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* width: 1000px; */
+}
+.address{
+    /* width: 1000px; */
+    padding: 20px;
+    border: 1px solid grey;
+    margin-bottom: 50px;
+}
+.h3-title{
+    width: 100%;
+    text-align: center;
+    margin: 30px 0px;
+}
+
+.adddress{
+    /* width: 2000px; */
+    border: 1px solid black;
+    padding: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    /* align-items: flex-start; */
+}
+.adddress div{
+width: 300px;
+/* border: 1px solid grey; */
+}
+input{
+    /* border: 1px solid grey!important; */
+}
+::-ms-input-placeholder{
+    color: red!important;
+}
+::placeholder{
+    color: grey!important;
+}
+.antd-select-selection-placeholder{
+    color: red!important;
+}
+
+::-webkit-input-placeholder{
+    color: red!important;
+}
+*::placeholder{
+    color: grey!important;
+
+}
+.quotation-form-list div{
+    /* width: 25%; */
+}
