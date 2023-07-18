@@ -8,7 +8,7 @@ import {
   Select,
   message,
 } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { SyncLoader } from "react-spinners";
 import {
   useCreateItemMutation,
@@ -58,9 +58,11 @@ export default function Itemform({ datas, id }) {
     "CHILDBEDROOM",
     "KITCHEN",
   ];
-  const unit = ["SQR METER", "SQR INCH", "SQR CENTI METER", "SQR MILI METER", "SQR FOOT"];
-  const size = ["AS PER DESIGN", "LENGTH HEIGHT"];
-
+  const unit = ["SQR METER", "INCH", "NUMBERS", "MILI METER", "SQR FOOT","RUNNING FOOT"];
+  const [unit_data, setUnit_data] = useState();
+const Getunit=(data)=>{
+setUnit_data(data)
+}
   return (
     <div
       style={{
@@ -107,41 +109,68 @@ export default function Itemform({ datas, id }) {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name={["height"]} label="Height">
-            <InputNumber 
-              style={{ width: "300px" }}
-            
-            placeholder="Enter Height" />
-          </Form.Item>
-          <Form.Item name={["width"]} label="Width">
-            <InputNumber 
-              style={{ width: "300px" }}
-            
-            placeholder="Enter Width" />
-          </Form.Item>
-          <Form.Item name={["length"]} label="Length">
-            <InputNumber 
-              style={{ width: "300px" }}
-            
-            placeholder="Enter Length" />
-          </Form.Item>
-          <Form.Item name={["depth"]} label="Depth">
-            <InputNumber 
-              style={{ width: "300px" }}
-            
-            placeholder="Enter Depth" />
-          </Form.Item>
+
           <Form.Item label="Item Unit" name="unit">
             <Select
               showSearch
               optionFilterProp="children"
               placeholder="Item Unit"
+              onSelect={Getunit}
+
             >
               {unit?.map((client) => (
-                <Select.Option value={client}>{client}</Select.Option>
+                <Select.Option key={client} value={client}>{client}</Select.Option>
               ))}
             </Select>
           </Form.Item>
+
+{unit_data==="INCH"||unit_data==="MILI METER"||unit_data==="SQR FOOT"||unit_data==="SQR METER"?
+<>
+          <Form.Item name={["height"]} label="Height">
+            <InputNumber 
+              style={{ width: "300px" }}
+              
+              placeholder="Enter Height" />
+          </Form.Item>
+          <Form.Item name={["width"]} label="Width">
+            <InputNumber 
+              style={{ width: "300px" }}
+              
+              placeholder="Enter Width" />
+          </Form.Item>
+          <Form.Item name={["length"]} label="Length">
+            <InputNumber 
+              style={{ width: "300px" }}
+              
+              placeholder="Enter Length" />
+          </Form.Item>
+          <Form.Item name={["depth"]} label="Depth">
+            <InputNumber 
+              style={{ width: "300px" }}
+              
+              placeholder="Enter Depth" />
+          </Form.Item>
+    
+              </>:<>
+              
+              {
+                unit_data==="RUNNING FOOT"?
+                <Form.Item name={["running_foot"]} label="Running Foot">
+                <InputNumber 
+                  style={{ width: "300px" }}
+                  
+                  placeholder="Enter Foot" />
+              </Form.Item>:
+                <Form.Item name={["numbers"]} label="Numbers">
+                <InputNumber 
+                  style={{ width: "300px" }}
+                  
+                  placeholder="Enter Number" />
+              </Form.Item>
+
+              }
+              
+              </>}
 
           <Form.Item name={["costing"]} label="Item Costing">
             <InputNumber

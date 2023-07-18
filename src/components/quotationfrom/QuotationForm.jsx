@@ -227,7 +227,9 @@ const QuotationForm = (props) => {
       const height = item.height || 1; // Set default value of 1 if height is not present
       const width = item.width || 1; // Set default value of 1 if height is not present
       const depth = item.depth || 1; // Set default value of 1 if height is not present
-      const total = item.costing * length * height * width * depth;
+      const running_foot = item.running_foot || 1; // Set default value of 1 if height is not present
+      const numbers = item.numbers || 1; // Set default value of 1 if height is not present
+      const total = item.costing * length * height * width * depth*running_foot*numbers;
 
       return {
         ...item, // Keep all existing properties from data1 item
@@ -649,6 +651,18 @@ const QuotationForm = (props) => {
                             className="w-cus-moblie"
                           
                           placeholder="Width" />
+                        </Form.Item>
+                        <Form.Item {...restField} name={[name, "numbers"]}>
+                          <InputNumber  
+                            className="w-cus-moblie"
+                          
+                          placeholder="Number" />
+                        </Form.Item>
+                        <Form.Item {...restField} name={[name, "running_foot"]}>
+                          <InputNumber  
+                            className="w-cus-moblie"
+                          
+                          placeholder="Running Foot" />
                         </Form.Item>
                         <Form.Item
                           {...restField}
