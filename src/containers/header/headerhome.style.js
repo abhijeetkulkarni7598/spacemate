@@ -135,8 +135,8 @@ header {
     position: absolute;
     width: 70%;
     // height: 35%;
-    left: 75%;
-    top: -5%;
+    left: 50%;
+    top: 9%;
     box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
 }
 
@@ -178,8 +178,8 @@ header {
         position: absolute;
         width: 75%;
         // height: 40%;
-        left: 75%;
-        top: -5%;
+        left: 50%;
+        top: 9%;
         box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
     }
 }

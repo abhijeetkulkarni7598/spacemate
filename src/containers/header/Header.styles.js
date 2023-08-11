@@ -123,8 +123,8 @@ export const HeaderDisplayStyle = styled.div`
     position: absolute;
     width: 70%;
     // height: 35%;
-    left: 52%;
-    top: -5%;
+    left: 50%;
+    top: 9%;
     box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
   }
   @media screen and (max-width: 1050px) {
@@ -163,8 +163,8 @@ export const HeaderDisplayStyle = styled.div`
       position: absolute;
       width: 75%;
       // height: 40%;
-      left: 52%;
-      top: -5%;
+      left: 50%;
+      top: 9%;
       box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
     }
   }
@@ -363,8 +363,8 @@ export const HeaderDesignobuildStyle = styled.div`
     position: absolute;
     width: 70%;
     // height: 35%;
-    left: 52%;
-    top: -5%;
+    left: 50%;
+    top: 9%;
     box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
   }
   @media screen and (max-width: 1050px) {
@@ -403,8 +403,8 @@ export const HeaderDesignobuildStyle = styled.div`
       position: absolute;
       width: 75%;
       // height: 40%;
-      left: 52%;
-      top: -5%;
+      left: 50%;
+      top: 9%;
       box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
     }
   }
