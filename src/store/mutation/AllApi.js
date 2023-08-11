@@ -121,16 +121,39 @@ const allApi = createApi({
             ? [...result.map(({ id }) => ({ type: "Quotation", id })), "Quotation"]
             : ["Quotation"],
       }),
+      getQuotationCount: build.query({
+        query: ({name}) => {
+          if(name){
+
+            return {
+              url: `/api/quotation/?quotation_number=${name}`,
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            }
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.length
+            ? [...result.map(({ id }) => ({ type: "Quotation", id })), "Quotation"]
+            : ["Quotation"],
+      }),
+      
       getQuotation: build.query({
         query: (id) => {
-          return {
-            url: `/api/quotation/${id}/`,
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-          };
+          if(id!==undefined){
+
+            return {
+              url: `/api/quotation/${id}/`,
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            };
+          }
         },
        
       }),
@@ -174,8 +197,8 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [...result.map(({ id }) => ({ type: "Client", id })), "Client"]
+        result?.results?.length
+          ? [...result.results.map(({ id }) => ({ type: "Client", id })), "Client"]
           : ["Client"],
        
       }),
@@ -191,15 +214,15 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [...result.map(({ id }) => ({ type: "Items", id })), "Items"]
+        result?.results?.length
+          ? [...result.results.map(({ id }) => ({ type: "Items", id })), "Items"]
           : ["Items"],
        
       }),
       searchClient: build.query({
-        query: ({val,id}) => {
+        query: ({val,id,page}) => {
           return {
-            url: `/api/client/?search=${val}&user_client_id=${id}`,
+            url: `/api/client/?page=${page}&search=${val}&user_client_id=${id}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -208,8 +231,8 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [...result.map(({ id }) => ({ type: "Client", id })), "Client"]
+        result?.results?.length
+          ? [...result.results.map(({ id }) => ({ type: "Client", id })), "Client"]
           : ["Client"],
        
       }),
@@ -361,13 +384,16 @@ const allApi = createApi({
       }),
       getClient: build.query({
         query: (id) => {
-          return {
-            url: `/api/client/${id}/`,
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
+          if(id!==undefined){
+
+            return {
+              url: `/api/client/${id}/`,
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            }
           };
         },
        
@@ -400,6 +426,19 @@ const allApi = createApi({
         query: () => {
           return {
             url: "/api/inventory/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+       
+      }),
+      fetchCategory: build.query({
+        query: () => {
+          return {
+            url: "/api/category/",
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -484,11 +523,13 @@ export const {
   useFetchQuotationQuery,
   useGetQuotationQuery,
   useDeleteQuotationMutation,
+  useGetQuotationCountQuery,
   
   useDeleteItemMutation,
   useGetItemsQuery,
   useUpadteItemsMutation,
   useCreateItemMutation,
+  useFetchCategoryQuery,
 
 } = allApi;
 

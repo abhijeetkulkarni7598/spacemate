@@ -9,7 +9,7 @@ import { Dropdown } from "antd";
 
 const SlidebarLink = styled(Link)`
   display: flex;
-  color: white;
+  color: black;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
@@ -18,13 +18,11 @@ const SlidebarLink = styled(Link)`
   text-decoration: none;
   font-size: 18px;
   &:hover {
-    // border-left: 4px solid gray;
+    border-left: 4px solid gray;
     cursor: pointer;
     background-color: #6bc9d6;
     color:#29384f;
   transition: all 0.5s ease;
-padding:20px!important;
-// display:block!important;
 
 
   }
@@ -36,9 +34,10 @@ const DropdownLink = styled(Link)`
   align-items: center;
   display: flex;
   text-decoration: none;
-  color: white;
+  color: var(--pr-text-color);
   font-size: 18px;
   transition: all 0.5s ease;
+  color:black;
   &:hover {
     background-color: #6bc9d6;
     color:#29384f;

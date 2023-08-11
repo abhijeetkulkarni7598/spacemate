@@ -39,11 +39,14 @@ setCount(props?.data?.count)
     <>
  
       <Table
+      style={{cursor:"pointer"}}
+      className="custom-table-ant"
       columns={columns}
       loading={props.loading}
       dataSource={data}
       scroll={{
-        x: 1800,
+        x: 1500,
+        // y:500
       }}
       pagination={{
         total:count,
@@ -65,6 +68,14 @@ setCount(props?.data?.count)
 
           setCurrentPage(page)
         }
+      }}
+      onRow={(record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            // navigate(`/detail/${record.id}`);
+            props.navi(record)
+          },
+        };
       }}
       ></Table>
     

@@ -29,6 +29,7 @@ const onUpdate = (
  data,
  updateClient,
  id,
+ show
   ) => {
   data.id=id
   if(JSON.parse(localStorage.getItem('user'))?.id){
@@ -38,6 +39,8 @@ const onUpdate = (
     data.user_client_name=JSON.parse(localStorage.getItem('user'))?.username
   
     updateClient(data)
+show(false)
+    
   }else{
     message.error("You are unAuthoriused")
   }
@@ -46,7 +49,8 @@ const onUpdate = (
   };
   const onFinish = (
  data,
- createClient
+ createClient,
+ show
   ) => {
     console.log(data)
 
@@ -57,7 +61,7 @@ if(JSON.parse(localStorage.getItem('user'))?.id){
   data.user_client_id=JSON.parse(localStorage.getItem('user'))?.id
   data.user_client_name=JSON.parse(localStorage.getItem('user'))?.username
   createClient(data)
-
+show(false)
 }else{
   message.error("You are unAuthoriused")
 }
@@ -65,10 +69,10 @@ if(JSON.parse(localStorage.getItem('user'))?.id){
  
   };
 
-const Clientform = ({datas,id}) => {
+const Clientform = ({datas,id,show}) => {
   const [createClient, creatClientResponseInfo] = useCreateClientMutation();
   const [updateClient, updateClientResponseInfo] = useUpadteClientMutation();
-
+console.log("datas",datas)
   const navigate = useNavigate();
 
 
@@ -92,7 +96,6 @@ const Clientform = ({datas,id}) => {
           height: "100%",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "100px",
         }}
       >
         {/* {data ? ( */}
@@ -108,12 +111,14 @@ const Clientform = ({datas,id}) => {
                     data,
                     updateClient,
                     id,
+                    show,
                     
                   );
                 } else {
                   onFinish(
                     data,
                     createClient,
+                    show,
                     
                   );
                 }
@@ -161,12 +166,14 @@ const Clientform = ({datas,id}) => {
                   </Form.Item>
              
   
-             
          
-              <Form.Item style={{marginTop:"50px"}}>
+              <Form.Item >
                
-                  <Button style={{height:"100%"}} type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" style={{marginRight:"40px",background:"var(--pr-color) "}}>
                     {datas ? <>Update</> : <>Submit</>}
+                  </Button>
+                  <Button danger type="primary" onClick={()=>show(false)}>
+               Cancel
                   </Button>
               
               </Form.Item>

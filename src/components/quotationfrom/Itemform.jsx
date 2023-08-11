@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { SyncLoader } from "react-spinners";
 import {
   useCreateItemMutation,
+  useFetchCategoryQuery,
   useUpadteItemsMutation,
 } from "../../store/store";
 import { useEffect } from "react";
@@ -22,47 +23,62 @@ const layout = {
   wrapperCol: { span: 20 },
 };
 
-const onUpdate = (data, updateClient, id) => {
+const onUpdate = (data, updateClient, id,show) => {
   data.id = id;
   console.log(data);
   updateClient(data);
+  show(false)
+
 };
-const onFinish = (data, createClient) => {
+const onFinish = (data, createClient,show) => {
   console.log(data);
 
   createClient(data);
+  show(false)
+
 };
 
-export default function Itemform({ datas, id }) {
+export default function Itemform({ datas, id,show }) {
   const [createClient, creatClientResponseInfo] = useCreateItemMutation();
   const [updateClient, updateClientResponseInfo] = useUpadteItemsMutation();
-
+  const {
+    data: category,
+    isLoading: loading,
+   
+  } = useFetchCategoryQuery();
   const navigate = useNavigate();
+  const [cat, setCat] = useState();
+useEffect(() => {
+if(category){
+  
+  setCat(category.map((item)=>item.category))
 
+}
+}, [category]);
   useEffect(() => {
     if (creatClientResponseInfo?.status === "fulfilled") {
       message.success("Client Created");
-      navigate(`/item`);
+      // navigate(`/item`);
     }
     if (updateClientResponseInfo?.status === "fulfilled") {
       message.success("Client Upadted");
+      show(false)
 
-      navigate(`/item`);
+      // navigate(`/item`);
     }
   }, [creatClientResponseInfo, updateClientResponseInfo]);
 
-  const cat = [
-    "LIVING ROOM",
-    "MASTER BEDROOM",
-    "BEDROOM",
-    "CHILDBEDROOM",
-    "KITCHEN",
-  ];
-  const unit = ["SQR METER", "INCH", "NUMBERS", "MILI METER", "SQR FOOT","RUNNING FOOT"];
+  const unit = ["SQR METER", "INCH", "NUMBERS", "MILI METER", "SQR FOOT","RUNNING FOOT","LUMPSUM","APPROXIMATE"];
   const [unit_data, setUnit_data] = useState();
 const Getunit=(data)=>{
 setUnit_data(data)
 }
+useEffect(() => {
+if(datas?.unit){
+  setUnit_data(datas.unit)
+
+}
+}, [datas]);
   return (
     <div
       style={{
@@ -71,7 +87,6 @@ setUnit_data(data)
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: "100px",
       }}
     >
       {/* {data ? ( */}
@@ -82,9 +97,9 @@ setUnit_data(data)
           name="dynamic_form_nest_item"
           onFinish={(data) => {
             if (datas) {
-              onUpdate(data, updateClient, id);
+              onUpdate(data, updateClient, id,show);
             } else {
-              onFinish(data, createClient);
+              onFinish(data, createClient,show);
             }
           }}
           style={{
@@ -151,7 +166,7 @@ setUnit_data(data)
               placeholder="Enter Depth" />
           </Form.Item>
     
-              </>:<>
+              </>:null}
               
               {
                 unit_data==="RUNNING FOOT"?
@@ -161,16 +176,34 @@ setUnit_data(data)
                   
                   placeholder="Enter Foot" />
               </Form.Item>:
-                <Form.Item name={["numbers"]} label="Numbers">
+               null
+
+              }
+              {
+                unit_data==="NUMBERS"? <Form.Item name={["numbers"]} label="Numbers">
                 <InputNumber 
                   style={{ width: "300px" }}
                   
                   placeholder="Enter Number" />
-              </Form.Item>
-
+              </Form.Item>:null
               }
+              {
+                unit_data==="APPROXIMATE"? <Form.Item name={["sqft"]} label="Sq Feet">
+                <InputNumber 
+                  style={{ width: "300px" }}
+                  
+                  placeholder="Enter Sq Feet" />
+              </Form.Item>:null
+              }
+            
+            {
+                unit_data==="LUMPSUM"?null
+
+              :null
+              }
+
+
               
-              </>}
 
           <Form.Item name={["costing"]} label="Item Costing">
             <InputNumber
@@ -181,8 +214,11 @@ setUnit_data(data)
           </Form.Item>
 
           <Form.Item style={{ marginTop: "50px" }}>
-            <Button style={{height:"100%"}} type="primary" htmlType="submit">
+            <Button style={{height:"100%",marginRight:"30px",background:"var(--pr-color) "}} type="primary" htmlType="submit" >
               {datas ? <>Update</> : <>Submit</>}
+            </Button>
+            <Button danger style={{height:"100%"}} type="primary" onClick={()=>show(false)}>
+Cancel
             </Button>
           </Form.Item>
         </Form>

@@ -5,16 +5,19 @@
     margin-bottom: 100px;
 }
 .e-table-h2{
-    background-color: #323a3d;
+    background-color: var(--pr-color);
     margin: 50px 0px;
     padding: 20px 15px;
     font-weight: bolder;
     border-radius: 7px;
     color: white;
-    text-align: center!important;
 }
-.h1-create-cus{
-    text-align: center;
-font-size: 4rem;
-    margin: 50px 0px;
+.edit-link {
+    color: var(--pr-color); /* Red color for "Edit" link */
+  }
+.view-link {
+    color: var(--pr-color); /* Red color for "Edit" link */
+  }
+button{
+    height: 100%!important;
 }

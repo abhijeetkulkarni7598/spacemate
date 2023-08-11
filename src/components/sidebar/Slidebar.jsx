@@ -12,7 +12,7 @@ import logo from './../../assets/img/logo512.png'
 // import  AiIcons from "react-icons/ai";
 const Nav = styled.div`
   position: relative;
-  background-color: #323a3d;
+  background-color:var(--pr-color);
   height: 50px;
   display: flex;
    padding:0px 20px;
@@ -27,7 +27,7 @@ const Nav = styled.div`
     align-items: space-between;
   }
   a {
-    color: white !important;
+    color: black !important;
     font-size: 1.4rem;
   }
 `;
@@ -39,7 +39,9 @@ const NavIcon = styled(Link)`
   /* margin-top: 3rem; */
 `;
 const SlidebarNav = styled.nav`
-  background-color:#323a3d;
+box-shadow: 0px 0px 7px #323a3d;
+
+  background-color:var(--pr-text-color);
   width: 250px;
   height: 100vh;
   display: flex;
@@ -113,16 +115,12 @@ useEffect(() => {
             fontSize: "1.3rem",
           }}>
           Logged In as: <b>{localStorage.getItem("usera")}</b>
-          <span
-            style={{
-              textTransform: "uppercase",
-              fontWeight: "bold",
-            }}></span>
+        
         </li>
         <li className="li-sidebar" style={{fontSize:"1.3rem"}} onClick={() => logout1()}>Logout</li>
         <li  className="li-sidebar">
         <Link to="/setting" style={{fontSize:"20px",display:"flex",alignItems:"center"}}>
-     <AiIcons.AiFillSetting />
+     <AiIcons.AiFillSetting color="white"/>
         </Link>
         
 
@@ -170,8 +168,8 @@ useEffect(() => {
     <>
       <Style>
         <Nav id="navbar" className="main-nav-bar">
-          <NavIcon>
-            <FaIcons.FaBars style={{width:"20px" ,height:"20px"}}  onClick={showSidebar} />
+          <NavIcon style={{fontSize:"20px"}}>
+            <FaIcons.FaBars onClick={showSidebar} color="white"/>
           </NavIcon>
           <span className="logo-span">
           </span>
@@ -181,8 +179,8 @@ useEffect(() => {
         <SlidebarNav id="slidebar" sidebar={sidebar}>
           <SlidebarWrap>
             <NavIcon>
-              <IconStyle>
-                <AiIcons.AiOutlineClose style={{width:"20px" ,height:"20px"}} onClick={showSidebar} />
+              <IconStyle style={{fontSize:"20px"}}>
+                <AiIcons.AiOutlineClose onClick={showSidebar} color="black"/>
               </IconStyle>
               <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginBottom:"50px"}} >
                <img style={{width:"200px"}} src={logo} alt="" />

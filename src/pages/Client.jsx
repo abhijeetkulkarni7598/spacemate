@@ -2,15 +2,25 @@ import React, { useEffect, useState } from 'react';
 
 import ETable from '../components/editable_table/Etable';
 import "./../components/editable_table/etable.css"
-import { useNavigate } from "react-router-dom";
-import { useDeleteClientMutation, useFetchClientQuery } from '../store/store';
+import { useNavigate, useParams } from "react-router-dom";
+import { useDeleteClientMutation, useFetchClientQuery, useGetClientQuery } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAuth } from '../store/mutation/userSlice';
-import { Skeleton, message } from 'antd';
+import { Button, Input, Popconfirm, Skeleton, message } from 'antd';
 import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
+
+import { ReactComponent as Cross } from "./../assets/img/close.svg";
+import Clientform from '../components/quotationfrom/Clientform';
 import Slidebar from '../components/sidebar/Slidebar';
 
+
+
+
+
+
 const Client = () => {
+  const [show, setShow] = useState(false);
+  const [id, setid] = useState();
   const navigate = useNavigate();
   const { client_page } = useSelector(
     (state) => state.user
@@ -49,33 +59,30 @@ const Client = () => {
             key: 'id',
           //   ...getColumnSearchProps('name'),
           width:100,
+          fixed:"left",
           },
         {
           title: 'Name',
           dataIndex: 'contact_person_name',
           key: 'id',
           width:"100",
+          fixed:"left",
     
         //   ...getColumnSearchProps('name'),
         },
         {
-          title: 'PERSON WHO MADE It',
+          title: 'Representative',
           dataIndex: 'user_client_name',
           key: 'id',
         //   ...getColumnSearchProps('age'),
         },
+  
         {
-          title: 'Allocated Name',
-          dataIndex: 'allocate_name',
-          key: 'id',
-        //   ...getColumnSearchProps('address'),
-        //   sorter: (a, b) => a.address.length - b.address.length,
-        //   sortDirections: ['descend', 'ascend'],
-        },
-        {
-          title: 'Email',
+          title: 'Cx Email',
           dataIndex: 'email',
           key: 'id',
+          width:200
+
      
         },
         {
@@ -84,13 +91,7 @@ const Client = () => {
           key: 'id',
      
         },
-        {
-          title: 'Company Name',
-          dataIndex: 'company_name',
-          key: 'id',
-    
-     
-        },
+
         {
           title: 'Site Address',
           dataIndex: 'site_address',
@@ -103,7 +104,8 @@ const Client = () => {
           title: 'Action',
           key: 'id',
           fixed: 'right',
-          render: (record) => <a onClick={()=>editfun(record)}>Edit</a>,
+          width: 100,
+          render: (record) => <Button onClick={()=>editfun(record)}>Edit</Button>,
     
     
         }
@@ -127,23 +129,18 @@ const Client = () => {
       //   ...getColumnSearchProps('name'),
       },
       {
-        title: 'PERSON WHO MADE It',
+        title: 'Representative',
         dataIndex: 'user_client_name',
         key: 'id',
       //   ...getColumnSearchProps('age'),
       },
+
       {
-        title: 'Allocated Name',
-        dataIndex: 'allocate_name',
-        key: 'id',
-      //   ...getColumnSearchProps('address'),
-      //   sorter: (a, b) => a.address.length - b.address.length,
-      //   sortDirections: ['descend', 'ascend'],
-      },
-      {
-        title: 'Email',
+        title: 'Cx Email',
         dataIndex: 'email',
         key: 'id',
+        width:200
+
    
       },
       {
@@ -152,13 +149,7 @@ const Client = () => {
         key: 'id',
    
       },
-      {
-        title: 'Company Name',
-        dataIndex: 'company_name',
-        key: 'id',
-  
-   
-      },
+
       {
         title: 'Site Address',
         dataIndex: 'site_address',
@@ -170,7 +161,9 @@ const Client = () => {
       {
         title: 'Action',
         key: 'id',
-        render: (record) => <a onClick={()=>editfun(record)}>Edit</a>,
+        fixed: 'right',
+        width: 100,
+        render: (record) => <Button onClick={()=>editfun(record)}>Edit</Button>,
   
   
       },
@@ -178,18 +171,25 @@ const Client = () => {
       {
         title: 'Action',
         key: 'id',
+        width: 100,
         fixed:'right',
-        render: (record) => <a onClick={()=>deletethis(record)}>Delete</a>,
+        render: ( record) =>
+          <Popconfirm title="Sure to delete?" onConfirm={() => deletethis(record)}>
+            <a style={{color:"red"}}>Delete</a>
+          </Popconfirm>
   
   
       },
     ])
   }
  }, [user_id]);
+ const [formdata, setFormdata] = useState();
   
 const create_client=()=>{
-  navigate(`/create_client`)
-
+  // navigate(`/create_client`)
+  setFormdata()
+  setid()
+setShow(true)
 }
   const [deleteClient, deleteClientResponseInfo] = useDeleteClientMutation();
 
@@ -200,30 +200,65 @@ const create_client=()=>{
     }
   }, [deleteClientResponseInfo]);
   const editfun=(record)=>{
-    navigate(`/create_client/${record.id}`)
+    // navigate(`/create_client/${record.id}`)
+    setShow(true)
+    setFormdata(record)
+    setid(record.id)
+
+    
   }
   const deletethis=(record)=>{
     // navigate(`/create_client/${record.id}`)
     console.log("delete this ",record.id)
     deleteClient(record.id)
   }
- 
-
+  const shows=(data)=>{
     
-
+    setShow(data)
+  }
+  // const { id } = useParams();
+  // const {data: formdata, isLoading: client_loading,isSuccess:here} = useGetClientQuery(id);
+  const CreateClinet = () => {
+  
+    
+        return (
+            <div>
+                  {id?<h2 style={{textAlign:"center",marginBottom:"20px"}}>Update Client</h2>:<h2 style={{textAlign:"center",marginBottom:"20px"}}>Create Prospect</h2>}
+                  {id?                <Clientform show={shows} datas={formdata} id={id}/>:
+                <Clientform show={shows}id={id}/>
+                  }
+            </div>
+        );
+    }
+    
+  const ClientForm=()=>{
+    return(
+      <>
+      <div className="model-con">
+              <div className="model-box" style={{width:"80vw"}}>
+          {/* <Cross  className="model-cross" onClick={()=>setShow(false)}/> */}
+      <CreateClinet/>
+             
+              </div>
+              </div>
+              </>
+    )
+  }
 
     return (
-        <div >
-          <Slidebar/>
+        <div>
             {/* <Navbar/> */}
-      
+            <Slidebar/>
+
             <div className='for-etable'>
-                <h2 className='e-table-h2' >Client Table </h2>
+                <h2 className='e-table-h2' >Prospect List</h2>
+                <button  style={{padding:"10px 40px" ,borderRadius:"7px" ,border:"none",backgroundColor:"#0253a2",color:"white",fontSize:"15px",fontWeight:"bolder",cursor:"pointer",marginBottom:"30px"}} onClick={create_client}>Create Prospect</button>
             
                 {loading&&columns?<Skeleton />:
         <ETable data={data}  columns={columns} loading={fetch}  page={client_page} error={error}/>
                 }
-                <button onho style={{padding:"10px 40px" ,borderRadius:"7px" ,border:"none",backgroundColor:"#323a3d",color:"white",fontSize:"15px",fontWeight:"bolder",cursor:"pointer"}} onClick={create_client}>Create Client</button>
+           {show?<ClientForm/>:null
+           }
             </div>
         </div>
     );

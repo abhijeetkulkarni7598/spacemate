@@ -13,6 +13,8 @@ import {
 import React, { useEffect, useState } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+// import { parse, format } from 'date-fns';
+// import 'antd/es/date-picker/locale/en_US';
 import "./invoiceform.css";
 import useFormItemStatus from "antd/es/form/hooks/useFormItemStatus";
 import {
@@ -23,6 +25,7 @@ import {
   useFetchInvoiceQuery,
   useFetchQuotationQuery,
   useGetClientQuery,
+  useGetQuotationCountQuery,
   useSearchClientQuery,
   useUpadteInventoryMutation,
 } from "../../store/store";
@@ -32,6 +35,7 @@ import { uuid, indianStates } from "./uuid";
 import TextArea from "antd/es/input/TextArea";
 import ItemTable from "../models/ItemTable";
 import { useSelector } from "react-redux";
+import ClientModel from "../models/ClientModel";
 
 const layout = {
   labelCol: { span: 15 },
@@ -40,6 +44,59 @@ const layout = {
 const ly = {
   labelCol: { span: 20 },
 };
+const onRevision=( data,
+  createQuotation,
+  client_id,
+  client_name,
+  client_address,
+  client_contact,
+  data1,
+  total,
+  count)=>{
+  const { item, ...values } = data;
+
+
+
+  data.client_address = client_address;
+  data.client_contact = client_contact;
+  data.client_id = client_id;
+  data.client_name = client_name;
+  console.log(data1);
+
+  data.revision_no="R"+(1 + count.count).toString().padStart(2, "0") 
+
+
+  data.user_client = JSON.parse(localStorage.getItem("user")).username;
+  data.user_client_id = JSON.parse(localStorage.getItem("user")).id;
+  data.total_with_discount = total;
+
+  const today = new Date(data.date);
+
+  // Extract the day, month, and year
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const year = today.getFullYear().toString().slice(-2);
+
+  // Format the date as dd/mm/yyyy
+  const formattedDate = `${day}/${month}/${year}`;
+
+  // Output the formatted date
+  data.date = formattedDate;
+
+  const updatedObject = {
+    ...data,
+    item: data.item.map((item) => {
+      return {
+        ...item,
+        item_id: item.id,
+        id: undefined, // Remove the old id property if necessary
+      };
+    }),
+  };
+  createQuotation(updatedObject);
+}
+
+
 const onUpdate = (
   data,
 
@@ -58,7 +115,18 @@ const onUpdate = (
   // setformdata_update(id);
 
   // thisfun(data);
+  const today = new Date(data.date);
 
+  // Extract the day, month, and year
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const year = today.getFullYear().toString().slice(-2);
+
+  // Format the date as dd/mm/yyyy
+  const formattedDate = `${day}/${month}/${year}`;
+
+  // Output the formatted date
+  data.date = formattedDate;
   data.total_with_discount = total;
   if (client_id) {
     data.client_address = client_address;
@@ -71,7 +139,8 @@ const onUpdate = (
 
     // formdata_update.dated="adfsd"
     // formdata_update.delivery_date="adfsd"
-    if (data.client_id) {
+
+
       const updatedObject = {
         ...data,
         item: data.item.map((item) => {
@@ -87,20 +156,15 @@ const onUpdate = (
         delete obj["id"];
         delete obj["quotation"];
       });
-      updatedObject?.terms?.forEach((obj) => {
-        delete obj["id"];
-        delete obj["quotation"];
-      });
+
       console.log("Payload", updatedObject);
 
       createQuotation(updatedObject);
     }
-  }
 };
 const onFinish = (
   data,
   createQuotation,
-  invoice_id,
   client_id,
   client_name,
   client_address,
@@ -110,32 +174,38 @@ const onFinish = (
 ) => {
   const { item, ...values } = data;
 
+
+
   data.client_address = client_address;
   data.client_contact = client_contact;
   data.client_id = client_id;
   data.client_name = client_name;
   console.log(data1);
-  data.quotation_number = data1.count + 1;
+  data.quotation_number =
+  "SM" +
+  (1 + data1.count).toString().padStart(4, "0") +
+  (moment(new Date()).format("/YY") +
+    moment(new Date()).add(1, "years").format("-YY"))
+    data.revision_no="R"+(1 ).toString().padStart(2, "0") 
+
+
 
   data.user_client = JSON.parse(localStorage.getItem("user")).username;
   data.user_client_id = JSON.parse(localStorage.getItem("user")).id;
-  // data.invoice_no = invoice_id;
   data.total_with_discount = total;
 
-  const today = new Date();
+  const today = new Date(data.date);
 
   // Extract the day, month, and year
   const day = String(today.getDate()).padStart(2, "0");
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-  const year = today.getFullYear();
+  const year = today.getFullYear().toString().slice(-2);
 
   // Format the date as dd/mm/yyyy
   const formattedDate = `${day}/${month}/${year}`;
 
   // Output the formatted date
-  console.log(formattedDate);
-  console.log("main", data);
-  data.dated2 = formattedDate;
+  data.date = formattedDate;
 
   const updatedObject = {
     ...data,
@@ -152,31 +222,21 @@ const onFinish = (
 
 const QuotationForm = (props) => {
   const navigate = useNavigate();
-  const [client_name_search, setclient_name_search] = useState(null);
   const [datas, setdatas] = useState();
+  
 
-  const { user } = useSelector((state) => state.user);
-  const [user_id, setUser_id] = useState("");
-  useEffect(() => {
-    if (user.is_staff === true) {
-    } else {
-      setUser_id(user.id);
-    }
-  }, [user]);
-
-  const { data: client, isLoading: clientLoading } = useSearchClientQuery({
-    val: client_name_search,
-    id: user_id,
-  });
   const { data: data1, isLoading: loading } = useFetchQuotationQuery({
     val: 1,
     id: "",
+  });
+  const [quo_no, setQuo_no] = useState();
+  const { data: count, isLoading: countloading } = useGetQuotationCountQuery({
+    name: quo_no,
   });
 
   // const { data: invoice_data, isLoading: invoiceLoading } =
   //   useFetchInvoiceQuery();
 
-  const [invoice_id, setinvoice_id] = useState();
   // useEffect(() => {
   //   if (invoice_data) {
   //     setinvoice_id(
@@ -199,9 +259,9 @@ const QuotationForm = (props) => {
   const [client_address, setClient_address] = useState();
   const [client_contact, setClient_contact] = useState();
   const [client_name, setClient_name] = useState();
-
+const [clientShow, setClientShow] = useState(false);
   const client_fun_to_get_id = (data) => {
-    setClient_id(data);
+    setClient_id(data.id);
   };
 
   useEffect(() => {
@@ -215,9 +275,11 @@ const QuotationForm = (props) => {
 
   const client_fun = (data) => {
     console.log("serach", data);
-    setclient_name_search(data);
+    // setclient_name_search(data);
   };
-
+const manage_client_show=(data)=>{
+  setClientShow(data)
+}
   const [total_bam, setTotal_bam] = useState();
 
   const ultimate = () => {
@@ -228,8 +290,10 @@ const QuotationForm = (props) => {
       const width = item.width || 1; // Set default value of 1 if height is not present
       const depth = item.depth || 1; // Set default value of 1 if height is not present
       const running_foot = item.running_foot || 1; // Set default value of 1 if height is not present
+      const sqft = item.sqft || 1; // Set default value of 1 if height is not present
+      const quantity = item.quantity || 1; // Set default value of 1 if height is not present
       const numbers = item.numbers || 1; // Set default value of 1 if height is not present
-      const total = item.costing * length * height * width * depth*running_foot*numbers;
+      const total = item.costing * length * height * width * depth*running_foot*numbers*quantity*sqft;
 
       return {
         ...item, // Keep all existing properties from data1 item
@@ -269,7 +333,7 @@ const QuotationForm = (props) => {
   const [deleteQuotation, deleteQuotationResponseInfo] =
     useDeleteQuotationMutation();
   const [formdata_update, setformdata_update] = useState();
-
+console.log("hi",creatQuotationResponseInfo)
   useEffect(() => {
     if (props.id) {
       setformdata_update(props.id);
@@ -278,15 +342,24 @@ const QuotationForm = (props) => {
   useEffect(() => {
     if (creatQuotationResponseInfo?.isSuccess === true) {
       message.success("Invoice Created");
-      navigate("/quotation");
+      if(!props.data||revision===true){
+
+        navigate("/quotation");
+      }
     }
     //  if(creatQuotationResponseInfo?)
   }, [creatQuotationResponseInfo]);
+  useEffect(() => {
+    if (deleteQuotationResponseInfo?.isSuccess === true) {
+
+        navigate("/quotation");
+    }
+    //  if(creatQuotationResponseInfo?)
+  }, [deleteQuotationResponseInfo]);
 
   useEffect(() => {
-    console.log("load", creatQuotationResponseInfo.isLoading);
     if (creatQuotationResponseInfo?.isSuccess === true) {
-      if (datas !== "name") {
+      if (datas !== "name"&&revision===false) {
         deleteQuotation(formdata_update);
       }
     }
@@ -307,20 +380,54 @@ const QuotationForm = (props) => {
       createQuotation(data);
     }
   };
-  const unit = ["gram", "meter"];
+  const unit = ["SQR METER", "MILI METER","INCH", "SQR FOOT", "RUNNING FOOT", "NUMBERS","LUMPSUM","APPROXIMATE"];
+const [revision, setRevision] = useState(false);
+  const handleRevision=(data)=>{
+    setRevision(true)
+    }
+
+
+
+
+
+
+
+
+
+const [Loading, setLoading] = useState(false);
+
+
+
+
+
+
+
+useEffect(() => {
+if(creatQuotationResponseInfo.isSuccess!==creatQuotationResponseInfo.isError){
+setLoading(false)
+}
+}, [creatQuotationResponseInfo]);
+
+
+
+
+
+
 
   useEffect(() => {
     if (props.loading === false && props.isSuccess === false) {
       setdatas("name");
     }
   }, [props.loading, props.isSuccess]);
-
+const [date, setDate] = useState();
   useEffect(() => {
     if (props.data && props.id) {
-      setdatas(props.data);
+      setQuo_no(props.data?.quotation_number)
+      setdatas({...props.data,date:props.data?.date? moment(props.data?.date, "DD/MM/YY") : null});
       setClient_address(props.data?.client_address);
       setClient_contact(props.data?.client_contact);
       setClient_name(props.data?.client_name);
+      setDiscount(props.data?.discount)
 
       const modifiedData = props.data.item.map((item) => {
         const { id, item_id, ...rest } = item;
@@ -333,6 +440,9 @@ const QuotationForm = (props) => {
     }
   }, [props.data]);
   useEffect(() => {
+
+
+
     console.log("datas", props.data);
   }, [datas]);
 
@@ -422,6 +532,20 @@ const QuotationForm = (props) => {
             }}
             name="dynamic_form_nest_item"
             onFinish={(data) => {
+              if(revision){
+                onRevision(
+                  data,
+                  createQuotation,
+                  
+                  client_id,
+                  client_name,
+                  client_address,
+                  client_contact,
+                  data1,
+                  total,
+                  count)
+              }else{
+
               if (props.data) {
                 onUpdate(
                   data,
@@ -441,7 +565,6 @@ const QuotationForm = (props) => {
                 onFinish(
                   data,
                   createQuotation,
-                  invoice_id,
                   client_id,
                   client_name,
                   client_address,
@@ -450,7 +573,8 @@ const QuotationForm = (props) => {
                   total
                 );
               }
-            }}
+            }
+          }}
             style={{
               maxWidth: "100%",
             }}
@@ -459,30 +583,31 @@ const QuotationForm = (props) => {
             initialValues={datas}
             // initialValues={thisone}
           >
-            <Form.Item label="Client" name="client_id">
-              <Select
-                showSearch
-                optionFilterProp="children"
-                placeholder="Your Client Name"
-                onChange={client_fun_to_get_id}
-                onSearch={client_fun}
-              >
-                {client?.results?.map((client) => (
-                  <Select.Option
-                    value={client.id}
-                    onChange={client_fun_to_get_id}
-                  >
-                    {client.contact_person_name}
-                  </Select.Option>
-                ))}
-              </Select>
+            <Form.Item  >
+       
+              <Button  style={{background:"var(--pr-color) "}} type="primary" onClick={()=>setClientShow(true)}>
+               Select Client
+                  </Button>
             </Form.Item>
+          
+{clientShow?<ClientModel show={manage_client_show} client_data={client_fun_to_get_id}/>:null
 
-            <Form.Item name="user_client"></Form.Item>
-            <Form.Item name="user_client_id"></Form.Item>
-
+}
             <div className="address">
               <h3 className="h3-title">Client Details</h3>
+              <Form.Item
+                label="Client Name"
+                name={["client_name"]}
+                labelCol={5}
+              >
+                <p>
+                  <Input
+                    value={client_name}
+                    onChange={(e) => setClient_name(e.target.value)}
+                    placeholder="Enter Client Name"
+                  />
+                </p>
+              </Form.Item>
               <Form.Item
                 style={{}}
                 label="Client Address"
@@ -490,7 +615,7 @@ const QuotationForm = (props) => {
                 labelCol={5}
               >
                 <p>
-                  <Input
+                  <TextArea
                     value={client_address}
                     onChange={(e) => setClient_address(e.target.value)}
                     placeholder="Enter Client Address"
@@ -507,11 +632,15 @@ const QuotationForm = (props) => {
                     type="number"
                     value={client_contact}
                     onChange={(e) => setClient_contact(e.target.value)}
-                    placeholder="Enter Your Shipping Company Name"
+                    placeholder="Enter Client Contact"
                   />
                 </p>
               </Form.Item>
+            
             </div>
+            <Form.Item  name="client_id"></Form.Item>
+            <Form.Item  name="revision_no"></Form.Item>
+   
             <div className="address">
               <h3 className="h3-title">Item Details</h3>
               <Form.Item
@@ -524,22 +653,22 @@ const QuotationForm = (props) => {
                   <Input placeholder="Enter Special Note" />
                 </p>
               </Form.Item>
-              <Form.Item label="Discount " name={["discount"]} labelCol={5}>
-                <p>
-                  <Input
-                    type="number"
-                    value={discount}
-                    onChange={(e) => setDiscount(e.target.value)}
-                    style={{ width: "200px" }}
-                    placeholder="Enter Discount in percent"
-                  />
-                </p>
-              </Form.Item>
-            </div>
+              <Form.Item
+                style={{}}
+                label="Date"
+                name={["date"]}
+                labelCol={5}
+              >
 
+                <DatePicker format={"DD/MM/YY"}/>
+             
+              </Form.Item>
+              
+            </div>
+            <Form.Item name="user_client"></Form.Item>
+            <Form.Item name="user_client_id"></Form.Item>
             <div className="add-amount">
               <ItemTable data1={datafun} total_bam={total_bam} />
-              <Form.Item name="client_name"></Form.Item>
               <Form.Item name="quotation_number"></Form.Item>
               <Form.List name="item">
                 {(fields, { remove }) => (
@@ -550,11 +679,17 @@ const QuotationForm = (props) => {
                         key={key}
                         style={{
                           display: "flex",
-                          marginBottom: 8,
+                          marginBottom: "50px",
+                          padding:"20px",
+                          flexDirection:"column",
+                          background:"#e5e5e5",
+                          width:"100%",
+                          boxShadow:" 0px 0px 2px gray inset",
                         }}
                         align="baseline"
                         className="quotation-form-list"
-                      >
+                      ><Row  className="from-row">
+
                         <Form.Item
                           {...restField}
                           name={[name, "item_name"]}
@@ -571,6 +706,7 @@ const QuotationForm = (props) => {
                           />
                           {/* {console.log(users[0].Desc)} */}
                         </Form.Item>
+
                         <Form.Item
                           {...restField}
                           name={[name, "item_category"]}
@@ -626,46 +762,61 @@ const QuotationForm = (props) => {
                             ))}
                           </Select>
                         </Form.Item>
+                        </Row>
+<Row className="from-row">
 
-                        <Form.Item {...restField} name={[name, "length"]}>
+                        <Form.Item {...restField} label={"Length"} labelCol={2}  name={[name, "length"]}>
                           <InputNumber
                             className="w-cus-moblie"
 
                             placeholder="Length"
                           />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "height"]}>
+                        <Form.Item {...restField} label={"Height"}  labelCol={2}  name={[name, "height"]}>
                           <InputNumber 
                             className="w-cus-moblie"
                           
                           placeholder="Height" />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "depth"]}>
+                        <Form.Item {...restField} label={"Depth"}  labelCol={2}  name={[name, "depth"]}>
                           <InputNumber 
                             className="w-cus-moblie"
                           
                           placeholder="Depth" />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "width"]}>
+                        <Form.Item {...restField} label={"Width"}  labelCol={2}  name={[name, "width"]}>
                           <InputNumber  
                             className="w-cus-moblie"
                           
                           placeholder="Width" />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "numbers"]}>
+                        <Form.Item {...restField} label={"Numbers"}  labelCol={2}  name={[name, "numbers"]}>
                           <InputNumber  
                             className="w-cus-moblie"
                           
                           placeholder="Number" />
                         </Form.Item>
-                        <Form.Item {...restField} name={[name, "running_foot"]}>
+                        <Form.Item {...restField} label={"Running_foot"}  labelCol={2}  name={[name, "running_foot"]}>
                           <InputNumber  
                             className="w-cus-moblie"
                           
                           placeholder="Running Foot" />
                         </Form.Item>
+                        <Form.Item {...restField} label={"Sq Feet"}  labelCol={2}  name={[name, "sqft"]}>
+                          <InputNumber  
+                            className="w-cus-moblie"
+                          
+                          placeholder="Sq Ft" />
+                        </Form.Item>
+                        <Form.Item {...restField} label={"Quantity"}  labelCol={2}  name={[name, "quantity"]}>
+                          <InputNumber  
+                            className="w-cus-moblie"
+                          
+                          placeholder="Quantity" />
+                        </Form.Item>
                         <Form.Item
-                          {...restField}
+                        labelCol={2} 
+                          {...restField} label={"Total"}
                           name={[name, "total"]}
                           rules={[
                             {
@@ -679,16 +830,31 @@ const QuotationForm = (props) => {
                           
                           placeholder="Total" />
                         </Form.Item>
+                        </Row>
 
-                        <MinusCircleOutlined
+                        {/* <MinusCircleOutlined
                           className="c"
                           onClick={() => remove(name)}
-                        />
+                        /> */}
+                        <Button  style={{background:"var(--pr-color)",color:"white"}}  className="c" onClick={() => remove(name)}>
+                          Delete
+                        </Button>
                       </Space>
                     ))}
                   </>
                 )}
               </Form.List>
+              <Form.Item label="Discount " name={["discount"]} labelCol={5}>
+                <p>
+                  <Input
+                    type="number"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                    style={{ width: "200px" }}
+                    placeholder="Enter Discount in percent"
+                  />
+                </p>
+              </Form.Item>
             </div>
             {discount ? (
               <p>
@@ -700,14 +866,27 @@ const QuotationForm = (props) => {
               </p>
             )}
             <Form.Item>
-              {creatQuotationResponseInfo.isLoading === true ? (
-                <p>Please Waity</p>
-              ) : (
-                <Button  style={{height:"100%"}}  type="primary" htmlType="submit">
-                  {props?.data ? <>Update</> : <>Submit</>}
+
+                    <Button loading={creatQuotationResponseInfo.isLoading} style={{height:"100%",background:"var(--pr-color) "}}  type="primary" htmlType="submit" disabled={creatQuotationResponseInfo.isLoading}>
+                    {props?.data ? <>Update</> : <>Submit</>}
+                  </Button>
+            
+                {props?.data?
+                <Button  onClick={handleRevision} loading={creatQuotationResponseInfo.isLoading} style={{marginLeft:"40px",height:"100%",background:"var(--pr-color) "}}  type="primary" htmlType="submit">
+       Revision
                 </Button>
-              )}
+            :null
+          }
             </Form.Item>
+
+            
+            <Form.Item>
+       
+          </Form.Item>
+
+
+
+       
           </Form>
         </div>
       ) : (
