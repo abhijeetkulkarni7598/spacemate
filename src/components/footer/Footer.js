@@ -98,7 +98,7 @@ const Footer = () => {
                   <Link to="contact">Contact</Link>
                 </li>
                 <li>
-                  <Link to="login">Login</Link>
+                  <Link to="/login">Login</Link>
                 </li>
                 <li>
                   <Link to="privacy">Privacy Policy</Link>

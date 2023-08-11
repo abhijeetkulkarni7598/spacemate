@@ -39,6 +39,8 @@ export const ServiceStyle = styled.div`
 }
 
 .gallery-link-button {
+    display:inline-block;
+
     background-color: var(--primary-color);
     padding: 1.5rem;
     margin-top: 2rem;

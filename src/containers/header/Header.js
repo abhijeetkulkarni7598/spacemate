@@ -24,7 +24,7 @@ const Header = () => {
                   <div className="input-group-button"> <Link to="/contact">REACH OUT</Link></div>
                 </div>
               </div>
-              <div style={{height:"100%"}} className="col-12 col-lg-6  d-flex justify-content-center align-items-center main-herosection-images">
+              <div  className="for-visible-img col-12 col-lg-6  d-flex justify-content-center align-items-center main-herosection-images">
                 <img src={interior1} alt="spacemet" className="img-fluid" />
                 <img
                   src={heroimg}

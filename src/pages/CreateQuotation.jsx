@@ -14,7 +14,7 @@ const {data: formdata, isLoading: loading,isSuccess:here} = useGetQuotationQuery
         <>
         <Slidebar/>
 
-            {id?<h1 className='h1-create-cus' >Update Quotation</h1>:<h1 className='h1-create-cus' >Create Quotation</h1>}
+            {id?<h1 style={{textAlign:"center",marginTop:"50px"}} className='h1-create-cus' >Update Quotation</h1>:<h1 style={{textAlign:"center",marginTop:"50px"}} className='h1-create-cus' >Create Quotation</h1>}
 
 
 <QuotationForm id={id} data={formdata} isSuccess={here} loading={loading}/>
