@@ -45,6 +45,8 @@ export {
     useCreateItemMutation,
     useFetchCategoryQuery,
 
+    useFetchDesignGalleryQuery,
+    useFetchInteriorGalleryQuery,
 
 
 } from "./mutation/AllApi";

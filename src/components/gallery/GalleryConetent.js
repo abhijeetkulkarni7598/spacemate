@@ -3,6 +3,7 @@ import { SRLWrapper } from 'simple-react-lightbox';
 import images from '../../API/images';
 import './GalleryContent.css';
 import TagButton from './TagButton';
+import { useFetchInteriorGalleryQuery } from '../../store/store';
 
 
 
@@ -15,6 +16,11 @@ const GalleryConetent = () => {
         tag === 'all' ? setFilteredImages(images) : setFilteredImages(images.filter( image => image.tag === tag))
     }, [tag]
     );
+    const {
+        data: data,
+        isLoading: loading,
+       
+      } = useFetchInteriorGalleryQuery();
     const reverseFilteredImages= [...filteredImages].reverse()
     console.log('reverseFilteredImages: ', reverseFilteredImages);
     return (
@@ -37,6 +43,7 @@ const GalleryConetent = () => {
                 </div>)
                 }
             </div>
+            {/* <img src="https://www.spacemate.in/image/img/ss2.png" alt="" /> */}
             </SRLWrapper>
         </div>
     )

@@ -1,0 +1,28 @@
+[
+    {
+    image: "sdsds",
+    iamgename:"hajahs",
+    tag:"2d"
+    },{
+        image: "sdsds1",
+        iamgename:"hajahs",
+        tag:"2d" 
+    }
+    ,{
+        image: "sdsds2",
+        iamgename:"hajahs",
+        tag:"2d" 
+    }
+]
+covert like this in js
+
+
+[
+    { original: "sdsds", thumbnail: "sdsds"
+    },
+    { original: "sdsds1", thumbnail: "sdsds1"
+    },
+    { original: "sdsds2", thumbnail: "sdsds2"
+    },
+    
+]

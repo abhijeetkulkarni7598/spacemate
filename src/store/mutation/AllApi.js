@@ -448,6 +448,32 @@ const allApi = createApi({
         },
        
       }),
+      fetchInteriorGallery: build.query({
+        query: () => {
+          return {
+            url: "/api/image/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+       
+      }),
+      fetchDesignGallery: build.query({
+        query: () => {
+          return {
+            url: "/api/designimage/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+       
+      }),
       upadteInventory: build.mutation({
         query: (upadate_value) => {
           const { id,...data } = upadate_value;
@@ -530,6 +556,9 @@ export const {
   useUpadteItemsMutation,
   useCreateItemMutation,
   useFetchCategoryQuery,
+
+  useFetchDesignGalleryQuery,
+  useFetchInteriorGalleryQuery,
 
 } = allApi;
 

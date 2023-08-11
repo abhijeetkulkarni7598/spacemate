@@ -3,8 +3,8 @@ import { message } from "antd";
 import axios from "axios";
 // import url from "./url"
 // const url = "http://127.0.0.1:8000/";
-//  const url = "https://spacemate.pythonanywhere.com/";
- const url = "https://www.spacemate.in/";
+ const url = "https://spacemate.pythonanywhere.com/";
+//  const url = "https://www.spacemate.in/";
 
 // export const url = "https://abundancesystems.pythonanywhere.com/";
 
