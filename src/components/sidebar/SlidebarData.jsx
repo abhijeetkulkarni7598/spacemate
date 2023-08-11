@@ -10,7 +10,7 @@ export const SlidebarData = [
  
       {
         title: "Prospect Table",
-        path: "/",
+        path: "/client",
         icon: <FaIcons.FaClipboardList />,
       },
     

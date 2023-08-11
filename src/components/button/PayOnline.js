@@ -111,7 +111,7 @@ const BtnStyle = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 22px;
+      padding: 3px 22px;
       /* width: 176px; */
     }
   }
