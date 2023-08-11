@@ -124,7 +124,7 @@ header {
 
 .main-herosection-images img {
     width: 100%;
-    height: 75%;
+    // height: 75%;
     margin-top: 10rem;
     box-shadow: 0 0.8rem 0.8rem rgba(0, 0, 0, 0.25);
     border-radius: 1.5rem;
@@ -134,7 +134,7 @@ header {
 .main-herosection-images .main-hero-section-img2 {
     position: absolute;
     width: 70%;
-    height: 35%;
+    // height: 35%;
     left: 75%;
     top: -5%;
     box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
@@ -167,7 +167,7 @@ header {
 
     .main-herosection-images img {
         width: 100%;
-        height: 75%;
+        // height: 75%;
         margin-top: 10rem;
         box-shadow: 0 0.8rem 0.8rem rgba(0, 0, 0, 0.25);
         border-radius: 1.5rem;
@@ -177,7 +177,7 @@ header {
     .main-herosection-images .main-hero-section-img2 {
         position: absolute;
         width: 75%;
-        height: 40%;
+        // height: 40%;
         left: 75%;
         top: -5%;
         box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);

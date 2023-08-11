@@ -111,7 +111,7 @@ export const HeaderDisplayStyle = styled.div`
 
   .main-herosection-images img {
     width: 100%;
-    height: 75%;
+    // height: 75%;
     margin-top: 3rem;
     box-shadow: 0 0.8rem 0.8rem rgba(0, 0, 0, 0.25);
     border-radius: 1.5rem;
@@ -122,8 +122,8 @@ export const HeaderDisplayStyle = styled.div`
   .main-herosection-images .main-hero-section-img2 {
     position: absolute;
     width: 70%;
-    height: 35%;
-    left: 75%;
+    // height: 35%;
+    left: 52%;
     top: -5%;
     box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
   }
@@ -162,8 +162,8 @@ export const HeaderDisplayStyle = styled.div`
     .main-herosection-images .main-hero-section-img2 {
       position: absolute;
       width: 75%;
-      height: 40%;
-      left: 75%;
+      // height: 40%;
+      left: 52%;
       top: -5%;
       box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
     }
@@ -352,7 +352,7 @@ export const HeaderDesignobuildStyle = styled.div`
 
   .main-herosection-images img {
     width: 100%;
-    height: 75%;
+    // height: 75%;
     margin-top: 10rem;
     box-shadow: 0 0.8rem 0.8rem rgba(0, 0, 0, 0.25);
     border-radius: 1.5rem;
@@ -362,8 +362,8 @@ export const HeaderDesignobuildStyle = styled.div`
   .main-herosection-images .main-hero-section-img2 {
     position: absolute;
     width: 70%;
-    height: 35%;
-    left: 75%;
+    // height: 35%;
+    left: 52%;
     top: -5%;
     box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
   }
@@ -392,7 +392,7 @@ export const HeaderDesignobuildStyle = styled.div`
 
     .main-herosection-images img {
       width: 100%;
-      height: 75%;
+      // height: 75%;
       margin-top: 10rem;
       box-shadow: 0 0.8rem 0.8rem rgba(0, 0, 0, 0.25);
       border-radius: 1.5rem;
@@ -402,8 +402,8 @@ export const HeaderDesignobuildStyle = styled.div`
     .main-herosection-images .main-hero-section-img2 {
       position: absolute;
       width: 75%;
-      height: 40%;
-      left: 75%;
+      // height: 40%;
+      left: 52%;
       top: -5%;
       box-shadow: 0.8rem 0 0.8rem rgba(0, 0, 0, 0.25);
     }

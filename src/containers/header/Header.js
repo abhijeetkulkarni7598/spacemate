@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { interior1, heroimg } from './imports'
+import { interior1, heroimg ,shop} from './imports'
 import './headerhome.style.js';
 import { HeaderhomeStyle } from './headerhome.style.js';
 
@@ -24,7 +24,7 @@ const Header = () => {
                   <div className="input-group-button"> <Link to="/contact">REACH OUT</Link></div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6 header-right-side d-flex justify-content-center align-items-center main-herosection-images">
+              <div className="col-12 col-lg-6  d-flex justify-content-center align-items-center main-herosection-images">
                 <img src={interior1} alt="spacemet" className="img-fluid" />
                 <img
                   src={heroimg}
