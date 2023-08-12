@@ -45,10 +45,10 @@ setFor_3d(outputArray1)
           </div>
           <h3 className="image-sub-title">3D Views</h3>
           <div className="container-gallery">
-            {for_2d?
+            {for_3d?
 
             <ImageGallery
-              items={for_2d}
+              items={for_3d}
               showPlayButton={true}
               showFullscreenButton={true}
               slideInterval={1000}
@@ -64,10 +64,10 @@ setFor_3d(outputArray1)
           </div>
           <h3 className="image-sub-title">2D Views</h3>
           <div className="container-gallery">
-            {for_3d?
+            {for_2d?
 
               <ImageGallery
-              items={for_3d}
+              items={for_2d}
                 showPlayButton={true}
                 showFullscreenButton={true}
                 slideInterval={1000}
