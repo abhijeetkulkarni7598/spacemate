@@ -22,28 +22,28 @@ const DesignLandingPage = () => {
       <Style>
         <section
           id="home"
-          class="d-flex align-items-center position-relative vh-100 cover hero"
+          className="d-flex align-items-center position-relative vh-100 cover hero"
           style={{
             backgroundImage: ``,
           }}>
           <div className="logo">
             <Logo />
           </div>
-          <div class="container-fluid container-fluid-max">
-            <div class="row">
-              <div class="col-12 col-md-8 col-lg-12">
-                <h1 class="text-grey text-align-center text-center main-title">
+          <div className="container-fluid container-fluid-max">
+            <div className="row">
+              <div className="col-12 col-md-8 col-lg-12">
+                <h1 className="text-grey text-align-center text-center main-title">
                   Get Your Home Designed <br />
                 </h1>
                 <h2 className="text-grey py-4 main-subtitle">
                   Book Package At Just ₹99/- and get Eligible for Extra 10%
                   Discount!
                 </h2>
-                {/* <div class="mt-3">
-                  <a class="btn bg-blue text-white mr-2" href="" role="button">
+                {/* <div className="mt-3">
+                  <a className="btn bg-blue text-white mr-2" href="" role="button">
                     Book Now
                   </a>
-                  <a class="btn bg-blue text-white" href="" role="button">
+                  <a className="btn bg-blue text-white" href="" role="button">
                     Plan Your Trip
                   </a>
         </div>*/}
@@ -58,13 +58,13 @@ const DesignLandingPage = () => {
           isActive={isActive}
         />
         <section>
-          <div class="container-fluid image-container container-fluid-max">
-            <div class="row">
-              <div class="col-12 col-md-6 col-lg-6 p-2">
+          <div className="container-fluid image-container container-fluid-max">
+            <div className="row">
+              <div className="col-12 col-md-6 col-lg-6 p-2">
                 <h2>3D Design</h2>
                 <img className="image-landing" src={image1} alt="" />
               </div>
-              <div class="col-12 col-md-6 p-2 col-lg-6">
+              <div className="col-12 col-md-6 p-2 col-lg-6">
                 <h2>2D Design</h2>
                 <img className="image-landing" src={tdimg1} alt="" />
               </div>

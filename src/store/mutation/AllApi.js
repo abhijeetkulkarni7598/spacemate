@@ -1,4 +1,3 @@
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { url } from "./url";
 
@@ -6,7 +5,7 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["Invoice","Client","User","Items","Quotation"],//refresh when it innvalidates
+  tagTypes: ["Invoice", "Client", "User", "Items", "Quotation"], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -36,18 +35,16 @@ const allApi = createApi({
             },
           };
         },
-       
       }),
       createInvoice: build.mutation({
         query: (createJobcardData) => {
-          const { user,...data } = createJobcardData;
-            console.log(createJobcardData)
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
-     
-        
+          const { user, ...data } = createJobcardData;
+          console.log(createJobcardData);
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
           return {
             url: `/api/invoice/`,
             method: "POST",
@@ -58,15 +55,16 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Invoice", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Invoice", id: arg.id },
+        ],
       }),
       deleteInvoice: build.mutation({
         query: (id) => {
-       
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
           return {
             url: `/api/invoice/${id}/`,
             method: "DELETE",
@@ -76,23 +74,20 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Invoice", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Invoice", id: arg.id },
+        ],
       }),
-
-
-
-
 
       createQuotation: build.mutation({
         query: (createJobcardData) => {
-          const { user,...data } = createJobcardData;
-            console.log(createJobcardData)
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
-     
-        
+          const { user, ...data } = createJobcardData;
+          console.log(createJobcardData);
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
           return {
             url: `/api/quotation/`,
             method: "POST",
@@ -103,10 +98,12 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Quotation", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Quotation", id: arg.id },
+        ],
       }),
       fetchQuotation: build.query({
-        query: ({val,id}) => {
+        query: ({ val, id }) => {
           return {
             url: `/api/quotation/?page=${val}&user_client_id=${id}`,
             method: "GET",
@@ -118,13 +115,15 @@ const allApi = createApi({
         },
         providesTags: (result = [], error, arg) =>
           result?.length
-            ? [...result.map(({ id }) => ({ type: "Quotation", id })), "Quotation"]
+            ? [
+                ...result.map(({ id }) => ({ type: "Quotation", id })),
+                "Quotation",
+              ]
             : ["Quotation"],
       }),
       getQuotationCount: build.query({
-        query: ({name}) => {
-          if(name){
-
+        query: ({ name }) => {
+          if (name) {
             return {
               url: `/api/quotation/?quotation_number=${name}`,
               method: "GET",
@@ -132,19 +131,21 @@ const allApi = createApi({
                 "Content-Type": "application/json",
                 Accept: "application/json",
               },
-            }
-          };
+            };
+          }
         },
         providesTags: (result = [], error, arg) =>
           result?.length
-            ? [...result.map(({ id }) => ({ type: "Quotation", id })), "Quotation"]
+            ? [
+                ...result.map(({ id }) => ({ type: "Quotation", id })),
+                "Quotation",
+              ]
             : ["Quotation"],
       }),
-      
+
       getQuotation: build.query({
         query: (id) => {
-          if(id!==undefined){
-
+          if (id !== undefined) {
             return {
               url: `/api/quotation/${id}/`,
               method: "GET",
@@ -155,15 +156,13 @@ const allApi = createApi({
             };
           }
         },
-       
       }),
       deleteQuotation: build.mutation({
         query: (id) => {
-       
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
           return {
             url: `/api/quotation/${id}/`,
             method: "DELETE",
@@ -173,19 +172,15 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Quotation", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Quotation", id: arg.id },
+        ],
       }),
 
-
-
-
-
-
-
       fetchClient: build.query({
-        query: ({val,id}) => {
-          if(id===undefined){
-            id=""
+        query: ({ val, id }) => {
+          if (id === undefined) {
+            id = "";
           }
           return {
             url: `/api/client/?page=${val}&user_client_id=${id}`,
@@ -197,13 +192,15 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.results?.length
-          ? [...result.results.map(({ id }) => ({ type: "Client", id })), "Client"]
-          : ["Client"],
-       
+          result?.results?.length
+            ? [
+                ...result.results.map(({ id }) => ({ type: "Client", id })),
+                "Client",
+              ]
+            : ["Client"],
       }),
       fetchItems: build.query({
-        query: ({val,search}) => {
+        query: ({ val, search }) => {
           return {
             url: `/api/items/?page=${val}&search=${search}`,
             method: "GET",
@@ -214,13 +211,15 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.results?.length
-          ? [...result.results.map(({ id }) => ({ type: "Items", id })), "Items"]
-          : ["Items"],
-       
+          result?.results?.length
+            ? [
+                ...result.results.map(({ id }) => ({ type: "Items", id })),
+                "Items",
+              ]
+            : ["Items"],
       }),
       searchClient: build.query({
-        query: ({val,id,page}) => {
+        query: ({ val, id, page }) => {
           return {
             url: `/api/client/?page=${page}&search=${val}&user_client_id=${id}`,
             method: "GET",
@@ -231,21 +230,22 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.results?.length
-          ? [...result.results.map(({ id }) => ({ type: "Client", id })), "Client"]
-          : ["Client"],
-       
+          result?.results?.length
+            ? [
+                ...result.results.map(({ id }) => ({ type: "Client", id })),
+                "Client",
+              ]
+            : ["Client"],
       }),
       createClient: build.mutation({
         query: (createJobcardData) => {
-          const { user,...data } = createJobcardData;
-            console.log(createJobcardData)
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
-     
-        
+          const { user, ...data } = createJobcardData;
+          console.log(createJobcardData);
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
           return {
             url: `/api/client/`,
             method: "POST",
@@ -256,15 +256,16 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Client", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Client", id: arg.id },
+        ],
       }),
       deleteItem: build.mutation({
         query: (id) => {
-       
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
           return {
             url: `/api/items/${id}/`,
             method: "DELETE",
@@ -274,15 +275,16 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Items", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Items", id: arg.id },
+        ],
       }),
       deleteClient: build.mutation({
         query: (id) => {
-       
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
           return {
             url: `/api/client/${id}/`,
             method: "DELETE",
@@ -292,19 +294,20 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Client", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Client", id: arg.id },
+        ],
       }),
 
       createItem: build.mutation({
         query: (createJobcardData) => {
-          const { user,...data } = createJobcardData;
-            console.log(createJobcardData)
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
-     
-        
+          const { user, ...data } = createJobcardData;
+          console.log(createJobcardData);
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
           return {
             url: `/api/items/`,
             method: "POST",
@@ -315,24 +318,20 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Items", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Items", id: arg.id },
+        ],
       }),
 
- 
-
-
-
-
-  
       upadteItems: build.mutation({
         query: (upadate_value) => {
-          const { id,...data } = upadate_value;
-            console.log(upadate_value)
-       
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
+          const { id, ...data } = upadate_value;
+          console.log(upadate_value);
+
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
           return {
             url: `/api/items/${id}/`,
             method: "PUT",
@@ -344,7 +343,9 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Items", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Items", id: arg.id },
+        ],
       }),
       getItems: build.query({
         query: (id) => {
@@ -357,18 +358,17 @@ const allApi = createApi({
             },
           };
         },
-       
-      }), 
-  
+      }),
+
       upadteClient: build.mutation({
         query: (upadate_value) => {
-          const { id,...data } = upadate_value;
-            console.log(upadate_value)
-       
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
+          const { id, ...data } = upadate_value;
+          console.log(upadate_value);
+
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
           return {
             url: `/api/client/${id}/`,
             method: "PUT",
@@ -380,12 +380,13 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Client", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Client", id: arg.id },
+        ],
       }),
       getClient: build.query({
         query: (id) => {
-          if(id!==undefined){
-
+          if (id !== undefined) {
             return {
               url: `/api/client/${id}/`,
               method: "GET",
@@ -393,35 +394,11 @@ const allApi = createApi({
                 "Content-Type": "application/json",
                 Accept: "application/json",
               },
-            }
-          };
+            };
+          }
         },
-       
-      }), 
+      }),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
       fetchInventory: build.query({
         query: () => {
           return {
@@ -433,7 +410,6 @@ const allApi = createApi({
             },
           };
         },
-       
       }),
       fetchCategory: build.query({
         query: () => {
@@ -446,7 +422,6 @@ const allApi = createApi({
             },
           };
         },
-       
       }),
       fetchInteriorGallery: build.query({
         query: () => {
@@ -459,7 +434,6 @@ const allApi = createApi({
             },
           };
         },
-       
       }),
       fetchDesignGallery: build.query({
         query: () => {
@@ -472,18 +446,16 @@ const allApi = createApi({
             },
           };
         },
-       
       }),
       upadteInventory: build.mutation({
         query: (upadate_value) => {
-          const { id,...data } = upadate_value;
-            console.log(upadate_value)
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
-     
-        
+          const { id, ...data } = upadate_value;
+          console.log(upadate_value);
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
           return {
             url: `/api/inventory/${id}/`,
             method: "PUT",
@@ -494,21 +466,21 @@ const allApi = createApi({
             },
           };
         },
-        invalidatesTags: (result, error, arg) => [{ type: "Invoice", id: arg.id }],
+        invalidatesTags: (result, error, arg) => [
+          { type: "Invoice", id: arg.id },
+        ],
       }),
 
-  
       upadtePassword: build.mutation({
         query: (upadate_value) => {
           // const { id,...data } = upadate_value;
-          const user =JSON.parse(localStorage.getItem('user'))
-            console.log(upadate_value)
-        //   var formdata = new FormData();
-        //   Object.keys(data).map((form_key) =>
-        //     formdata.append(form_key, data[form_key] || "")
-        //   );
-     
-        
+          const user = JSON.parse(localStorage.getItem("user"));
+          console.log(upadate_value);
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
           return {
             url: `/app/change_password/${user.id}/`,
             method: "PUT",
@@ -522,13 +494,11 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
       }),
-     
     };
   },
 });
 
 export const {
-  
   useFetchInvoiceQuery,
   useGetInvoiceQuery,
   useCreateInvoiceMutation,
@@ -550,7 +520,7 @@ export const {
   useGetQuotationQuery,
   useDeleteQuotationMutation,
   useGetQuotationCountQuery,
-  
+
   useDeleteItemMutation,
   useGetItemsQuery,
   useUpadteItemsMutation,
@@ -559,11 +529,6 @@ export const {
 
   useFetchDesignGalleryQuery,
   useFetchInteriorGalleryQuery,
-
 } = allApi;
 
 export { allApi };
-
-
-
-

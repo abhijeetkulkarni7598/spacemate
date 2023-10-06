@@ -8,21 +8,21 @@ const ServicesSection = () => {
   return (
     <>
       <ServicesSectionStyle>
-        <div class="content-103">
-          <div class="container">
+        <div className="content-103">
+          <div className="container">
             <div className="title">
-              <h2 class="service-title-main">Our Services</h2>
+              <h2 className="service-title-main">Our Services</h2>
               <span className="title-border"></span>
             </div>
-            <div class="row-flex">
-              <div class="service-item">
-                <div class="service-post">
-                  <div class="service-content">
-                    <div class="service-icon">
+            <div className="row-flex">
+              <div className="service-item">
+                <div className="service-post">
+                  <div className="service-content">
+                    <div className="service-icon">
                       <BsPencilSquare className="service-icon-content" />
                     </div>
-                    <h3 class="service-title">3D Design Services</h3>
-                    <p class="service-description">
+                    <h3 className="service-title">3D Design Services</h3>
+                    <p className="service-description">
                     3D Design service is a process of making models and rendering by
                     defining various elements, that represent over all view of
                     interior, similarly it applies for all other spaces. 3D Design
@@ -31,14 +31,14 @@ const ServicesSection = () => {
                   </div>
                 </div>
               </div>
-              <div class="service-item">
-                <div class="service-post">
-                  <div class="service-content">
-                    <div class="service-icon">
+              <div className="service-item">
+                <div className="service-post">
+                  <div className="service-content">
+                    <div className="service-icon">
                       <AiOutlinePicture className="service-icon-content" />
                     </div>
-                    <h3 class="service-title">2D Design Services</h3>
-                    <p class="service-description">
+                    <h3 className="service-title">2D Design Services</h3>
+                    <p className="service-description">
                     2d Designing is the two dimensional visualization at Space and various elements.
                     </p>
                   </div>

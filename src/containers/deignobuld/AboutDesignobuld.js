@@ -13,8 +13,8 @@ const AboutDesignobuld = () => {
               alt=""
             />
           </div>
-          <div class="col">
-            <label class="otl-label">Designs that change your space</label>
+          <div className="col">
+            <label className="otl-label">Designs that change your space</label>
             <h2>Design O Build</h2>
             <p>
               DesignOBuild is your creative Interior design partner. We provide

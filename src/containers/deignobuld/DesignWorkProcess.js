@@ -7,14 +7,14 @@ const DesignWorkProcess = () => {
     <>
       <Style>
         <div>
-          <div class="wrapper">
-            <div class="main-container">
+          <div className="wrapper">
+            <div className="main-container">
               <div className="title-card">
                 <h3 className="image-title">Portfolio</h3>
                 <span className="image-title-border"></span>
               </div>
-              <div class="steps-container">
-                <div class="step completed">
+              <div className="steps-container">
+                <div className="step completed">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -22,13 +22,13 @@ const DesignWorkProcess = () => {
                     viewBox="0 0 24 24">
                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                   </svg>
-                  <div class="label completed">Requirement Understanding</div>
-                  <div class="icon completed">
+                  <div className="label completed">Requirement Understanding</div>
+                  <div className="icon completed">
                     <iGrNotes className="steps-icon" />
                   </div>
                 </div>
-                <div class="line completed"></div>
-                <div class="step completed">
+                <div className="line completed"></div>
+                <div className="step completed">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -36,15 +36,15 @@ const DesignWorkProcess = () => {
                     viewBox="0 0 24 24">
                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                   </svg>
-                  <div class="label completed">
+                  <div className="label completed">
                     Communication of Tentative Budget
                   </div>
-                  <div class="icon completed">
-                    <i class="far fa-map"></i>
+                  <div className="icon completed">
+                    <i className="far fa-map"></i>
                   </div>
                 </div>
-                <div class="line completed"></div>
-                <div class="step completed">
+                <div className="line completed"></div>
+                <div className="step completed">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -52,13 +52,13 @@ const DesignWorkProcess = () => {
                     viewBox="0 0 24 24">
                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                   </svg>
-                  <div class="label completed">Content Design</div>
-                  <div class="icon completed">
-                    <i class="far fa-map"></i>
+                  <div className="label completed">Content Design</div>
+                  <div className="icon completed">
+                    <i className="far fa-map"></i>
                   </div>
                 </div>
-                <div class="line completed"></div>
-                <div class="step completed">
+                <div className="line completed"></div>
+                <div className="step completed">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -66,13 +66,13 @@ const DesignWorkProcess = () => {
                     viewBox="0 0 24 24">
                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                   </svg>
-                  <div class="label completed">Detail Design</div>
-                  <div class="icon completed">
-                    <i class="far fa-newspaper"></i>
+                  <div className="label completed">Detail Design</div>
+                  <div className="icon completed">
+                    <i className="far fa-newspaper"></i>
                   </div>
                 </div>
-                <div class="line completed"></div>
-                <div class="step completed">
+                <div className="line completed"></div>
+                <div className="step completed">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -80,11 +80,11 @@ const DesignWorkProcess = () => {
                     viewBox="0 0 24 24">
                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                   </svg>
-                  <div class="label completed">
+                  <div className="label completed">
                     Design Signoff & Work Commencement
                   </div>
-                  <div class="icon completed">
-                    <i class="fas fa-home"></i>
+                  <div className="icon completed">
+                    <i className="fas fa-home"></i>
                   </div>
                 </div>
               </div>

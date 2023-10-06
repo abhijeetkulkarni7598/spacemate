@@ -4,8 +4,11 @@ import { FiPhoneCall } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { PricinfDesignobuildStyle } from "./Designobuil.style";
+import { Pricing } from "../../constant";
 
 const PricinfDesignobuild = ({isActive}) => {
+  console.log(Pricing)
+  
   return (
     <>
       <PricinfDesignobuildStyle>
@@ -14,148 +17,60 @@ const PricinfDesignobuild = ({isActive}) => {
           <span className="image-title-border"></span>
         </div>
         <div className="pricing-section">
-          <div className="pricing-card">
+      {Pricing && Pricing?.map((item)=> (
+        <div key={item.designname} className="pricing-card">
             <div className="pricing-head">
-              <h3>ONE ROOM DESIGN</h3>
+              <h3>{item.designname}</h3>
               <div className="price-block">
-                <h2>
-                  ₹2999 <span> INR</span>
-                </h2>
+                {item.price && <h2>
+                  {item.price} <span> INR</span>
+                </h2>}
               </div>
             </div>
             <ul className="price-content-text">
-              <li>
+              {item.twodlayout && <li>
                 <BsCheck2 className="check-icon" />
-                <span>2D Layouts.</span>
-              </li>
-              <li>
+                <span>{item.twodlayout}</span>
+              </li>}
+              {item.threedviews &&<li>
                 <BsCheck2 className="check-icon" />
-                <span>3D Views.</span>
-              </li>
-              <li>
+                <span>{item.threedviews}</span>
+              </li>}
+              {item.designlimit && <li>
                 <BsCheck2 className="check-icon" />
-                <span>3D Design Upto 4 viewss.</span>
-              </li>
-              <li>
+                <span>{item.designlimit}</span>
+              </li>}
+              {item.roomlimit && <li>
                 <BsCheck2 className="check-icon" />
-                <span>Room Size** upto 200 sqft.</span>
-              </li>
+                <span>{item.roomlimit}</span>
+              </li>}
 
-              <li>
+             {item.revisions && <li>
                 <BsCheck2 className="check-icon" />
-                <span>One revisions</span>
-              </li>
+                <span>{item.revisions}</span>
+              </li>}
+             {item.complementary && <li>
+                <BsCheck2 className="check-icon" />
+                <span>{item.complementary}</span>
+              </li>}
+             {item.complementary2 && <li>
+                <BsCheck2 className="check-icon" />
+                <span>{item.complementary2}</span>
+              </li>}
+             {item.calling && <li>
+                <BsCheck2 className="check-icon" />
+                <span>{item.calling}</span>
+              </li>}
             </ul>
-            <div className="book-now-section">
-              <a href="https://imjo.in/RjFQEJ" target="blank">
+            {item.link && <div className="book-now-section">
+              <a href={item.link} target="blank">
                 <Button>Book Now</Button>
               </a>
-            </div>
+            </div>}
           </div>
-          <div className="pricing-card">
-            <div className="pricing-head">
-              <h3>2BHK DESIGN</h3>
-              <div className="price-block">
-                <h2>
-                  ₹11999 <span> INR</span>
-                </h2>
-              </div>
-            </div>
-            <ul className="price-content-text">
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>2D Layouts.</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>3D Views.</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>3D Design Upto 4 views per room.</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>Two Revisions</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>
-                  Complementary Entrance lobby View
-                  </span>
-              </li>
-            </ul>
-            <div className="book-now-section">
-              <a href="https://imjo.in/RjFQEJ" target="blank">
-                <Button>Book Now</Button>
-              </a>
-            </div>
-          </div>
-          <div className="pricing-card">
-            <div className="pricing-head">
-              <h3>3BHK DESIGN</h3>
-              <div className="price-block">
-                <h2>
-                  ₹13999 <span> INR</span>
-                </h2>
-              </div>
-            </div>
-            <ul className="price-content-text">
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>2D Layouts.</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>3D Views.</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>3D Design Upto 4 views per room.</span>
-              </li>
-              
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>Two Revisions</span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>
-                  Complementary Entrance lobby View
-                  </span>
-              </li>
-              <li>
-                <BsCheck2 className="check-icon" />
-                <span>
-                  Complementary Internal Passage view
-                </span>
-              </li>
-            </ul>
-            <div className="book-now-section">
-              <a href="https://imjo.in/RjFQEJ" target="blank">
-                <Button>Book Now</Button>
-              </a>
-            </div>
-          </div>
-          {isActive && <div className="pricing-card">
-            <div className="pricing-head">
-              <h3>Individual House & Bungalows</h3>
-              <div className="price-block">
-                <h2></h2>
-              </div>
-            </div>
-            <ul className="price-content-text">
-              <li>
-                <FiPhoneCall className="check-icon" />
-                <span>Call for costing.</span>
-              </li>
-            </ul>
-            <div className="book-now-section">
-              <a href="https://imjo.in/RjFQEJ" target="blank">
-                <Button>Book Now</Button>
-              </a>
-            </div>
-          </div>}
+      ))}
+          
+          
         </div>
       </PricinfDesignobuildStyle>
     </> //

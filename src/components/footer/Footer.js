@@ -20,7 +20,7 @@ const Footer = () => {
     <>
       <Style>
         <div className="footer-section">
-          <div class="footer-content">
+          <div className="footer-content">
             <h3>
               <Logo />
             </h3>
@@ -37,7 +37,7 @@ const Footer = () => {
               </Link>
             </span>
 
-            <ul class="socials">
+            <ul className="socials">
               <li>
                 <Link
                   to="https://www.facebook.com/spacemateinterior"
@@ -78,14 +78,14 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div class="footer-bottom">
+          <div className="footer-bottom">
             <p>
               Copyright © <span id="year">{year} </span> <span> </span>
               <a href="#"> Spacemate Interior Solutions</a>
             </p>
 
-            <div class="footer-menu">
-              <ul class="f-menu">
+            <div className="footer-menu">
+              <ul className="f-menu">
                 <li>
                   <Link to="/">Home</Link>
                 </li>
