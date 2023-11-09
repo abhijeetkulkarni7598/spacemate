@@ -161,7 +161,7 @@ const App = () => {
 
 export default App;
 //item repeat (done)
-// specifications
+// specifications (done)
 //item add space padding (done) 
 //cancel la popup (done)
-//specification display
+//specification display (done)
