@@ -19,6 +19,14 @@ body{
   color:white!important;
   border: none!important;
 }
+.custom-table-with-low-padding th,.custom-table-with-low-padding tr,.custom-table-with-low-padding td{
+  padding: 5px!important;
+
+}
+.item-table-custom-button span{
+font-size: 14px;  
+padding: 0px;
+}
 .custom-table-ant tr,.custom-table-ant td,.custom-table-ant table{
   border: none!important;
 }

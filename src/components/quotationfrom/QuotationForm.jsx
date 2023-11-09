@@ -706,6 +706,17 @@ const [date, setDate] = useState();
                           />
                           {/* {console.log(users[0].Desc)} */}
                         </Form.Item>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "specifications"]}
+                     
+                        >
+                          <Input
+                            placeholder="Specifications"
+                            className="b c w-cus-moblie"
+                          />
+                          {/* {console.log(users[0].Desc)} */}
+                        </Form.Item>
 
                         <Form.Item
                           {...restField}

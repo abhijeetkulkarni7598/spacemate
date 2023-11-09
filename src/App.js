@@ -20,7 +20,7 @@ import Slidebar from "./components/sidebar/Slidebar";
 import Login from "./pages/Login";
 import Auth from "./store/Auth";
 import Client from "./pages/Client";
-import './App.css'
+import "./App.css";
 import { useDispatch } from "react-redux";
 import { checkAuth } from "./store/mutation/userSlice";
 import Quotation from "./pages/Quotation";
@@ -56,135 +56,102 @@ const App = () => {
           <Route path="/designobuild" element={<DesignLandingPage />} />
           <Route element={<Error />} />
 
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/client"
+            element={
+              <Auth>
+                <Client />
+              </Auth>
+            }
+          />
 
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/client"
-          element={
-            <Auth>
-              <Client />
-             </Auth>
-          }
-        />
+          <Route
+            path="/quotation"
+            element={
+              <Auth>
+                <Quotation />
+              </Auth>
+            }
+          />
 
+          <Route
+            exact
+            path="/quotation/:id"
+            element={
+              <Auth>
+                <CreateQuotation />
+              </Auth>
+            }
+          />
 
+          <Route
+            exact
+            path="/create_client/:id"
+            element={
+              <Auth>
+                <CreateClinet />
+              </Auth>
+            }
+          />
+          <Route
+            exact
+            path="/create_client"
+            element={
+              <Auth>
+                <CreateClinet />
+              </Auth>
+            }
+          />
+          <Route
+            exact
+            path="/create"
+            element={
+              <Auth>
+                <CreateQuotation />
+              </Auth>
+            }
+          />
 
-
-
-
-
-
-
-
-
-<Route
-          path="/quotation"
-          element={
-            <Auth>
-              <Quotation />
-            </Auth>
-          }
-        />
-      
-        <Route
-          exact
-          path="/quotation/:id"
-          element={
-            <Auth>
-              <CreateQuotation />
-            </Auth>
-          }
-        />
-       
-        <Route
-          exact
-          path="/create_client/:id"
-          element={
-            <Auth>
-              <CreateClinet />
-            </Auth>
-          }
-        />
-        <Route
-          exact
-          path="/create_client"
-          element={
-            <Auth>
-              <CreateClinet />
-            </Auth>
-          }
-        />
-        <Route
-          exact
-          path="/create"
-          element={
-            <Auth>
-              <CreateQuotation />
-            </Auth>
-          }
-        />
-      
-        <Route
-          exact
-          path="/setting"
-          element={
-            <Auth>
-              <Setting />
-            </Auth>
-          }
-        />
-        <Route
-          exact
-          path="/item"
-          element={
-            <Auth>
-              <Item />
-            </Auth>
-          }
-        />
-        <Route
-          exact
-          path="/item-create"
-          element={
-            <Auth>
-              <CreateItem />
-            </Auth>
-          }
-        />
-        <Route
-          exact
-          path="/item-create/:id"
-          element={
-            <Auth>
-              <CreateItem />
-            </Auth>
-          }
-        />
-        <Route exact path="/view/:id" element={<View />} />
-
-
-
-
-
-
-
-
-
+          <Route
+            exact
+            path="/setting"
+            element={
+              <Auth>
+                <Setting />
+              </Auth>
+            }
+          />
+          <Route
+            exact
+            path="/item"
+            element={
+              <Auth>
+                <Item />
+              </Auth>
+            }
+          />
+          <Route
+            exact
+            path="/item-create"
+            element={
+              <Auth>
+                <CreateItem />
+              </Auth>
+            }
+          />
+          <Route
+            exact
+            path="/item-create/:id"
+            element={
+              <Auth>
+                <CreateItem />
+              </Auth>
+            }
+          />
+          <Route exact path="/view/:id" element={<View />} />
         </Routes>
 
-
-
-
-
-
-
-
-
-
-
-
-
-       
         {/* <PhoneCall/>
         <WhatsApp/> */}
       </BrowserRouter>
@@ -193,3 +160,8 @@ const App = () => {
 };
 
 export default App;
+//item repeat (done)
+// specifications
+//item add space padding (done) 
+//cancel la popup (done)
+//specification display

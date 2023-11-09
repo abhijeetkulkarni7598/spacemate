@@ -113,6 +113,9 @@ if(datas?.unit){
           <Form.Item name={["item_name"]} label="Item Name">
             <Input placeholder="Enter Item Name" />
           </Form.Item>
+          <Form.Item name={["specifications"]} label="Specifications">
+            <Input placeholder="Enter Item Specifications" />
+          </Form.Item>
           <Form.Item label="Item Category" name="item_category">
             <Select
               showSearch

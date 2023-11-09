@@ -210,7 +210,11 @@ const View = () => {
                           <tr>
                             <td>{counter()}</td>
                             <td>
-                              {op.item_name} x ({op.quantity})
+                              {op.item_name} x ({op.quantity}) 
+                              {/* <span style={{color:"red"}}> */}
+                              &nbsp;&nbsp;
+                              {op.specifications?op.specifications:null}
+                              {/* </span> */}
                             </td>
                             {/* <td>
                               {/* {op.length ? <>{op.length}'L x</> : null}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./model.css";
-import { Button, Form, Input, Select, Table, message } from "antd";
+import { Button, Form, Input, Popconfirm, Select, Table, message } from "antd";
 import { useFetchCategoryQuery, useFetchItemsQuery } from "../../store/store";
 // import cross from "./../../assets/img/cross.jpg"
 import { ReactComponent as Cross } from "./../../assets/img/close.svg";
@@ -121,16 +121,18 @@ export default function ItemTable({ data1, total_bam }) {
       render: (record) => (
         <>
           {!isRecordDisabled(record) ? (
-            <a onClick={() => add(record)} disabled={isRecordDisabled(record)}>
+            <Button type="primary" className="item-table-custom-button" onClick={() => add(record)} disabled={isRecordDisabled(record)}>
               ADD
-            </a>
+            </Button>
           ) : (
-            <a
-              onClick={() => remove(record)}
+            <Button
+            type="primary" className="item-table-custom-button"
+            danger  
+            onClick={() => remove(record)}
               disabled={unisRecordDisabled(record)}
             >
               REMOVE
-            </a>
+            </Button>
           )}
         </>
       ),
@@ -145,10 +147,9 @@ export default function ItemTable({ data1, total_bam }) {
   const MyModel = () => {
     return (
       <>
-        <Form.Item></Form.Item>
         <div>
           <Table
-      className="custom-table-ant"
+      className="custom-table-ant custom-table-with-low-padding"
 
             columns={columns}
             loading={fetch}
@@ -171,9 +172,12 @@ export default function ItemTable({ data1, total_bam }) {
           <Button type="primary"  onClick={sendData} style={{marginRight:"30px",background:"var(--pr-color) "}}>
             accpet it
           </Button>
-          <Button  danger type="primary"  onClick={() => setShow(false)}>
+          {/* <Button  onClick={() => setShow(false)}>
             Cancel
-          </Button>
+          </Button> */}
+          <Popconfirm    title="Sure to Cancel?" onConfirm={() => setShow(false)}>
+            <Button danger type="primary" >Cancel</Button>
+          </Popconfirm>
         </div>
       </>
     );
