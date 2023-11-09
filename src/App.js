@@ -44,7 +44,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/service" element={<Service />} />
-          <Route path="/service" element={<Service />} />
+          {/* <Route path="/service" element={<Service />} /> */}
           <Route path="/display" element={<DisplaySolutions />} />
           <Route path="/design" element={<DesignObuild />} />
           <Route path="/gallery" element={<Gallery />} />
@@ -185,8 +185,8 @@ const App = () => {
 
 
        
-        <PhoneCall/>
-        <WhatsApp/>
+        {/* <PhoneCall/>
+        <WhatsApp/> */}
       </BrowserRouter>
     </>
   );

@@ -72,6 +72,9 @@ setShow(true)
           dataIndex: "id",
           key: "id",
           width: 100,
+          render: (text, record, index) => {
+            return <span>{item_page * 10 - 10 + index + 1}</span>;
+          },
 
           //   ...getColumnSearchProps('name'),
         },
@@ -115,6 +118,9 @@ setShow(true)
           dataIndex: "id",
           key: "id",
           width: 100,
+          render: (text, record, index) => {
+            return <span>{item_page * 10 - 10 + index + 1}</span>;
+          },
           //   ...getColumnSearchProps('name'),
         },
         {
@@ -164,7 +170,7 @@ setShow(true)
         },
       ]);
     }
-  }, [user_id]);
+  }, [user_id,item_page]);
   const shows = (data) => {
     setShow(data);
   };

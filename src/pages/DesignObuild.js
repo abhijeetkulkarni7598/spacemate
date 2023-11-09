@@ -14,6 +14,8 @@ import HeaderDesignobuild from "../containers/header/HeaderDesignobuild";
 import UspSection from "../containers/HowWeWork/UspSection";
 import DesignWorkProcess from "../containers/deignobuld/DesignWorkProcess";
 import TagButton from "../components/gallery/TagButton";
+import WhatsApp from "../components/common/WhatsApp";
+import PhoneCall from "../components/common/PhoneCall";
 
 const DesignObuild = () => {
   const [isActive, setIsActive] = useState(true)
@@ -28,6 +30,8 @@ const DesignObuild = () => {
       <GalleryDesignobuild/>
       <ServicesSection/>
       <Footer />
+      <PhoneCall/>
+        <WhatsApp/>
     </> //
   );
 };

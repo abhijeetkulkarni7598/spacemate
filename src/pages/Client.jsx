@@ -60,6 +60,9 @@ const Client = () => {
           //   ...getColumnSearchProps('name'),
           width:100,
           fixed:"left",
+          render: (text, record, index) => {
+            return <span>{client_page * 10 - 10 + index + 1}</span>;
+          },
           },
         {
           title: 'Name',
@@ -119,6 +122,9 @@ const Client = () => {
           key: 'id',
         //   ...getColumnSearchProps('name'),
         width:100,
+        render: (text, record, index) => {
+          return <span>{client_page * 10 - 10 + index + 1}</span>;
+        },
         },
       {
         title: 'Name',
@@ -182,7 +188,7 @@ const Client = () => {
       },
     ])
   }
- }, [user_id]);
+ }, [user_id,client_page]);
  const [formdata, setFormdata] = useState();
   
 const create_client=()=>{
@@ -225,7 +231,7 @@ setShow(true)
             <div>
                   {id?<h2 style={{textAlign:"center",marginBottom:"20px"}}>Update Client</h2>:<h2 style={{textAlign:"center",marginBottom:"20px"}}>Create Prospect</h2>}
                   {id?                <Clientform show={shows} datas={formdata} id={id}/>:
-                <Clientform show={shows}id={id}/>
+                <Clientform show={shows} id={id}/>
                   }
             </div>
         );

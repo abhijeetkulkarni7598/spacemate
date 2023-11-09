@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from '../components/navbar/Navbar'
 import Error404 from '../containers/errorpg/Error404'
 import Footer from '../components/footer/Footer'
+import WhatsApp from '../components/common/WhatsApp'
+import PhoneCall from '../components/common/PhoneCall'
 
 const Error = () => {
     return (
@@ -9,7 +11,9 @@ const Error = () => {
             <Navbar />
             <Error404 />
             <Footer />
-        </div>
+            <PhoneCall/>
+        <WhatsApp/>
+    </div>
     )
 }
 

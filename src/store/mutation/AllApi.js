@@ -200,9 +200,10 @@ const allApi = createApi({
             : ["Client"],
       }),
       fetchItems: build.query({
-        query: ({ val, search }) => {
+        query: ({ val, search ,item_category}) => {
+          console.log("lion",item_category)
           return {
-            url: `/api/items/?page=${val}&search=${search}`,
+            url: `/api/items/?page=${val}&search=${search}&item_category=${item_category?item_category:""}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",

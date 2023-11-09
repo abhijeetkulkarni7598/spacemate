@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
+import WhatsApp from "../components/common/WhatsApp";
+import PhoneCall from "../components/common/PhoneCall";
 
 const Privacy = () => {
   return (
@@ -4518,6 +4520,8 @@ const Privacy = () => {
         </div>
       </Style>
       <Footer />
+      <PhoneCall/>
+        <WhatsApp/>
     </> //
   );
 };

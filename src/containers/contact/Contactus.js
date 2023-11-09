@@ -83,19 +83,18 @@ const Contact = () => {
 
                     <div className="ct-sect-add">
                       <div className="address-container">
-                        <HiOfficeBuilding className="address-icon" />
-                        <p>
-                          Office No. 308, Walhekar Properties, Nanded City, Pune
-                          411041
+                        <HiOfficeBuilding className="address-icon" style={{flex:"1"}}/>
+                        <p style={{flex:"10"}}>
+                        Office No 01, GROUND FLOOR, VARSHA COMPLEX, NANDED PHATA, SINHGAD ROAD, PUNE 41104
                         </p>
                       </div>
                       <div className="address-container">
-                        <MdEmail className="email-icon" />
-                        <p>info@spacemate.in</p>
+                        <MdEmail className="email-icon" style={{flex:"1"}} />
+                        <p style={{flex:"10"}}>info@spacemate.in</p>
                       </div>
                       <div className="address-container">
-                        <BsFillTelephoneFill className="email-icon" />
-                        <p>9975149820</p>
+                        <BsFillTelephoneFill className="email-icon" style={{flex:"1"}}/>
+                        <p style={{flex:"10"}}>9975149820</p>
                       </div>
                     </div>
                   </div>

@@ -139,14 +139,23 @@ console.log("datas",datas)
               
              
   
-                  <Form.Item name={["contact_person_name"]} label="Contact Person Name">
-                    <Input placeholder="Enter Your Contact Person Name" />
+                  <Form.Item name={["contact_person_name"]} label="Prospect Name">
+                    <Input placeholder="Enter Your Prospect Name" />
                   </Form.Item>
-                  <Form.Item name={["company_name"]} label="Company Name">
+                  <Form.Item
+                    name={["phone"]}
+                    label="Contact No"
+                  >
+                    <InputNumber placeholder="Enter your Phone No" style={{width:"200px"}} />
+                  </Form.Item>
+                  {/* <Form.Item name={["company_name"]} label="Company Name">
                     <Input placeholder="Enter Your Company name" />
-                  </Form.Item>
-                  <Form.Item name={["allocate_name"]} label="Allocated Name">
+                  </Form.Item> */}
+                  {/* <Form.Item name={["allocate_name"]} label="Allocated Name">
                     <Input placeholder="Enter Your Allocated Name" />
+                  </Form.Item> */}
+                   <Form.Item name={["site_address"]} label="Site Address">
+                    <Input placeholder="Enter Site Address" />
                   </Form.Item>
                   <Form.Item
                     name={["email"]}
@@ -154,16 +163,9 @@ console.log("datas",datas)
                   >
                     <Input placeholder="Enter your Email" />
                   </Form.Item>
-                  <Form.Item
-                    name={["phone"]}
-                    label="Phone No"
-                  >
-                    <InputNumber placeholder="Enter your Phone No" style={{width:"200px"}} />
-                  </Form.Item>
+                 
 
-                  <Form.Item name={["site_address"]} label="Site Address">
-                    <Input placeholder="Enter Site Address" />
-                  </Form.Item>
+                 
              
   
          

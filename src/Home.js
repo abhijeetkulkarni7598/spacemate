@@ -7,6 +7,8 @@ import Services from './containers/Services/Services'
 import Contactus from './containers/contact/Contactus'
 import Footer from './components/footer/Footer'
 import YoutVid from './containers/videoyt/YoutVid'
+import WhatsApp from './components/common/WhatsApp'
+import PhoneCall from './components/common/PhoneCall'
 
 const Home = () => {
   return (
@@ -19,6 +21,8 @@ const Home = () => {
       <YoutVid />
       <Contactus />
       <Footer />
+      <PhoneCall/>
+        <WhatsApp/>
     </div>
   )
 }

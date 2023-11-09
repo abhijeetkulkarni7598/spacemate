@@ -33,6 +33,7 @@ export default function ClientModel({show,client_data}) {
       page:page,
     });
 
+
     const columns= [
         {
             title: 'Sr.no',
@@ -40,6 +41,10 @@ export default function ClientModel({show,client_data}) {
             key: 'id',
           //   ...getColumnSearchProps('name'),
           width:60,
+          render: (text, record, index) => {
+
+            return <span>{table_page * 5 - 5 + index + 1}</span>;
+          },
           },
         {
           title: 'Name',

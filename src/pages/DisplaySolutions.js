@@ -6,6 +6,8 @@ import AboutUsDisplay from "../containers/aboutus/AboutUsDisplay";
 import Products from "../containers/Services/Products";
 import Footer from "../components/footer/Footer";
 import HeaderDisplay from "../containers/header/HeaderDisplay";
+import PhoneCall from "../components/common/PhoneCall";
+import WhatsApp from "../components/common/WhatsApp";
 
 const DisplaySolutions = () => {
   return (
@@ -16,6 +18,8 @@ const DisplaySolutions = () => {
       <AboutUsDisplay />
       <Products />
       <Footer />
+      <PhoneCall/>
+        <WhatsApp/>
     </>
   );
 };

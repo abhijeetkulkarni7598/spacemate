@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./model.css";
-import { Button, Form, Input, Table, message } from "antd";
-import { useFetchItemsQuery } from "../../store/store";
+import { Button, Form, Input, Select, Table, message } from "antd";
+import { useFetchCategoryQuery, useFetchItemsQuery } from "../../store/store";
 // import cross from "./../../assets/img/cross.jpg"
 import { ReactComponent as Cross } from "./../../assets/img/close.svg";
+import { Option } from "antd/es/mentions";
+import FormItem from "antd/es/form/FormItem";
 
 export default function ItemTable({ data1, total_bam }) {
   const [show, setShow] = useState(false);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [item_category, setItem_category] = useState("");
   const {
     data: data,
     isLoading: loading,
@@ -17,6 +20,7 @@ export default function ItemTable({ data1, total_bam }) {
   } = useFetchItemsQuery({
     val: page,
     search: search,
+    item_category:item_category?item_category:"",
   });
 
   const [dataArray, setDataArray] = useState([]);
@@ -79,7 +83,10 @@ export default function ItemTable({ data1, total_bam }) {
       title: "Sr.no",
       dataIndex: "id",
       key: "id",
-      width:60
+      width:60,
+      render: (text, record, index) => {
+        return <span>{page * 10 - 10 + index + 1}</span>;
+      },
       //   ...getColumnSearchProps('name'),
     },
     {
@@ -89,7 +96,7 @@ export default function ItemTable({ data1, total_bam }) {
       //   ...getColumnSearchProps('name'),
     },
     {
-      title: "Item Category",
+      title: "Room/Area",
       dataIndex: "item_category",
       key: "id",
       //   ...getColumnSearchProps('age'),
@@ -173,6 +180,11 @@ export default function ItemTable({ data1, total_bam }) {
   };
 
   const MyIn = () => {
+    const {
+      data: category,
+      isLoading: loading,
+     
+    } = useFetchCategoryQuery();
     return (
       <>
         <div className="model-con">
@@ -186,6 +198,16 @@ export default function ItemTable({ data1, total_bam }) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
+            <FormItem>
+
+            <Select defaultValue={item_category} style={{width:"200px",marginTop:"20px"}} placeholder="Select Room" onSelect={(data)=>setItem_category(data)}>
+              <Option value={""}>All</Option>
+              {category?.map((item)=>
+              <Option value={item.category} >{item.category}</Option>
+              )}
+              
+            </Select>
+              </FormItem>
             <MyModel />
           </div>
         </div>
