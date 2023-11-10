@@ -17,20 +17,30 @@ import {
 } from "../../store/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { BiLoader } from "react-icons/bi";
+import { Option } from "antd/es/mentions";
 
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 20 },
 };
 
-const onUpdate = (data, updateClient, id,show) => {
+const onUpdate = (data, updateClient, id,show,initaialData) => {
   data.id = id;
+  if(Number.isInteger(parseInt(initaialData))){
+
+    data.item_category=initaialData
+  }
   console.log(data);
   updateClient(data);
   show(false)
 
 };
-const onFinish = (data, createClient,show) => {
+const onFinish = (data, createClient,show,initaialData) => {
+  if(Number.isInteger(parseInt(initaialData))){
+
+    data.item_category=initaialData
+  }
   console.log(data);
 
   createClient(data);
@@ -38,23 +48,22 @@ const onFinish = (data, createClient,show) => {
 
 };
 
-export default function Itemform({ datas, id,show }) {
+
+
+const Itemform = ({ datas, id,show,category,loading }) => {
   const [createClient, creatClientResponseInfo] = useCreateItemMutation();
   const [updateClient, updateClientResponseInfo] = useUpadteItemsMutation();
-  const {
-    data: category,
-    isLoading: loading,
+  // const {
+  //   data: category,
+  //   isLoading: loading,
    
-  } = useFetchCategoryQuery();
+  // } = useFetchCategoryQuery();
+  // const category=[]
+  // const loading=false
+  console.log(category)
+  const [initaialData, setInitaialData] = useState({});
   const navigate = useNavigate();
-  const [cat, setCat] = useState();
-useEffect(() => {
-if(category){
-  
-  setCat(category.map((item)=>item.category))
 
-}
-}, [category]);
   useEffect(() => {
     if (creatClientResponseInfo?.status === "fulfilled") {
       message.success("Client Created");
@@ -78,28 +87,37 @@ if(datas?.unit){
   setUnit_data(datas.unit)
 
 }
+
+if(datas){
+const {item_category,...data}=datas
+  setInitaialData(category?.filter((item)=>parseInt(item.id)===parseInt(datas.item_category))[0]?.category)
+}
 }, [datas]);
+
   return (
     <div
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {/* {data ? ( */}
-      <div className="form-box">
-        {/* from {props.id} */}
-
-        <Form
+    style={{
+      display: "flex",
+      width: "100%",
+      height: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+    }}
+  >
+    {/* {data ? ( */}
+    <div className="form-box">
+      {/* from {props.id} */}
+      <p>Previous Item Category <b style={{color:"red"}}>
+         {datas.item_category}
+        </b>
+         </p>
+          <Form
           name="dynamic_form_nest_item"
           onFinish={(data) => {
             if (datas) {
-              onUpdate(data, updateClient, id,show);
+              onUpdate(data, updateClient, id,show,initaialData);
             } else {
-              onFinish(data, createClient,show);
+              onFinish(data, createClient,show,initaialData);
             }
           }}
           style={{
@@ -110,40 +128,49 @@ if(datas?.unit){
           initialValues={datas}
           // initialValues={thisone}
         >
+          <p>
+
           <Form.Item name={["item_name"]} label="Item Name">
             <Input placeholder="Enter Item Name" />
           </Form.Item>
           <Form.Item name={["specifications"]} label="Specifications">
             <Input placeholder="Enter Item Specifications" />
           </Form.Item>
+          {loading?<BiLoader/>:
           <Form.Item label="Item Category" name="item_category">
+            <p>
+
             <Select
               showSearch
               optionFilterProp="children"
               placeholder="Item Category"
-            >
-              {cat?.map((client) => (
-                <Select.Option value={client}>{client}</Select.Option>
-              ))}
+              value={initaialData?initaialData:null}
+              onSelect={(data)=>setInitaialData(data)}
+              >
+              {category?.map((client) => (
+                <Option  value={client.id} >{client.category}</Option>
+                ))}
             </Select>
+                </p>
           </Form.Item>
-
+              }
+  
           <Form.Item label="Item Unit" name="unit">
             <Select
               showSearch
               optionFilterProp="children"
               placeholder="Item Unit"
               onSelect={Getunit}
-
+  
             >
               {unit?.map((client) => (
                 <Select.Option key={client} value={client}>{client}</Select.Option>
               ))}
             </Select>
           </Form.Item>
-
-{unit_data==="INCH"||unit_data==="MILI METER"||unit_data==="SQR FOOT"||unit_data==="SQR METER"?
-<>
+  
+  {unit_data==="INCH"||unit_data==="MILI METER"||unit_data==="SQR FOOT"||unit_data==="SQR METER"?
+  <>
           <Form.Item name={["height"]} label="Height">
             <InputNumber 
               style={{ width: "300px" }}
@@ -180,7 +207,7 @@ if(datas?.unit){
                   placeholder="Enter Foot" />
               </Form.Item>:
                null
-
+  
               }
               {
                 unit_data==="NUMBERS"? <Form.Item name={["numbers"]} label="Numbers">
@@ -201,13 +228,13 @@ if(datas?.unit){
             
             {
                 unit_data==="LUMPSUM"?null
-
+  
               :null
               }
-
-
+  
+  
               
-
+  
           <Form.Item name={["costing"]} label="Item Costing">
             <InputNumber
               required
@@ -215,20 +242,28 @@ if(datas?.unit){
               placeholder="Enter Costing"
             />
           </Form.Item>
-
+  
           <Form.Item style={{ marginTop: "50px" }}>
             <Button style={{height:"100%",marginRight:"30px",background:"var(--pr-color) "}} type="primary" htmlType="submit" >
               {datas ? <>Update</> : <>Submit</>}
             </Button>
             <Button danger style={{height:"100%"}} type="primary" onClick={()=>show(false)}>
-Cancel
+  Cancel
             </Button>
           </Form.Item>
+          </p>
+
         </Form>
-      </div>
-      {/* ) : (
-          <SyncLoader color="#323a3d" />
-        )} */}
+       
+      
+    
     </div>
-  );
+    {/* ) : (
+        <SyncLoader color="#323a3d" />
+      )} */}
+  </div>
+  )
 }
+
+export default Itemform
+

@@ -20,6 +20,7 @@ import useFormItemStatus from "antd/es/form/hooks/useFormItemStatus";
 import {
   useCreateQuotationMutation,
   useDeleteQuotationMutation,
+  useFetchCategoryQuery,
   useFetchClientQuery,
   useFetchInventoryQuery,
   useFetchInvoiceQuery,
@@ -233,7 +234,16 @@ const QuotationForm = (props) => {
   const { data: count, isLoading: countloading } = useGetQuotationCountQuery({
     name: quo_no,
   });
+  const {
+    data: category,
+    isLoading: Catloading,
+   
+  } = useFetchCategoryQuery();
 
+  const getCategory=(data)=>{
+    console.log("lion",data)
+
+  }
   // const { data: invoice_data, isLoading: invoiceLoading } =
   //   useFetchInvoiceQuery();
 
@@ -300,7 +310,9 @@ const manage_client_show=(data)=>{
         total, // Add the total property to the item
       };
     });
-    console.log(data2);
+
+    data2.map((it)=>it.item_category=category?.filter((item)=>parseInt(item.id)===parseInt(it.item_category))[0]?.category!==undefined?category?.filter((item)=>parseInt(item.id)===parseInt(it.item_category))[0]?.category:it.item_category)
+    console.log(data2)
 
     const totalSum = data2?.reduce((accumulator, currentItem) => {
       const totalValue = parseFloat(currentItem.total);
@@ -727,6 +739,7 @@ const [date, setDate] = useState();
                               message: "Missing first name",
                             },
                           ]}
+
                         >
                           <Input
                             placeholder="Enter the Category"

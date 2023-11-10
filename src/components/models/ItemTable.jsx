@@ -77,7 +77,11 @@ export default function ItemTable({ data1, total_bam }) {
   useEffect(() => {
     console.log("hello", dataArray);
   }, [dataArray]);
-  console.log(data?.results)
+  const {
+    data: category,
+    isLoading: Catloading,
+   
+  } = useFetchCategoryQuery();
   const columns = [
     {
       title: "Sr.no",
@@ -99,6 +103,10 @@ export default function ItemTable({ data1, total_bam }) {
       title: "Room/Area",
       dataIndex: "item_category",
       key: "id",
+      render: (text, record, index) => {
+        return <span>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
+        }</span>;
+      },
       //   ...getColumnSearchProps('age'),
     },
 
@@ -184,11 +192,7 @@ export default function ItemTable({ data1, total_bam }) {
   };
 
   const MyIn = () => {
-    const {
-      data: category,
-      isLoading: loading,
-     
-    } = useFetchCategoryQuery();
+
     return (
       <>
         <div className="model-con">
@@ -204,10 +208,12 @@ export default function ItemTable({ data1, total_bam }) {
             />
             <FormItem>
 
-            <Select defaultValue={item_category} style={{width:"200px",marginTop:"20px"}} placeholder="Select Room" onSelect={(data)=>setItem_category(data)}>
+            <Select defaultValue={item_category} style={{width:"200px",marginTop:"20px"}} placeholder="Select Room" onSelect={(data)=>{
+              setPage(1)
+              setItem_category(data)}}>
               <Option value={""}>All</Option>
               {category?.map((item)=>
-              <Option value={item.category} >{item.category}</Option>
+              <Option value={item.id} >{item.category}</Option>
               )}
               
             </Select>

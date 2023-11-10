@@ -5,7 +5,7 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["Invoice", "Client", "User", "Items", "Quotation"], //refresh when it innvalidates
+  tagTypes: ["Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery"], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -411,6 +411,13 @@ const allApi = createApi({
             },
           };
         },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "Inventory", id })),
+              "Inventory",
+            ]
+          : ["Inventory"],
       }),
       fetchCategory: build.query({
         query: () => {
@@ -423,6 +430,13 @@ const allApi = createApi({
             },
           };
         },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "Category", id })),
+              "Category",
+            ]
+          : ["Category"],
       }),
       fetchInteriorGallery: build.query({
         query: () => {
@@ -435,6 +449,13 @@ const allApi = createApi({
             },
           };
         },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "InteriorGallery", id })),
+              "InteriorGallery",
+            ]
+          : ["InteriorGallery"],
       }),
       fetchDesignGallery: build.query({
         query: () => {
@@ -447,6 +468,14 @@ const allApi = createApi({
             },
           };
         },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "DesignGallery", id })),
+              "DesignGallery",
+            ]
+          : ["DesignGallery"],
+     
       }),
       upadteInventory: build.mutation({
         query: (upadate_value) => {

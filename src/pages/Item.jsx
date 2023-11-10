@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ETable from "../components/editable_table/Etable";
 import { Button, Input, Popconfirm, Skeleton, message } from "antd";
 import { useSelector } from "react-redux";
-import { useDeleteItemMutation, useFetchItemsQuery, useGetItemsQuery } from "../store/store";
+import { useDeleteItemMutation, useFetchCategoryQuery, useFetchItemsQuery, useGetItemsQuery } from "../store/store";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateItem from "./CreateItem";
 import Itemform from "../components/quotationfrom/Itemform";
@@ -63,7 +63,11 @@ setShow(true)
    console.log("key",key)
   };
   const [columns, setColumn] = useState();
-
+  const {
+    data: category,
+    isLoading: Catloading,
+   
+  } = useFetchCategoryQuery();
   useEffect(() => {
     if (user_id) {
       setColumn([
@@ -88,6 +92,10 @@ setShow(true)
           title: "Item Category",
           dataIndex: "item_category",
           key: "id",
+          render: (text, record, index) => {
+            return <span>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
+            }</span>;
+          },
           //   ...getColumnSearchProps('age'),
         },
 
@@ -133,6 +141,10 @@ setShow(true)
           title: "Item Category",
           dataIndex: "item_category",
           key: "id",
+          render: (text, record, index) => {
+            return <span>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
+            }</span>;
+          },
           //   ...getColumnSearchProps('age'),
         },
 
@@ -184,9 +196,9 @@ setShow(true)
             {id?<h2 style={{textAlign:"center",marginBottom:"20px"}}>Update Item</h2>:<h2 style={{textAlign:"center",marginBottom:"20px"}}>Create Item</h2>}
 
               { id ? (
-              <Itemform datas={formdata} id={id}  show={shows}/>
+              <Itemform datas={formdata} id={id}  show={shows} category={category} loading={Catloading}/>
               ) : (
-                <Itemform show={shows} />
+                <Itemform show={shows} category={category} loading={Catloading}/>
               )}
             </div>
           </div>
