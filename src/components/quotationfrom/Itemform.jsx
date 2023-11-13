@@ -107,10 +107,13 @@ const {item_category,...data}=datas
     {/* {data ? ( */}
     <div className="form-box">
       {/* from {props.id} */}
-      <p>Previous Item Category <b style={{color:"red"}}>
-         {datas.item_category}
+      {datas?.item_category?
+
+<p>Previous Item Category <b style={{color:"red"}}>
+         {datas?.item_category}
         </b>
-         </p>
+         </p>:null
+      }
           <Form
           name="dynamic_form_nest_item"
           onFinish={(data) => {
