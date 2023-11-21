@@ -74,6 +74,7 @@ setCount(props?.data?.count)
           onClick: (event) => {
             // navigate(`/detail/${record.id}`);
             props.navi(record)
+            
           },
         };
       }}

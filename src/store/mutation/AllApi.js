@@ -5,7 +5,7 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery"], //refresh when it innvalidates
+  tagTypes: ["Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status"], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -438,6 +438,25 @@ const allApi = createApi({
             ]
           : ["Category"],
       }),
+      fetchStatus: build.query({
+        query: () => {
+          return {
+            url: "/api/status/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "Status", id })),
+              "Status",
+            ]
+          : ["Status"],
+      }),
       fetchInteriorGallery: build.query({
         query: () => {
           return {
@@ -559,6 +578,8 @@ export const {
 
   useFetchDesignGalleryQuery,
   useFetchInteriorGalleryQuery,
+
+  useFetchStatusQuery,
 } = allApi;
 
 export { allApi };

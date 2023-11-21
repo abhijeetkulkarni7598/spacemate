@@ -64,4 +64,11 @@ h1{
   .for-visible-img {
     height: 100%;
   }
+
+}
+@media screen and (max-width: 700px) {
+
+  .p-item-itemForm div{
+    margin-bottom: 0px!important;
+  }
 }

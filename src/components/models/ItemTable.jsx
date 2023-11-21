@@ -104,8 +104,8 @@ export default function ItemTable({ data1, total_bam }) {
       dataIndex: "item_category",
       key: "id",
       render: (text, record, index) => {
-        return <span>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
-        }</span>;
+        return <>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
+        }</>;
       },
       //   ...getColumnSearchProps('age'),
     },
@@ -164,7 +164,7 @@ export default function ItemTable({ data1, total_bam }) {
             dataSource={data?.results}
             scroll={{
               x: 800,
-              y:300,
+              y:500,
             }}
             pagination={{
               total: data?.count,

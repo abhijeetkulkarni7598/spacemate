@@ -15,24 +15,12 @@ export const SlidebarData = [
       },
     
  
+
   {
-    title: "Quotation",
+    title: "Quotation Table",
+    path: "/quotation",
     icon: <MdIcons.MdOutlineInventory2 />,
-    iconclosed: <RiIcons.RiArrowDownFill />,
-    iconopened: <RiIcons.RiArrowUpFill />,
-    subnav: [
-      {
-        title: "Create Quotation",
-        path: "/create",
-        icon: <AiIcons.AiFillHome />,
-    
-      },
-      {
-        title: "Quotation Table",
-        path: "/quotation",
-        icon: <FaIcons.FaCartPlus />,
-      }
-    ],
+
   },
   {
     title: "Item Table",

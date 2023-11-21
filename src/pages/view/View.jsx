@@ -11,6 +11,7 @@ import "./view.css";
 import { useParams } from "react-router-dom";
 import { useGetInvoiceQuery, useGetQuotationQuery } from "../../store/store";
 import Footer from "../../components/footer/Footer";
+import Slidebar from "../../components/sidebar/Slidebar";
 // import logo2 from "./../../assets/img/logo2new.png";
 // import logo1 from "./../../assets/img/logo1new.png";
 const View = () => {
@@ -82,6 +83,7 @@ const View = () => {
 
   return (
     <>
+    <Slidebar/>
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="view-print">
           <button className="print-btn" onClick={handlePrint}>
@@ -115,36 +117,17 @@ const View = () => {
                       }}
                       colSpan={2}
                     >
-                      <b>QUOTATION FOR INTERIOR WORK</b>
+                      <b>ESTIMATE FOR INTERIOR WORK</b>
                     </td>
                     <td
                       style={{ border: "2px solid black" }}
                       colSpan={2}
-                      rowSpan={6}
+                      rowSpan={4}
                     >
-                      <Logo1 />
+                      <Logo1 style={{width:"400px"}} />
                     </td>
                   </tr>
             
-                  <tr>
-                    {/* <td style={{ border: "1px solid lightgray" }} colSpan={2}> */}
-                    <td style={{  }} colSpan={2}>
-                      {" "}
-                      <p style={{ color: "white" }}>w</p>{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      style={{
-                        // border: "1px solid lightgray",
-                        // borderLeft: "1px solid lightgray",
-                      }}
-                      colSpan={2}
-                    >
-                      {" "}
-                      <p style={{ color: "white" }}>w</p>
-                    </td>
-                  </tr>
                   <tr>
                     <td
                       style={{ border: "2px solid black", textAlign: "left" }}
@@ -179,17 +162,13 @@ const View = () => {
                   </tr>
           
                  
-                  <tr>
-                    <td style={{ background: "#f4cccc" }} colSpan={4}>
-                      {formdata?.special_note}
-                    </td>
-                  </tr>
+            
 
                   <tr style={{ background: "#c6d9f0" }}>
-                    <th style={{ width: "10%" }}>SR NO</th>
-                    <th style={{ width: "40%" }}>PARTICULAR</th>
-                    <th style={{ width: "30%" }}>SIZE ( L x H ) </th>
-                    <th style={{ width: "30%" }}>PRICE</th>
+                    <th style={{ width: "10%",textAlign:"center" }}>SR NO</th>
+                    <th style={{ width: "40%",textAlign:"center" }}>PARTICULAR</th>
+                    <th style={{ width: "30%",textAlign:"center" }}>SIZE ( L x H ) </th>
+                    <th style={{ width: "30%",textAlign:"center" }}>PRICE</th>
                   </tr>
                   <tr>
                     <td style={{ background: "#ffff00" }} colSpan={4}>
@@ -256,6 +235,11 @@ const View = () => {
                     </td>
 
                     <td>{total}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ background: "#f4cccc" }} colSpan={4}>
+                      {formdata?.special_note}
+                    </td>
                   </tr>
                   <tr>
                     <td style={{ border: "1px solid lightgrey" }} colSpan={4}>

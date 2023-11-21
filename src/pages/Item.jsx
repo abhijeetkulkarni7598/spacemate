@@ -89,7 +89,7 @@ setShow(true)
           //   ...getColumnSearchProps('name'),
         },
         {
-          title: "Item Category",
+          title: "Room/Area",
           dataIndex: "item_category",
           key: "id",
           render: (text, record, index) => {
@@ -138,12 +138,12 @@ setShow(true)
           //   ...getColumnSearchProps('name'),
         },
         {
-          title: "Item Category",
+          title: "Room/Area",
           dataIndex: "item_category",
           key: "id",
           render: (text, record, index) => {
-            return <span>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
-            }</span>;
+            return <>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
+            }</>;
           },
           //   ...getColumnSearchProps('age'),
         },

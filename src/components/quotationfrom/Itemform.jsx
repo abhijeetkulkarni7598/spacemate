@@ -131,7 +131,7 @@ const {item_category,...data}=datas
           initialValues={datas}
           // initialValues={thisone}
         >
-          <p>
+          <p className="p-item-itemForm">
 
           <Form.Item name={["item_name"]} label="Item Name">
             <Input placeholder="Enter Item Name" />
@@ -176,25 +176,25 @@ const {item_category,...data}=datas
   <>
           <Form.Item name={["height"]} label="Height">
             <InputNumber 
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               
               placeholder="Enter Height" />
           </Form.Item>
           <Form.Item name={["width"]} label="Width">
             <InputNumber 
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               
               placeholder="Enter Width" />
           </Form.Item>
           <Form.Item name={["length"]} label="Length">
             <InputNumber 
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               
               placeholder="Enter Length" />
           </Form.Item>
           <Form.Item name={["depth"]} label="Depth">
             <InputNumber 
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               
               placeholder="Enter Depth" />
           </Form.Item>
@@ -205,7 +205,7 @@ const {item_category,...data}=datas
                 unit_data==="RUNNING FOOT"?
                 <Form.Item name={["running_foot"]} label="Running Foot">
                 <InputNumber 
-                  style={{ width: "300px" }}
+                  style={{ width: "100%" }}
                   
                   placeholder="Enter Foot" />
               </Form.Item>:
@@ -215,7 +215,7 @@ const {item_category,...data}=datas
               {
                 unit_data==="NUMBERS"? <Form.Item name={["numbers"]} label="Numbers">
                 <InputNumber 
-                  style={{ width: "300px" }}
+                  style={{ width: "100%" }}
                   
                   placeholder="Enter Number" />
               </Form.Item>:null
@@ -223,7 +223,7 @@ const {item_category,...data}=datas
               {
                 unit_data==="APPROXIMATE"? <Form.Item name={["sqft"]} label="Sq Feet">
                 <InputNumber 
-                  style={{ width: "300px" }}
+                  style={{ width: "100%" }}
                   
                   placeholder="Enter Sq Feet" />
               </Form.Item>:null
@@ -241,11 +241,10 @@ const {item_category,...data}=datas
           <Form.Item name={["costing"]} label="Item Costing">
             <InputNumber
               required
-              style={{ width: "300px" }}
+              style={{ width: "100%" }}
               placeholder="Enter Costing"
             />
           </Form.Item>
-  
           <Form.Item style={{ marginTop: "50px" }}>
             <Button style={{height:"100%",marginRight:"30px",background:"var(--pr-color) "}} type="primary" htmlType="submit" >
               {datas ? <>Update</> : <>Submit</>}
