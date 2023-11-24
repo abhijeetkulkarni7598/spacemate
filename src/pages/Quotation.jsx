@@ -4,14 +4,22 @@ import ETable from "../components/editable_table/Etable";
 import "./../components/editable_table/etable.css";
 import { useNavigate } from "react-router-dom";
 import {
+  useCreateQuotationMutation,
   useDeleteInvoiceMutation,
   useDeleteQuotationMutation,
   useFetchQuotationQuery,
   useFetchStatusQuery,
 } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Popconfirm, Skeleton, message } from "antd";
+import { Button, Form, Popconfirm, Select, Skeleton, message } from "antd";
 import Slidebar from "../components/sidebar/Slidebar";
+import { Option } from "antd/es/mentions";
+import { FaEdit, FaPenSquare } from "react-icons/fa";
+import { BiEdit, BiEditAlt, BiTrash } from "react-icons/bi";
+import { FiEdit2 } from "react-icons/fi";
+import { BsViewList } from "react-icons/bs";
+import { GrView } from "react-icons/gr";
+import FormItem from "antd/es/form/FormItem";
 const Quotation = () => {
   const navigate = useNavigate();
   const { quotation_page } = useSelector((state) => state.user);
@@ -32,7 +40,7 @@ const Quotation = () => {
     data: data1,
     isLoading: loading,
     error: error,
-    isFetching: fetch,
+    isFetching: fetchDATA,
   } = useFetchQuotationQuery({ val: quotation_page, id: user_id });
   const [deleteInvoice, deleteInvoiceResponseInfo] =
     useDeleteQuotationMutation();
@@ -42,6 +50,49 @@ const Quotation = () => {
     console.log(record.id);
     navigate(`/view/${record.id}`);
   };
+  const [tempId, setTempId] = useState(0);
+
+  const [createQuotation, creatQuotationResponseInfo] =
+    useCreateQuotationMutation();
+  const [deleteQuotation, deleteQuotationResponseInfo] =
+    useDeleteQuotationMutation();
+  useEffect(() => {
+    if (creatQuotationResponseInfo?.isSuccess === true) {
+      if (tempId !== 0) {
+        // deleteQuotation(tempId)
+      }
+    }
+  }, [creatQuotationResponseInfo]);
+  useEffect(() => {
+    if (deleteQuotationResponseInfo?.isSuccess === true) {
+      message.success("Quotation Updated");
+    }
+  }, [deleteQuotationResponseInfo]);
+  const handleSelect = (data, record) => {
+    // record.status=data
+    const { status, ...remain } = record;
+    const newData = { ...remain, status: data };
+
+    const updatedObject = {
+      ...newData,
+      item: newData.item.map((item) => {
+        return {
+          ...item,
+          item_id: item.id,
+          id: undefined, // Remove the old id property if necessary
+        };
+      }),
+    };
+
+    updatedObject?.item?.forEach((obj) => {
+      delete obj["id"];
+      delete obj["quotation"];
+    });
+    deleteQuotation(updatedObject.id);
+    delete updatedObject["id"];
+    createQuotation(updatedObject);
+  };
+
   const dispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(checkAuth());
@@ -50,14 +101,14 @@ const Quotation = () => {
   const editfun = (record) => {
     navigate(`/quotation/${record.id}`);
   };
-  const {
-    data: status,
-    isLoading: statusLoading,
-   
-  } = useFetchStatusQuery();
+  const { data: status, isLoading: statusLoading ,isFetching:statusFetching} = useFetchStatusQuery();
   const deletethis = (record) => {
     deleteInvoice(record.id);
   };
+  if(!statusFetching){
+
+    console.log("tiger",status)
+  }
   useEffect(() => {
     if (deleteInvoiceResponseInfo?.status === "fulfilled") {
       message.success("Delete Successfull");
@@ -71,7 +122,7 @@ const Quotation = () => {
           title: "Sr.no",
           dataIndex: "id",
           key: "id",
-          width: 60,
+          width: 70,
           render: (text, record, index) => {
             return <span>{quotation_page * 10 - 10 + index + 1}</span>;
           },
@@ -87,7 +138,7 @@ const Quotation = () => {
           title: "Revision",
           dataIndex: "revision_no",
           key: "id",
-          width: "10%",
+          width: "7%",
         },
         {
           title: "User",
@@ -99,17 +150,49 @@ const Quotation = () => {
           title: "Client Name",
           dataIndex: "client_name",
           key: "id",
-          width: "20%",
+          width: "15%",
         },
+   
         {
           title: "Status",
           dataIndex: "status",
           key: "id",
-          width: "20%",
+          width: "15%",
           render: (text, record, index) => {
-            return <>{status?.filter((item)=>parseInt(item.id)===parseInt(record.staus))[0]?.status
-            }</>;
+            return (
+              <p>
+                {/* {
+                  status?.filter(
+                    (item) => parseInt(item.id) === parseInt(record.status)
+                  )[0]?.status
+                } */}
+                {!statusFetching&&!fetchDATA?
+
+                  <Select
+                  onSelect={(data) => handleSelect(data, record)}
+                  value={
+                    status?.filter(
+                      (item) => parseInt(item.id) === parseInt(record.status)
+                      )[0]?.status
+                    }
+                  style={{ width: "150px" }}
+                >
+                  {status?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.status}
+                    </Option>
+                  ))}
+                </Select>:null
+                }
+              </p>
+            );
           },
+        },
+        {
+          title: "Remark",
+          dataIndex: "remark",
+          key: "id",
+          width: 200,
         },
         {
           title: "Client Contact",
@@ -117,33 +200,44 @@ const Quotation = () => {
           key: "id",
           width: "20%",
         },
+  
         {
-          title: "Client Address",
-          dataIndex: "client_address",
-          key: "id",
-          width: 200,
-        },
-        {
-          title: "Action",
+          title: " ",
           key: "id",
           fixed: "right",
-          width: 100,
+          width: 50,
 
           render: (record) => (
-            <Button className="edit-link" onClick={() => editfun(record)}>
-              Edit
-            </Button>
+            // <Button
+            //   className="edit-link"
+            //   onClick={(e) => {
+            //     e.stopPropagation();
+            //     editfun(record);
+            //   }}
+            // >
+            <BiEdit
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                editfun(record);
+              }}
+            />
+
+            // </Button>
           ),
         },
         {
-          title: "Action",
+          title: " ",
           key: "id",
           fixed: "right",
-          width: 100,
+          width: 50,
           render: (record) => (
-            <Button className="view-link" onClick={() => thisfun(record)}>
-              View
-            </Button>
+            // <Button className="view-link" onClick={()=>thisfun(record)}>
+            <GrView
+              onClick={() => thisfun(record)}
+              style={{ width: "100%", height: "20px" }}
+            />
+            // </Button>
           ),
         },
       ]);
@@ -153,7 +247,7 @@ const Quotation = () => {
           title: "Sr.no",
           dataIndex: "id",
           key: "id",
-          width: 60,
+          width: 70,
           render: (text, record, index) => {
             return <span>{quotation_page * 10 - 10 + index + 1}</span>;
           },
@@ -169,7 +263,7 @@ const Quotation = () => {
           title: "Revision",
           dataIndex: "revision_no",
           key: "id",
-          width: "10%",
+          width: "7%",
         },
         {
           title: "User",
@@ -181,17 +275,48 @@ const Quotation = () => {
           title: "Client Name",
           dataIndex: "client_name",
           key: "id",
-          width: "20%",
+          width: "15%",
         },
         {
           title: "Status",
           dataIndex: "status",
           key: "id",
-          width: "20%",
+          width: "15%",
           render: (text, record, index) => {
-            return <>{status?.filter((item)=>parseInt(item.id)===parseInt(record.status))[0]?.status
-            }</>;
+            return (
+              <>
+                {/* {
+                  status?.filter(
+                    (item) => parseInt(item.id) === parseInt(record.status)
+                  )[0]?.status
+                } */}
+
+                  <Select
+                  onSelect={(data) => handleSelect(data, record)}
+                  value={
+                    status?.filter(
+                      (item) => parseInt(item.id) === parseInt(record.status)
+                      )[0]?.status
+                    }
+                  style={{ width: "150px" }}
+                >
+                  {status?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.status}
+                    </Option>
+                  ))}
+                </Select>
+
+                
+              </>
+            );
           },
+        },
+        {
+          title: "Remark",
+          dataIndex: "remark",
+          key: "id",
+          width: 200,
         },
         {
           title: "Client Contact",
@@ -199,43 +324,51 @@ const Quotation = () => {
           key: "id",
           width: "20%",
         },
+    
         {
-          title: "Client Address",
-          dataIndex: "client_address",
-          key: "id",
-          width: 200,
-        },
-        {
-          title: "Action",
+          title: " ",
           key: "id",
           fixed: "right",
-          width: 100,
+          width: 50,
 
           render: (record) => (
-            <Button
-              className="edit-link"
+            // <Button
+            //   className="edit-link"
+            //   onClick={(e) => {
+            //     e.stopPropagation();
+            //     editfun(record);
+            //   }}
+            // >
+            <BiEdit
+              style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
                 editfun(record);
               }}
-            >
-              Edit
-            </Button>
+            />
+
+            // </Button>
           ),
         },
-        // {
-        //   title: 'Action',
-        //   key: 'id',
-        //   fixed: 'right',
-        //   width: 100,
-        //   render: (record) => <Button className="view-link" onClick={()=>thisfun(record)}>View</Button>,
-
-        // },
         {
-          title: "Action",
+          title: " ",
           key: "id",
           fixed: "right",
-          width: 100,
+          width: 50,
+          render: (record) => (
+            // <Button className="view-link" onClick={()=>thisfun(record)}>
+            <GrView
+              onClick={() => thisfun(record)}
+              style={{ width: "100%", height: "20px" }}
+            />
+            // </Button>
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
           render: (record) => (
             <Popconfirm
               title="Sure to delete?"
@@ -244,31 +377,29 @@ const Quotation = () => {
 
                 deletethis(record);
               }}
-              onCancel={(e)=>e.stopPropagation()}
+              onCancel={(e) => e.stopPropagation()}
             >
-              <a
-                style={{ color: "red" }}
+              <BiTrash
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-              >
-                Delete
-              </a>
+                style={{ width: "100%", height: "20px", color: "red" }}
+              />
             </Popconfirm>
           ),
         },
       ]);
     }
-  }, [user_id, quotation_page]);
+  }, [user_id, quotation_page,status]);
   const navi = (data) => {
-    thisfun(data);
+    // thisfun(data);
   };
   return (
     <div>
       {/* <Navbar/> */}
       <Slidebar />
       <div className="for-etable">
-        <h2 className="e-table-h2">Quotation</h2>
+        {/* <h2 className="e-table-h2">Quotation</h2> */}
         <button
           style={{
             padding: "10px 40px",
@@ -283,7 +414,7 @@ const Quotation = () => {
           }}
           onClick={create_quotation}
         >
-          Create Quotation
+          Create New Quotation
         </button>
 
         {loading ? (
@@ -294,7 +425,7 @@ const Quotation = () => {
             field={"quotation"}
             page={quotation_page}
             data={data1}
-            loading={fetch}
+            loading={fetchDATA||statusFetching}
             error={error}
             columns={columns}
           />

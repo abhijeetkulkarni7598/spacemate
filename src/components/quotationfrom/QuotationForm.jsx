@@ -39,6 +39,7 @@ import ItemTable from "../models/ItemTable";
 import { useSelector } from "react-redux";
 import ClientModel from "../models/ClientModel";
 import { Option } from "antd/es/mentions";
+import FormItem from "antd/es/form/FormItem";
 
 const layout = {
   labelCol: { span: 15 },
@@ -54,6 +55,7 @@ const onRevision = (
   client_name,
   client_address,
   client_contact,
+  statusInit,
   data1,
   total,
   count
@@ -64,6 +66,11 @@ const onRevision = (
   data.client_contact = client_contact;
   data.client_id = client_id;
   data.client_name = client_name;
+  if(Number.isInteger(parseInt(statusInit))){
+
+    data.status=statusInit;
+
+  }
   console.log(data1);
 
   data.revision_no = "R" + (1 + count.count).toString().padStart(2, "0");
@@ -109,10 +116,15 @@ const onUpdate = (
   client_name,
   client_address,
   client_contact,
+  statusInit,
   total
 ) => {
   console.log("Upadte", data);
+  if(Number.isInteger(parseInt(statusInit))){
 
+    data.status=statusInit;
+
+  }
   // setformdata_update(id);
 
   // thisfun(data);
@@ -128,18 +140,17 @@ const onUpdate = (
 
   // Output the formatted date
   data.date = formattedDate;
+
+
   data.total_with_discount = total;
   if (client_id) {
     data.client_address = client_address;
     data.client_contact = client_contact;
     data.client_id = client_id;
     data.client_name = client_name;
+
   }
   if (data) {
-    // data?.terms[0]?.customer_terms="hellos"
-
-    // formdata_update.dated="adfsd"
-    // formdata_update.delivery_date="adfsd"
 
     const updatedObject = {
       ...data,
@@ -169,6 +180,7 @@ const onFinish = (
   client_name,
   client_address,
   client_contact,
+  statusInit,
   data1,
   total
 ) => {
@@ -178,6 +190,12 @@ const onFinish = (
   data.client_contact = client_contact;
   data.client_id = client_id;
   data.client_name = client_name;
+  if(Number.isInteger(parseInt(statusInit))){
+
+    data.status=statusInit;
+
+  }
+
   console.log(data1);
   data.quotation_number =
     "SM" +
@@ -357,10 +375,38 @@ const QuotationForm = (props) => {
   }, [props.id]);
   useEffect(() => {
     if (creatQuotationResponseInfo?.isSuccess === true) {
-      message.success("Invoice Created");
+      if(props.data){
+        
+        if(revision===true){
+
+          message.success("Quotation Revision Created");
+        }else{
+
+          message.success("Quotation Updated");
+        }
+      }else{
+        message.success("Quotation Created");
+
+      }
       if (!props.data || revision === true) {
         navigate("/quotation");
       }
+    }
+    if (creatQuotationResponseInfo?.isError === true) {
+      if(props.data){
+        
+        if(revision===true){
+
+          message.error("Quotation Revision Failed");
+        }else{
+
+          message.error("Quotation Update Failed");
+        }
+      }else{
+        message.error("Quotation Creation Failed");
+
+      }
+   
     }
     //  if(creatQuotationResponseInfo?)
   }, [creatQuotationResponseInfo]);
@@ -431,10 +477,15 @@ const QuotationForm = (props) => {
    
   } = useFetchStatusQuery();
 const [statusInit, setStatusInit] = useState("");
+useEffect(() => {
+if(status&&props.data){
+  setStatusInit(status?.filter((item)=>parseInt(item.id)===parseInt(props.data?.status))[0]?.status)
+
+}
+}, [props.data,status]);
   useEffect(() => {
     if (props.data && props.id) {
       setQuo_no(props.data?.quotation_number);
-      setStatusInit(status?.filter((item)=>parseInt(item.id)===parseInt(props.data?.status))[0].status)
       setdatas({
         ...props.data,
         date: props.data?.date ? moment(props.data?.date, "DD/MM/YY") : null,
@@ -554,6 +605,7 @@ const [statusInit, setStatusInit] = useState("");
                   client_name,
                   client_address,
                   client_contact,
+                  statusInit,
                   data1,
                   total,
                   count
@@ -572,6 +624,8 @@ const [statusInit, setStatusInit] = useState("");
                     client_name,
                     client_address,
                     client_contact,
+                  statusInit,
+
                     total
                   );
                 } else {
@@ -582,6 +636,8 @@ const [statusInit, setStatusInit] = useState("");
                     client_name,
                     client_address,
                     client_contact,
+                  statusInit,
+
                     data1,
                     total
                   );
@@ -614,6 +670,17 @@ const [statusInit, setStatusInit] = useState("");
             ) : null}
             <div className="address">
               <h3 className="h3-title">Client Details</h3>
+              <Form.Item
+                label="Remark"
+                name={["remark"]}
+                labelCol={5}
+              >
+                
+                  <Input
+                    type="text"
+                    placeholder="Enter Remark"
+                  />
+              </Form.Item>
               <Form.Item
                 label="Client Name"
                 name={["client_name"]}
@@ -655,9 +722,10 @@ const [statusInit, setStatusInit] = useState("");
                   />
                 </p>
               </Form.Item>
+     
             </div>
-            <Form.Item name="client_id"></Form.Item>
-            <Form.Item name="revision_no"></Form.Item>
+            <Form.Item  style={{margin:"0px",padding:"0px"}} name="client_id"></Form.Item>
+            <Form.Item style={{margin:"0px",padding:"0px"}} name="revision_no"></Form.Item>
 
             <div className="address">
               <h3 className="h3-title">Item Details</h3>
@@ -667,20 +735,19 @@ const [statusInit, setStatusInit] = useState("");
                 name={["special_note"]}
                 labelCol={5}
               >
-                <p>
                   <Input placeholder="Enter Special Note" />
-                </p>
               </Form.Item>
               <Form.Item style={{}} label="Date" name={["date"]} labelCol={5}>
                 <DatePicker format={"DD/MM/YY"} />
               </Form.Item>
-              <Form.Item
+              <FormItem
                 style={{}}
                 label="Status"
                 name={["status"]}
                 labelCol={5}
-              ><p>
-{console.log("tiger",statusInit)}
+              >
+<p>
+
                 <Select 
                 onSelect={(data)=>setStatusInit(data)}
                 value={statusInit}
@@ -688,14 +755,14 @@ const [statusInit, setStatusInit] = useState("");
 
                 {status?.map((item)=>
 
-<Option value={item.id}>{item.status}</Option>
+<Option value={item.id} key={item.id}>{item.status}</Option>
                   )}
                 </Select>
                   </p>
-              </Form.Item>
+              </FormItem>
             </div>
-            <Form.Item name="user_client"></Form.Item>
-            <Form.Item name="user_client_id"></Form.Item>
+            <Form.Item style={{margin:"0px",padding:"0px"}} name="user_client"></Form.Item>
+            <Form.Item style={{margin:"0px",padding:"0px"}} name="user_client_id"></Form.Item>
             <div className="add-amount">
               <ItemTable data1={datafun} total_bam={total_bam} />
               <Form.Item name="quotation_number"></Form.Item>

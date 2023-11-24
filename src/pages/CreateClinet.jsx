@@ -13,7 +13,7 @@ const { id } = useParams();
         <>
         <Slidebar/>
 
-              {id?<h1 className='h1-create-cus' >Update Client</h1>:<h1 className='h1-create-cus' >Create Client</h1>}
+              {id?<h1 className='h1-create-cus' >Update Client</h1>:<h1 className='h1-create-cus' >Create New Client</h1>}
               {loading&&id?<p>loading</p>:
             <Clientform datas={formdata} id={id}/>
               }

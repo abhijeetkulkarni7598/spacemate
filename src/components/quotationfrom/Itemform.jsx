@@ -33,7 +33,6 @@ const onUpdate = (data, updateClient, id,show,initaialData) => {
   }
   console.log(data);
   updateClient(data);
-  show(false)
 
 };
 const onFinish = (data, createClient,show,initaialData) => {
@@ -44,7 +43,6 @@ const onFinish = (data, createClient,show,initaialData) => {
   console.log(data);
 
   createClient(data);
-  show(false)
 
 };
 
@@ -60,22 +58,34 @@ const Itemform = ({ datas, id,show,category,loading }) => {
   // } = useFetchCategoryQuery();
   // const category=[]
   // const loading=false
-  console.log(category)
   const [initaialData, setInitaialData] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     if (creatClientResponseInfo?.status === "fulfilled") {
-      message.success("Client Created");
+      message.success("Item Created");
+      // navigate(`/item`);
+  show(false)
+
+    }
+    if (creatClientResponseInfo?.isError === true) {
+      message.error("Item Created Failed");
+      // navigate(`/item`);
+
+    }
+    if (updateClientResponseInfo?.isError === true) {
+      message.error("Item Updated Failed");
+
       // navigate(`/item`);
     }
     if (updateClientResponseInfo?.status === "fulfilled") {
-      message.success("Client Upadted");
+      message.success("Item Updated");
       show(false)
 
       // navigate(`/item`);
     }
   }, [creatClientResponseInfo, updateClientResponseInfo]);
+
 
   const unit = ["SQR METER", "INCH", "NUMBERS", "MILI METER", "SQR FOOT","RUNNING FOOT","LUMPSUM","APPROXIMATE"];
   const [unit_data, setUnit_data] = useState();

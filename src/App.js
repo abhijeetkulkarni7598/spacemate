@@ -31,6 +31,7 @@ import CreateClinet from "./pages/CreateClinet";
 import Setting from "./pages/Setting";
 import Item from "./pages/Item";
 import CreateItem from "./pages/CreateItem";
+import Location from "./pages/Location";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/location" element={<Location />} />
           <Route path="/service" element={<Service />} />
           {/* <Route path="/service" element={<Service />} /> */}
           <Route path="/display" element={<DisplaySolutions />} />
@@ -160,8 +162,19 @@ const App = () => {
 };
 
 export default App;
-//item repeat (done)
-// specifications (done)
-//item add space padding (done) 
-//cancel la popup (done)
-//specification display (done)
+
+
+//create new prospect(done)
+//create new quotation(done)
+//title remove all titles(done)
+//item details and client details space remove(done)
+//quotation view button(done)
+//status dropdown in quotation form(done)
+//specific note (conditionally)(done)
+
+//Made of 18mm Plywood and 1mm SF finish laminate, required other hardware.
+//proper error everywhere(done)
+//specification limit 500(done)
+//emp-data client_name/date(done)
+
+

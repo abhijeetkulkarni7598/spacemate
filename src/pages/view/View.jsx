@@ -52,7 +52,7 @@ const View = () => {
   const handlePrint = useReactToPrint({
     copyStyles: true,
     content: () => componentRef.current,
-    documentTitle: "emp-data",
+    documentTitle: `${formdata?.client_name}_${new Date().toLocaleString()}`,
     onAfterPrint: () => alert("Print success"),
   });
 
@@ -236,11 +236,14 @@ const View = () => {
 
                     <td>{total}</td>
                   </tr>
-                  <tr>
+                  {
+                    formdata?.special_note?
+                    <tr>
                     <td style={{ background: "#f4cccc" }} colSpan={4}>
                       {formdata?.special_note}
                     </td>
-                  </tr>
+                  </tr>:null
+                  }
                   <tr>
                     <td style={{ border: "1px solid lightgrey" }} colSpan={4}>
                       <b>TERMS AND CONDITIONS</b>
@@ -251,7 +254,7 @@ const View = () => {
                       <td
                         style={{
                           border: "1px solid lightgrey",
-                          textAlign: "left",
+                          textAlign: "center",
                         }}
                       >
                         {index + 1}

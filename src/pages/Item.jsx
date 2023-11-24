@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import CreateItem from "./CreateItem";
 import Itemform from "../components/quotationfrom/Itemform";
 import Slidebar from "../components/sidebar/Slidebar";
+import { BiEdit, BiTrash } from "react-icons/bi";
 
 export default function Item() {
   const [show, setShow] = useState(false);
@@ -111,12 +112,19 @@ setShow(true)
         },
 
         {
-          title: "Action",
-          key: "id",
-          fixed: "right",
-          width: 100,
-
-          render: (record) => <Button onClick={() => editfun(record)}>Edit</Button>,
+          title: ' ',
+          key: 'id',
+          fixed: 'right',
+          width: 50,
+          render: (record) =>   <BiEdit
+          style={{ width: "100%", height: "20px" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            editfun(record);
+          }}
+        />,
+    
+    
         },
       ]);
     } else {
@@ -160,22 +168,34 @@ setShow(true)
         },
 
         {
-          title: "Action",
-          key: "id",
-          fixed: "right",
-          width: 100,
-
-          render: (record) => <Button style={{zIndex:"2"}} onClick={() => editfun(record)}>Edit</Button>,
+          title: ' ',
+          key: 'id',
+          fixed: 'right',
+          width: 50,
+          render: (record) =>   <BiEdit
+          style={{ width: "100%", height: "20px" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            editfun(record);
+          }}
+        />,
+    
+    
         },
         {
-          title: "Action",
+          title: " ",
           key: "id",
           fixed: "right",
-          width: 100,
+          width: 50,
           render: ( record) =>
          
             <Popconfirm title="Sure to delete?" onConfirm={() => deletethis(record)}>
-              <a style={{color:"red"}}>Delete</a>
+           <BiTrash
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                style={{ width: "100%", height: "20px", color: "red" }}
+              />
             </Popconfirm>
       
           // render: (record) => <a onClick={() => deletethis(record)}>Delete</a>,
@@ -213,7 +233,7 @@ setShow(true)
       <Slidebar/>
 
       <div className="for-etable">
-        <h2 className="e-table-h2">Item Table </h2>
+        {/* <h2 className="e-table-h2">Item Table </h2> */}
         <button
           style={{
             padding: "10px 40px",
@@ -228,7 +248,7 @@ setShow(true)
           }}
           onClick={create_item}
         >
-          Create Item
+          Create New Item
         </button>
 
         <Input

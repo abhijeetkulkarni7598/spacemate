@@ -12,6 +12,7 @@ import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
 import { ReactComponent as Cross } from "./../assets/img/close.svg";
 import Clientform from '../components/quotationfrom/Clientform';
 import Slidebar from '../components/sidebar/Slidebar';
+import { BiEdit, BiTrash } from 'react-icons/bi';
 
 
 
@@ -104,14 +105,20 @@ const Client = () => {
      
         },
         {
-          title: 'Action',
+          title: ' ',
           key: 'id',
           fixed: 'right',
-          width: 100,
-          render: (record) => <Button onClick={()=>editfun(record)}>Edit</Button>,
+          width: 50,
+          render: (record) =>   <BiEdit
+          style={{ width: "100%", height: "20px" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            editfun(record);
+          }}
+        />,
     
     
-        }
+        },
       ]
     )
   }else{
@@ -165,23 +172,35 @@ const Client = () => {
    
       },
       {
-        title: 'Action',
+        title: ' ',
         key: 'id',
         fixed: 'right',
-        width: 100,
-        render: (record) => <Button onClick={()=>editfun(record)}>Edit</Button>,
+        width: 50,
+        render: (record) =>   <BiEdit
+        style={{ width: "100%", height: "20px" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          editfun(record);
+        }}
+      />,
   
   
       },
       
       {
-        title: 'Action',
+        title: ' ',
         key: 'id',
-        width: 100,
+        width: 50,
         fixed:'right',
         render: ( record) =>
           <Popconfirm title="Sure to delete?" onConfirm={() => deletethis(record)}>
-            <a style={{color:"red"}}>Delete</a>
+            {/* <a style={{color:"red"}}>Delete</a> */}
+            <BiTrash
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                style={{ width: "100%", height: "20px", color: "red" }}
+              />
           </Popconfirm>
   
   
@@ -257,8 +276,8 @@ setShow(true)
             <Slidebar/>
 
             <div className='for-etable'>
-                <h2 className='e-table-h2' >Prospect List</h2>
-                <button  style={{padding:"10px 40px" ,borderRadius:"7px" ,border:"none",backgroundColor:"#0253a2",color:"white",fontSize:"15px",fontWeight:"bolder",cursor:"pointer",marginBottom:"30px"}} onClick={create_client}>Create Prospect</button>
+                {/* <h2 className='e-table-h2' >Prospect List</h2> */}
+                <button  style={{padding:"10px 40px" ,borderRadius:"7px" ,border:"none",backgroundColor:"#0253a2",color:"white",fontSize:"15px",fontWeight:"bolder",cursor:"pointer",marginBottom:"30px"}} onClick={create_client}>Create New Prospect</button>
             
                 {loading&&columns?<Skeleton />:
         <ETable data={data}  columns={columns} loading={fetch}  page={client_page} error={error}/>
