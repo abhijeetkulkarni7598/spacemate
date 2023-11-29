@@ -264,6 +264,9 @@ const QuotationForm = (props) => {
   //     );
   //   }
   // }, [invoice_data]);
+  const { user, userToken, checkAuthLoading ,isAuthenticated} = useSelector(
+    (state) => state.user
+  );
   const [client_id, setClient_id] = useState();
   const {
     data: client_data,
@@ -740,6 +743,8 @@ if(status&&props.data){
               <Form.Item style={{}} label="Date" name={["date"]} labelCol={5}>
                 <DatePicker format={"DD/MM/YY"} />
               </Form.Item>
+{user?.is_staff?
+
               <FormItem
                 style={{}}
                 label="Status"
@@ -758,8 +763,14 @@ if(status&&props.data){
 <Option value={item.id} key={item.id}>{item.status}</Option>
                   )}
                 </Select>
+
                   </p>
               </FormItem>
+:  <FormItem
+style={{display:"none"}}
+name={["status"]}
+></FormItem>}
+
             </div>
             <Form.Item style={{margin:"0px",padding:"0px"}} name="user_client"></Form.Item>
             <Form.Item style={{margin:"0px",padding:"0px"}} name="user_client_id"></Form.Item>

@@ -14,12 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Popconfirm, Select, Skeleton, message } from "antd";
 import Slidebar from "../components/sidebar/Slidebar";
 import { Option } from "antd/es/mentions";
-import { FaEdit, FaPenSquare } from "react-icons/fa";
-import { BiEdit, BiEditAlt, BiTrash } from "react-icons/bi";
-import { FiEdit2 } from "react-icons/fi";
-import { BsViewList } from "react-icons/bs";
+import { BiEdit,  BiTrash } from "react-icons/bi";
+import { BsEye,  } from "react-icons/bs";
 import { GrView } from "react-icons/gr";
-import FormItem from "antd/es/form/FormItem";
 const Quotation = () => {
   const navigate = useNavigate();
   const { quotation_page } = useSelector((state) => state.user);
@@ -101,13 +98,16 @@ const Quotation = () => {
   const editfun = (record) => {
     navigate(`/quotation/${record.id}`);
   };
-  const { data: status, isLoading: statusLoading ,isFetching:statusFetching} = useFetchStatusQuery();
+  const {
+    data: status,
+    isLoading: statusLoading,
+    isFetching: statusFetching,
+  } = useFetchStatusQuery();
   const deletethis = (record) => {
     deleteInvoice(record.id);
   };
-  if(!statusFetching){
-
-    console.log("tiger",status)
+  if (!statusFetching) {
+    console.log("tiger", status);
   }
   useEffect(() => {
     if (deleteInvoiceResponseInfo?.status === "fulfilled") {
@@ -152,7 +152,7 @@ const Quotation = () => {
           key: "id",
           width: "15%",
         },
-   
+
         {
           title: "Status",
           dataIndex: "status",
@@ -161,28 +161,10 @@ const Quotation = () => {
           render: (text, record, index) => {
             return (
               <p>
-                {/* {
+                {
                   status?.filter(
                     (item) => parseInt(item.id) === parseInt(record.status)
                   )[0]?.status
-                } */}
-                {!statusFetching&&!fetchDATA?
-
-                  <Select
-                  onSelect={(data) => handleSelect(data, record)}
-                  value={
-                    status?.filter(
-                      (item) => parseInt(item.id) === parseInt(record.status)
-                      )[0]?.status
-                    }
-                  style={{ width: "150px" }}
-                >
-                  {status?.map((item) => (
-                    <Option value={item.id} key={item.id}>
-                      {item.status}
-                    </Option>
-                  ))}
-                </Select>:null
                 }
               </p>
             );
@@ -200,7 +182,7 @@ const Quotation = () => {
           key: "id",
           width: "20%",
         },
-  
+
         {
           title: " ",
           key: "id",
@@ -216,6 +198,7 @@ const Quotation = () => {
             //   }}
             // >
             <BiEdit
+            className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -233,7 +216,9 @@ const Quotation = () => {
           width: 50,
           render: (record) => (
             // <Button className="view-link" onClick={()=>thisfun(record)}>
-            <GrView
+            <BsEye
+            className="bi-edit"
+
               onClick={() => thisfun(record)}
               style={{ width: "100%", height: "20px" }}
             />
@@ -291,13 +276,13 @@ const Quotation = () => {
                   )[0]?.status
                 } */}
 
-                  <Select
+                <Select
                   onSelect={(data) => handleSelect(data, record)}
                   value={
                     status?.filter(
                       (item) => parseInt(item.id) === parseInt(record.status)
-                      )[0]?.status
-                    }
+                    )[0]?.status
+                  }
                   style={{ width: "150px" }}
                 >
                   {status?.map((item) => (
@@ -306,8 +291,6 @@ const Quotation = () => {
                     </Option>
                   ))}
                 </Select>
-
-                
               </>
             );
           },
@@ -324,7 +307,7 @@ const Quotation = () => {
           key: "id",
           width: "20%",
         },
-    
+
         {
           title: " ",
           key: "id",
@@ -339,7 +322,10 @@ const Quotation = () => {
             //     editfun(record);
             //   }}
             // >
+            
             <BiEdit
+            className="bi-edit"
+
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -357,7 +343,9 @@ const Quotation = () => {
           width: 50,
           render: (record) => (
             // <Button className="view-link" onClick={()=>thisfun(record)}>
-            <GrView
+            <BsEye
+            className="bi-edit"
+
               onClick={() => thisfun(record)}
               style={{ width: "100%", height: "20px" }}
             />
@@ -380,6 +368,8 @@ const Quotation = () => {
               onCancel={(e) => e.stopPropagation()}
             >
               <BiTrash
+            className="bi-edit"
+
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -390,7 +380,7 @@ const Quotation = () => {
         },
       ]);
     }
-  }, [user_id, quotation_page,status]);
+  }, [user_id, quotation_page, status]);
   const navi = (data) => {
     // thisfun(data);
   };
@@ -425,7 +415,7 @@ const Quotation = () => {
             field={"quotation"}
             page={quotation_page}
             data={data1}
-            loading={fetchDATA||statusFetching}
+            loading={fetchDATA || statusFetching}
             error={error}
             columns={columns}
           />

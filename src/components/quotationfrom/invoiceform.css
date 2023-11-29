@@ -77,3 +77,8 @@ input{
 .quotation-form-list div{
     /* width: 25%; */
 }
+
+
+.bi-edit:hover{
+color: var(--pr-color)!important;
+}

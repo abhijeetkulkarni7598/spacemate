@@ -110,6 +110,8 @@ const Client = () => {
           fixed: 'right',
           width: 50,
           render: (record) =>   <BiEdit
+          className="bi-edit"
+
           style={{ width: "100%", height: "20px" }}
           onClick={(e) => {
             e.stopPropagation();
@@ -177,6 +179,8 @@ const Client = () => {
         fixed: 'right',
         width: 50,
         render: (record) =>   <BiEdit
+        className="bi-edit"
+
         style={{ width: "100%", height: "20px" }}
         onClick={(e) => {
           e.stopPropagation();
@@ -196,6 +200,8 @@ const Client = () => {
           <Popconfirm title="Sure to delete?" onConfirm={() => deletethis(record)}>
             {/* <a style={{color:"red"}}>Delete</a> */}
             <BiTrash
+            className="bi-edit"
+
                 onClick={(e) => {
                   e.stopPropagation();
                 }}

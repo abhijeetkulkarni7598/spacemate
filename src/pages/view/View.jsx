@@ -111,7 +111,8 @@ const View = () => {
                   <tr>
                     <td
                       style={{
-                        background: "#fde9d9",
+                        background: "#29384f" ,
+                        color:"white",
                         borderTop: "2px solid black",
                         borderLeft: "2px solid black",
                       }}
@@ -164,14 +165,14 @@ const View = () => {
                  
             
 
-                  <tr style={{ background: "#c6d9f0" }}>
+                  <tr style={{  background: "#29384f" ,color:"white" }}>
                     <th style={{ width: "10%",textAlign:"center" }}>SR NO</th>
                     <th style={{ width: "40%",textAlign:"center" }}>PARTICULAR</th>
                     <th style={{ width: "30%",textAlign:"center" }}>SIZE ( L x H ) </th>
                     <th style={{ width: "30%",textAlign:"center" }}>PRICE</th>
                   </tr>
                   <tr>
-                    <td style={{ background: "#ffff00" }} colSpan={4}>
+                    <td style={{ background: "#6bc9d6" }} colSpan={4}>
                       FURNITURE
                     </td>
                   </tr>
@@ -179,7 +180,7 @@ const View = () => {
                   {uniqueCategories.map((item) => (
                     <>
                       <tr>
-                        <td colSpan={4} style={{ background: "#ffcc00" }}>
+                        <td colSpan={4} style={{ background: "#29384f" ,color:"white"}}>
                           {item}
                         </td>
                       </tr>

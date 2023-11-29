@@ -94,8 +94,8 @@ setShow(true)
           dataIndex: "item_category",
           key: "id",
           render: (text, record, index) => {
-            return <span>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
-            }</span>;
+            return <>{category?.filter((item)=>parseInt(item.id)===parseInt(record.item_category))[0]?.category
+            }</>;
           },
           //   ...getColumnSearchProps('age'),
         },
@@ -117,6 +117,8 @@ setShow(true)
           fixed: 'right',
           width: 50,
           render: (record) =>   <BiEdit
+          className="bi-edit"
+          
           style={{ width: "100%", height: "20px" }}
           onClick={(e) => {
             e.stopPropagation();
@@ -173,6 +175,8 @@ setShow(true)
           fixed: 'right',
           width: 50,
           render: (record) =>   <BiEdit
+          className="bi-edit"
+
           style={{ width: "100%", height: "20px" }}
           onClick={(e) => {
             e.stopPropagation();
@@ -191,6 +195,8 @@ setShow(true)
          
             <Popconfirm title="Sure to delete?" onConfirm={() => deletethis(record)}>
            <BiTrash
+            className="bi-edit"
+
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
