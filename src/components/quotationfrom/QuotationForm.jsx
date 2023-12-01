@@ -803,12 +803,12 @@ name={["status"]}
                             rules={[
                               {
                                 required: true,
-                                message: "Missing Item Name",
+                                message: "Missing PRODUCT NAME",
                               },
                             ]}
                           >
                             <Input
-                              placeholder="Description of Goods"
+                              placeholder="PRODUCT NAME"
                               className="b c w-cus-moblie"
                             />
                             {/* {console.log(users[0].Desc)} */}
@@ -830,7 +830,7 @@ name={["status"]}
                             rules={[
                               {
                                 required: true,
-                                message: "Missing first name",
+                                message: "Missing Category",
                               },
                             ]}
                           >
@@ -846,13 +846,13 @@ name={["status"]}
                             rules={[
                               {
                                 required: true,
-                                message: "Missing last name",
+                                message: "Missing Rate",
                               },
                             ]}
                           >
                             <InputNumber
                               className="b w-cus-moblie"
-                              placeholder="sac no of product"
+                              placeholder="Rate"
                             />
                           </Form.Item>
 
@@ -862,7 +862,7 @@ name={["status"]}
                             rules={[
                               {
                                 required: true,
-                                message: "Missing last name",
+                                message: "Missing unit",
                               },
                             ]}
                             style={{ width: "200px" }}
@@ -925,7 +925,7 @@ name={["status"]}
                               placeholder="Width"
                             />
                           </Form.Item>
-                          <Form.Item
+                          {/* <Form.Item
                             {...restField}
                             label={"Numbers"}
                             labelCol={2}
@@ -935,8 +935,8 @@ name={["status"]}
                               className="w-cus-moblie"
                               placeholder="Number"
                             />
-                          </Form.Item>
-                          <Form.Item
+                          </Form.Item> */}
+                          {/* <Form.Item
                             {...restField}
                             label={"Running_foot"}
                             labelCol={2}
@@ -957,7 +957,7 @@ name={["status"]}
                               className="w-cus-moblie"
                               placeholder="Sq Ft"
                             />
-                          </Form.Item>
+                          </Form.Item> */}
                           <Form.Item
                             {...restField}
                             label={"Quantity"}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSearchClientQuery } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { Button, Input, Table } from 'antd';
+import { BiPlus } from 'react-icons/bi';
 
 export default function ClientModel({show,client_data}) {
     const editfun=(data)=>{
@@ -20,11 +21,12 @@ export default function ClientModel({show,client_data}) {
     }, [user]);
     const [page, setPage] = useState(1);
     const [table_page, setTable_page] = useState(1);
-    useEffect(() => {
-     if (table_page/2 % 1 === 0.5) {
-        setPage(Math.round(table_page/2))
-      }
-    }, [table_page]);
+    // useEffect(() => {
+    //  if (table_page/2 % 1 === 0.5) {
+    //   console.log("page",Math.round(table_page/2))
+    //     setPage(Math.round(table_page/2))
+    //   }
+    // }, [table_page]);
 
   
     const { data: client, isLoading: clientLoading ,isFetching:client_fetch} = useSearchClientQuery({
@@ -40,10 +42,10 @@ export default function ClientModel({show,client_data}) {
             dataIndex: 'id',
             key: 'id',
           //   ...getColumnSearchProps('name'),
-          width:60,
+          width:70,
           render: (text, record, index) => {
 
-            return <span>{table_page * 5 - 5 + index + 1}</span>;
+            return <span>{page * 10 - 10 + index + 1}</span>;
           },
           },
         {
@@ -68,19 +70,16 @@ export default function ClientModel({show,client_data}) {
           key: 'id',
      
         },
-        {
-          title: 'Company Name',
-          dataIndex: 'company_name',
-          key: 'id',
     
-     
-        },
         {
-          title: 'Action',
+          title: 'ADD',
           key: 'id',
           fixed: 'right',
-          width: 100,
-          render: (record) => <a onClick={()=>editfun(record)}>ADD</a>,
+          width: 80,
+          render: (record) => <Button type='primary' style={{display:"flex",justifyContent:"center",alignItems:"center"}} className='hover' onClick={()=>editfun(record)}>
+
+            <BiPlus/>
+          </Button>,
     
     
         }
@@ -88,7 +87,7 @@ export default function ClientModel({show,client_data}) {
   return (
     <>
     <div className="model-con">
-            <div className="model-box">
+            <div className="model-box" style={{padding:"30px "}}>
             <Input
               autoFocus
               type="text"
@@ -98,7 +97,7 @@ export default function ClientModel({show,client_data}) {
               style={{marginBottom:"30px"}}
             />
             <Table
-      className="custom-table-ant"
+      className="custom-table-ant custom-table-with-low-padding"
 
             columns={columns}
             loading={client_fetch}
@@ -108,10 +107,10 @@ export default function ClientModel({show,client_data}) {
             }}
             pagination={{
               total: client?.count,
-              pageSize: 5,
-              current: table_page,
+              pageSize: 10,
+              current: page,
               onChange: (page) => {
-                setTable_page(page)
+                setPage(page)
               },
             }}
           ></Table>    

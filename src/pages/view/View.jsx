@@ -52,8 +52,8 @@ const View = () => {
   const handlePrint = useReactToPrint({
     copyStyles: true,
     content: () => componentRef.current,
-    documentTitle: `${formdata?.client_name}_${new Date().toLocaleString()}`,
-    onAfterPrint: () => alert("Print success"),
+    documentTitle: `${formdata?.client_name}_ESTIMATE_SPACEMATE_${new Date().toLocaleDateString('en-GB')}`,
+    onAfterPrint: () => alert(`Printed`),
   });
 
   const [total, setTotal] = useState(0);
@@ -111,8 +111,8 @@ const View = () => {
                   <tr>
                     <td
                       style={{
-                        background: "#29384f" ,
-                        color:"white",
+                        background: "#6bc9d6" ,
+                        color:"black",
                         borderTop: "2px solid black",
                         borderLeft: "2px solid black",
                       }}
@@ -165,14 +165,14 @@ const View = () => {
                  
             
 
-                  <tr style={{  background: "#29384f" ,color:"white" }}>
+                  <tr style={{  background: "#6bc9d6" ,color:"black" }}>
                     <th style={{ width: "10%",textAlign:"center" }}>SR NO</th>
                     <th style={{ width: "40%",textAlign:"center" }}>PARTICULAR</th>
                     <th style={{ width: "30%",textAlign:"center" }}>SIZE ( L x H ) </th>
                     <th style={{ width: "30%",textAlign:"center" }}>PRICE</th>
                   </tr>
                   <tr>
-                    <td style={{ background: "#6bc9d6" }} colSpan={4}>
+                    <td style={{ background: "#eafcfc" }} colSpan={4}>
                       FURNITURE
                     </td>
                   </tr>
@@ -180,7 +180,7 @@ const View = () => {
                   {uniqueCategories.map((item) => (
                     <>
                       <tr>
-                        <td colSpan={4} style={{ background: "#29384f" ,color:"white"}}>
+                        <td colSpan={4} style={{ background: "#6bc9d6" ,color:"black"}}>
                           {item}
                         </td>
                       </tr>
