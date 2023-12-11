@@ -5,7 +5,7 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status"], //refresh when it innvalidates
+  tagTypes: ["ITEM_CATEGORY","USER","STATUS","Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status"], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -100,12 +100,14 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Quotation", id: arg.id },
+          { type: "STATUS", id: arg.id },
+          { type: "USER", id: arg.id },
         ],
       }),
       fetchQuotation: build.query({
-        query: ({ val, id }) => {
+        query: ({ val, id ,client_name}) => {
           return {
-            url: `/api/quotation/?page=${val}&user_client_id=${id}`,
+            url: `/api/quotation/?page=${val}&user_client_id=${id}&client_name=${client_name}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -174,6 +176,8 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Quotation", id: arg.id },
+          { type: "STATUS", id: arg.id },
+          { type: "USER", id: arg.id },
         ],
       }),
 
@@ -278,6 +282,7 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Items", id: arg.id },
+          { type: "ITEM_CATEGORY", id: arg.id },
         ],
       }),
       deleteClient: build.mutation({
@@ -321,6 +326,7 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Items", id: arg.id },
+          { type: "ITEM_CATEGORY", id: arg.id },
         ],
       }),
 
@@ -346,6 +352,7 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Items", id: arg.id },
+          { type: "ITEM_CATEGORY", id: arg.id },
         ],
       }),
       getItems: build.query({
@@ -496,6 +503,66 @@ const allApi = createApi({
           : ["DesignGallery"],
      
       }),
+      fetchStatusCount: build.query({
+        query: ({id}) => {
+          return {
+            url: `/api/status-count/?user_client_id=${id}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "STATUS", id })),
+              "STATUS",
+            ]
+          : ["STATUS"],
+     
+      }),
+      fetchItemCategoryCount: build.query({
+        query: () => {
+          return {
+            url: "/api/item_category-count/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "ITEM_CATEGORY", id })),
+              "ITEM_CATEGORY",
+            ]
+          : ["ITEM_CATEGORY"],
+     
+      }),
+      fetchUserCount: build.query({
+        query: (id) => {
+          return {
+            url: `/api/user-count/?user_client_id=${id}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "USER", id })),
+              "USER",
+            ]
+          : ["USER"],
+     
+      }),
       upadteInventory: build.mutation({
         query: (upadate_value) => {
           const { id, ...data } = upadate_value;
@@ -580,6 +647,10 @@ export const {
   useFetchInteriorGalleryQuery,
 
   useFetchStatusQuery,
+
+  useFetchStatusCountQuery,
+  useFetchItemCategoryCountQuery,
+  useFetchUserCountQuery,
 } = allApi;
 
 export { allApi };

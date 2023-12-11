@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/plots": "^1.2.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
@@ -24,6 +25,7 @@
     "simple-react-lightbox": "^3.6.9-0",
     "styled-components": "^5.3.5",
     "to-words": "^3.6.1",
+    "uninstall": "^0.0.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

@@ -231,6 +231,7 @@ const onFinish = (
       };
     }),
   };
+  console.log(updatedObject)
   createQuotation(updatedObject);
 };
 
@@ -241,6 +242,7 @@ const QuotationForm = (props) => {
   const { data: data1, isLoading: loading } = useFetchQuotationQuery({
     val: 1,
     id: "",
+    client_name:""
   });
   const [quo_no, setQuo_no] = useState();
   const { data: count, isLoading: countloading } = useGetQuotationCountQuery({

@@ -32,6 +32,7 @@ import Setting from "./pages/Setting";
 import Item from "./pages/Item";
 import CreateItem from "./pages/CreateItem";
 import Location from "./pages/Location";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,14 @@ const App = () => {
           <Route element={<Error />} />
 
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Auth>
+                <Dashboard />
+              </Auth>
+            }
+          />
           <Route
             path="/client"
             element={

@@ -43,4 +43,7 @@ export {
   useFetchDesignGalleryQuery,
   useFetchInteriorGalleryQuery,
   useFetchStatusQuery,
+  useFetchStatusCountQuery,
+  useFetchItemCategoryCountQuery,
+  useFetchUserCountQuery,
 } from "./mutation/AllApi";

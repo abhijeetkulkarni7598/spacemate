@@ -11,12 +11,13 @@ import {
   useFetchStatusQuery,
 } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, Popconfirm, Select, Skeleton, message } from "antd";
+import { Button, Form, Input, Popconfirm, Select, Skeleton, message } from "antd";
 import Slidebar from "../components/sidebar/Slidebar";
 import { Option } from "antd/es/mentions";
 import { BiEdit,  BiTrash } from "react-icons/bi";
 import { BsEye,  } from "react-icons/bs";
 import { GrView } from "react-icons/gr";
+import Search from "antd/es/input/Search";
 const Quotation = () => {
   const navigate = useNavigate();
   const { quotation_page } = useSelector((state) => state.user);
@@ -32,13 +33,14 @@ const Quotation = () => {
       setUser_id(user?.id);
     }
   }, [user]);
+  const [searchText, setSearchText] = useState("");
 
   const {
     data: data1,
     isLoading: loading,
     error: error,
     isFetching: fetchDATA,
-  } = useFetchQuotationQuery({ val: quotation_page, id: user_id });
+  } = useFetchQuotationQuery({ val: quotation_page, id: user_id ,client_name:searchText});
   const [deleteInvoice, deleteInvoiceResponseInfo] =
     useDeleteQuotationMutation();
 
@@ -180,7 +182,7 @@ const Quotation = () => {
           title: "Client Contact",
           dataIndex: "client_contact",
           key: "id",
-          width: "20%",
+          width: "10%",
         },
 
         {
@@ -305,7 +307,7 @@ const Quotation = () => {
           title: "Client Contact",
           dataIndex: "client_contact",
           key: "id",
-          width: "20%",
+          width: "10%",
         },
 
         {
@@ -406,7 +408,19 @@ const Quotation = () => {
         >
           Create New Quotation
         </button>
+        <div className="body-width">
+        <Search
+      placeholder="Search Quotation By Clients Name"
+      enterButton="Search"
+      size="large"
+      onSearch={(data)=>{
+console.log(data)
+          setSearchText(data)
 
+      }}
+    />
+
+        </div>
         {loading ? (
           <Skeleton />
         ) : (
