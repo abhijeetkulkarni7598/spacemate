@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { SlidebarData } from "./SlidebarData";
+import { SlidebarData, SlidebarData2 } from "./SlidebarData";
 import Slidemenu from "./Slidemenu";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/mutation/userSlice";
@@ -186,9 +186,18 @@ useEffect(() => {
                <img style={{width:"200px"}} src={logo} alt="" />
               </div>
             </NavIcon>
+            {user?.is_staff===true?
+
+            <>
             {SlidebarData.map((item, index) => {
               return <Slidemenu item={item} key={index} onClick={Autoclose} />;
             })}
+            </>: <>
+            {SlidebarData2.map((item, index) => {
+              return <Slidemenu item={item} key={index} onClick={Autoclose} />;
+            })}
+            </>
+          }
           </SlidebarWrap>
         </SlidebarNav>
       </Style>

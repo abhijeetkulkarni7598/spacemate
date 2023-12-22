@@ -36,3 +36,30 @@ export const SlidebarData = [
  
  
 ];
+export const SlidebarData2= [
+
+ 
+    
+      {
+        title: "Prospect Table",
+        path: "/client",
+        icon: <FaIcons.FaClipboardList />,
+      },
+    
+ 
+
+  {
+    title: "Quotation Table",
+    path: "/quotation",
+    icon: <MdIcons.MdOutlineInventory2 />,
+
+  },
+  {
+    title: "Item Table",
+    path: "/item",
+    icon: <FaIcons.FaClipboardList />,
+  },
+ 
+ 
+ 
+];

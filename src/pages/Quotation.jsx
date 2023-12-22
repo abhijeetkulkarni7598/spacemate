@@ -131,31 +131,6 @@ const Quotation = () => {
           //   ...getColumnSearchProps('name'),
         },
         {
-          title: "Quotation No",
-          dataIndex: "quotation_number",
-          key: "id",
-          width: 150,
-        },
-        {
-          title: "Revision",
-          dataIndex: "revision_no",
-          key: "id",
-          width: "7%",
-        },
-        {
-          title: "User",
-          dataIndex: "user_client",
-          key: "id",
-          width: 150,
-        },
-        {
-          title: "Client Name",
-          dataIndex: "client_name",
-          key: "id",
-          width: "15%",
-        },
-
-        {
           title: "Status",
           dataIndex: "status",
           key: "id",
@@ -173,16 +148,53 @@ const Quotation = () => {
           },
         },
         {
+          title: "Total",
+          dataIndex: "total_with_discount",
+          key: "id",
+          width: "15%",
+        },
+        {
+          title: "Prospect Name",
+          dataIndex: "client_name",
+          key: "id",
+          width: "15%",
+        },
+        {
+          title: "Contact No",
+          dataIndex: "client_contact",
+          key: "id",
+          width: "15%",
+        },
+        {
+          title: "Revision",
+          dataIndex: "revision_no",
+          key: "id",
+          width: 100,
+        },
+        {
+          title: "Representative",
+          dataIndex: "user_client",
+          key: "id",
+          width: 150,
+        },
+        {
           title: "Remark",
           dataIndex: "remark",
           key: "id",
-          width: 200,
+          width: 250,
+        },
+        
+        {
+          title: "Quotation No",
+          dataIndex: "quotation_number",
+          key: "id",
+          width: 150,
         },
         {
-          title: "Client Contact",
-          dataIndex: "client_contact",
+          title: "Date",
+          dataIndex: "date",
           key: "id",
-          width: "10%",
+          width: 150,
         },
 
         {
@@ -241,34 +253,10 @@ const Quotation = () => {
           //   ...getColumnSearchProps('name'),
         },
         {
-          title: "Quotation No",
-          dataIndex: "quotation_number",
-          key: "id",
-          width: 150,
-        },
-        {
-          title: "Revision",
-          dataIndex: "revision_no",
-          key: "id",
-          width: "7%",
-        },
-        {
-          title: "User",
-          dataIndex: "user_client",
-          key: "id",
-          width: 150,
-        },
-        {
-          title: "Client Name",
-          dataIndex: "client_name",
-          key: "id",
-          width: "15%",
-        },
-        {
           title: "Status",
           dataIndex: "status",
           key: "id",
-          width: "15%",
+          width: 160,
           render: (text, record, index) => {
             return (
               <>
@@ -298,17 +286,60 @@ const Quotation = () => {
           },
         },
         {
+          title: "Total",
+          dataIndex: "total_with_discount",
+          key: "id",
+          width: "15%",
+        },
+        {
+          title: "Prospect Name",
+          dataIndex: "client_name",
+          key: "id",
+          width: "15%",
+        },
+        {
+          title: "Contact No",
+          dataIndex: "client_contact",
+          key: "id",
+          width: "15%",
+        },
+        {
+          title: "Revision",
+          dataIndex: "revision_no",
+          key: "id",
+          width: 100,
+        },
+        {
+          title: "Representative",
+          dataIndex: "user_client",
+          key: "id",
+          width: 150,
+        },
+        {
           title: "Remark",
           dataIndex: "remark",
           key: "id",
-          width: 200,
+          width: 250,
         },
+        
         {
-          title: "Client Contact",
-          dataIndex: "client_contact",
+          title: "Quotation No",
+          dataIndex: "quotation_number",
           key: "id",
-          width: "10%",
+          width: 150,
         },
+       
+        
+       
+       
+      
+        {
+          title: "Date",
+          dataIndex: "date",
+          key: "id",
+          width: 150,
+        },
+
 
         {
           title: " ",

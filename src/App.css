@@ -77,3 +77,6 @@ h1{
 {
   cursor: pointer;
 }
+.ant-table-cell span{
+  font-size: 14px!important;
+}

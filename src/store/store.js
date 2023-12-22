@@ -46,4 +46,10 @@ export {
   useFetchStatusCountQuery,
   useFetchItemCategoryCountQuery,
   useFetchUserCountQuery,
+  useFetchMonthlyRevinueQuery,
+  useFetchMonthlyRevinuer01Query,
+  useFetchDealWonQuery,
+  
+
+
 } from "./mutation/AllApi";

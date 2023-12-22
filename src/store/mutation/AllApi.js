@@ -5,7 +5,7 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["ITEM_CATEGORY","USER","STATUS","Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status"], //refresh when it innvalidates
+  tagTypes: ["DEALWON","ITEM_CATEGORY","USER","STATUS","Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status","MONTHLYREV","MONTHLYREVR01"], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -563,6 +563,66 @@ const allApi = createApi({
           : ["USER"],
      
       }),
+      fetchMonthlyRevinue: build.query({
+        query: ({year}) => {
+          return {
+            url: `/api/revinue/?year=${year}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "MONTHLYREV", id })),
+              "MONTHLYREV",
+            ]
+          : ["MONTHLYREV"],
+     
+      }),
+      fetchMonthlyRevinuer01: build.query({
+        query: ({year}) => {
+          return {
+            url: `/api/revinuer01/?year=${year}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "MONTHLYREVR01", id })),
+              "MONTHLYREVR01",
+            ]
+          : ["MONTHLYREVR01"],
+     
+      }),
+      fetchDealWon: build.query({
+        query: ({year}) => {
+          return {
+            url: `/api/deal-won/?year=${year}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.length
+          ? [
+              ...result.map(({ id }) => ({ type: "DEALWON", id })),
+              "DEALWON",
+            ]
+          : ["DEALWON"],
+     
+      }),
       upadteInventory: build.mutation({
         query: (upadate_value) => {
           const { id, ...data } = upadate_value;
@@ -651,6 +711,9 @@ export const {
   useFetchStatusCountQuery,
   useFetchItemCategoryCountQuery,
   useFetchUserCountQuery,
+  useFetchMonthlyRevinueQuery,
+  useFetchMonthlyRevinuer01Query,
+  useFetchDealWonQuery,
 } = allApi;
 
 export { allApi };
