@@ -11,11 +11,19 @@ import {
   useFetchStatusQuery,
 } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, Input, Popconfirm, Select, Skeleton, message } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Popconfirm,
+  Select,
+  Skeleton,
+  message,
+} from "antd";
 import Slidebar from "../components/sidebar/Slidebar";
 import { Option } from "antd/es/mentions";
-import { BiEdit,  BiTrash } from "react-icons/bi";
-import { BsEye,  } from "react-icons/bs";
+import { BiEdit, BiTrash } from "react-icons/bi";
+import { BsEye } from "react-icons/bs";
 import { GrView } from "react-icons/gr";
 import Search from "antd/es/input/Search";
 const Quotation = () => {
@@ -40,7 +48,11 @@ const Quotation = () => {
     isLoading: loading,
     error: error,
     isFetching: fetchDATA,
-  } = useFetchQuotationQuery({ val: quotation_page, id: user_id ,client_name:searchText});
+  } = useFetchQuotationQuery({
+    val: quotation_page,
+    id: user_id,
+    client_name: searchText,
+  });
   const [deleteInvoice, deleteInvoiceResponseInfo] =
     useDeleteQuotationMutation();
 
@@ -170,6 +182,22 @@ const Quotation = () => {
           dataIndex: "revision_no",
           key: "id",
           width: 100,
+          render: (record) => {
+            // console.log(record)
+            let numericPart = parseInt(record.slice(1)); // Extracts "01" and converts it to a number
+
+            // Reduce the numeric part by 1
+            numericPart -= 1;
+            const returnvalue="R" + numericPart.toString().padStart(2, "0");
+            // Reconstruct the string with the reduced numeric part
+            if(returnvalue==="R00"){
+
+              return "Fresh" 
+            }else{
+              return returnvalue
+            }
+            
+          },
         },
         {
           title: "Representative",
@@ -183,7 +211,7 @@ const Quotation = () => {
           key: "id",
           width: 250,
         },
-        
+
         {
           title: "Quotation No",
           dataIndex: "quotation_number",
@@ -212,7 +240,7 @@ const Quotation = () => {
             //   }}
             // >
             <BiEdit
-            className="bi-edit"
+              className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -231,8 +259,7 @@ const Quotation = () => {
           render: (record) => (
             // <Button className="view-link" onClick={()=>thisfun(record)}>
             <BsEye
-            className="bi-edit"
-
+              className="bi-edit"
               onClick={() => thisfun(record)}
               style={{ width: "100%", height: "20px" }}
             />
@@ -308,6 +335,22 @@ const Quotation = () => {
           dataIndex: "revision_no",
           key: "id",
           width: 100,
+          render: (record) => {
+            // console.log(record)
+            let numericPart = parseInt(record.slice(1)); // Extracts "01" and converts it to a number
+
+            // Reduce the numeric part by 1
+            numericPart -= 1;
+            const returnvalue="R" + numericPart.toString().padStart(2, "0");
+            // Reconstruct the string with the reduced numeric part
+            if(returnvalue==="R00"){
+
+              return "Fresh" 
+            }else{
+              return returnvalue
+            }
+            
+          },
         },
         {
           title: "Representative",
@@ -321,25 +364,20 @@ const Quotation = () => {
           key: "id",
           width: 250,
         },
-        
+
         {
           title: "Quotation No",
           dataIndex: "quotation_number",
           key: "id",
           width: 150,
         },
-       
-        
-       
-       
-      
+
         {
           title: "Date",
           dataIndex: "date",
           key: "id",
           width: 150,
         },
-
 
         {
           title: " ",
@@ -355,10 +393,9 @@ const Quotation = () => {
             //     editfun(record);
             //   }}
             // >
-            
-            <BiEdit
-            className="bi-edit"
 
+            <BiEdit
+              className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
@@ -377,8 +414,7 @@ const Quotation = () => {
           render: (record) => (
             // <Button className="view-link" onClick={()=>thisfun(record)}>
             <BsEye
-            className="bi-edit"
-
+              className="bi-edit"
               onClick={() => thisfun(record)}
               style={{ width: "100%", height: "20px" }}
             />
@@ -401,8 +437,7 @@ const Quotation = () => {
               onCancel={(e) => e.stopPropagation()}
             >
               <BiTrash
-            className="bi-edit"
-
+                className="bi-edit"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
@@ -440,17 +475,15 @@ const Quotation = () => {
           Create New Quotation
         </button>
         <div className="body-width">
-        <Search
-      placeholder="Search Quotation By Clients Name"
-      enterButton="Search"
-      size="large"
-      onSearch={(data)=>{
-console.log(data)
-          setSearchText(data)
-
-      }}
-    />
-
+          <Search
+            placeholder="Search Quotation By Clients Name"
+            enterButton="Search"
+            size="large"
+            onSearch={(data) => {
+              console.log(data);
+              setSearchText(data);
+            }}
+          />
         </div>
         {loading ? (
           <Skeleton />

@@ -64,21 +64,12 @@ const Login = () => {
             <Input required placeholder="Enter Your Password" type="password"/>
           </Form.Item>
           <Form.Item >
-              {loading?
-              <div>
-                <Button style={{height:"100%"}} type="primary" >
-            Loading  
-            </Button>
-
-              </div>
-              :
-              <div>
-                <Button  style={{height:"100%"}}  type="primary" htmlType="submit">
+          
+                <Button  loading={loading} style={{height:"100%"}}  type="primary" htmlType="submit">
 
               Login
             </Button>
-              </div>
-              }
+           
           </Form.Item>
         </Form>
       </div>

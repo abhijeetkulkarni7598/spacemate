@@ -79,18 +79,21 @@ const onRevision = (
   data.user_client_id = JSON.parse(localStorage.getItem("user")).id;
   data.total_with_discount = total;
 
-  const today = new Date(data.date);
+  // const today = new Date(data.date);
 
   // Extract the day, month, and year
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-  const year = today.getFullYear().toString().slice(-2);
+  // const day = String(today.getDate()).padStart(2, "0");
+  // const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  // const year = today.getFullYear().toString().slice(-2);
 
-  // Format the date as dd/mm/yyyy
-  const formattedDate = `${day}/${month}/${year}`;
+  // // Format the date as dd/mm/yyyy
+  // const formattedDate = `${day}/${month}/${year}`;
 
   // Output the formatted date
-  data.date = formattedDate;
+  // if(day!=="NaN"){
+
+    data.date = undefined;
+  // }
 
   const updatedObject = {
     ...data,
@@ -102,6 +105,7 @@ const onRevision = (
       };
     }),
   };
+  // console.log(updatedObject)
   createQuotation(updatedObject);
 };
 
@@ -219,7 +223,11 @@ const onFinish = (
   const formattedDate = `${day}/${month}/${year}`;
 
   // Output the formatted date
-  data.date = formattedDate;
+  console.log()
+  if(day!=="NaN"){
+
+    data.date = formattedDate;
+  }
 
   const updatedObject = {
     ...data,
