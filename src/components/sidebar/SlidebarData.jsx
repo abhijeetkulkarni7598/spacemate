@@ -33,6 +33,17 @@ export const SlidebarData = [
     icon: <FaIcons.FaClipboardList />,
   },
  
+  {
+    title: "Vendor Table",
+    path: "/vendor",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Employee Table",
+    path: "/employee",
+    icon: <FaIcons.FaClipboardList />,
+  },
+ 
  
  
 ];

@@ -33,6 +33,8 @@ import Item from "./pages/Item";
 import CreateItem from "./pages/CreateItem";
 import Location from "./pages/Location";
 import Dashboard from "./pages/dashboard/Dashboard";
+import Vendor from "./pages/Vendor";
+import Employee from "./pages/Employee";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -73,6 +75,22 @@ const App = () => {
             element={
               <Auth>
                 <Client />
+              </Auth>
+            }
+          />
+          <Route
+            path="/vendor"
+            element={
+              <Auth>
+                <Vendor />
+              </Auth>
+            }
+          />
+          <Route
+            path="/employee"
+            element={
+              <Auth>
+                <Employee />
               </Auth>
             }
           />
@@ -172,7 +190,6 @@ const App = () => {
 
 export default App;
 
-
 //create new prospect(done)
 //create new quotation(done)
 //title remove all titles(done)
@@ -185,5 +202,3 @@ export default App;
 //proper error everywhere(done)
 //specification limit 500(done)
 //emp-data client_name/date(done)
-
-

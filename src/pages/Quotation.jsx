@@ -184,11 +184,11 @@ const Quotation = () => {
           width: 100,
           render: (record) => {
             // console.log(record)
-            let numericPart = parseInt(record.slice(1)); // Extracts "01" and converts it to a number
+            let numericPart = parseInt(record?.slice(1)); // Extracts "01" and converts it to a number
 
             // Reduce the numeric part by 1
             numericPart -= 1;
-            const returnvalue="R" + numericPart.toString().padStart(2, "0");
+            const returnvalue="R" + numericPart?.toString().padStart(2, "0");
             // Reconstruct the string with the reduced numeric part
             if(returnvalue==="R00"){
 
@@ -337,11 +337,11 @@ const Quotation = () => {
           width: 100,
           render: (record) => {
             // console.log(record)
-            let numericPart = parseInt(record.slice(1)); // Extracts "01" and converts it to a number
+            let numericPart = parseInt(record?.slice(1)); // Extracts "01" and converts it to a number
 
             // Reduce the numeric part by 1
             numericPart -= 1;
-            const returnvalue="R" + numericPart.toString().padStart(2, "0");
+            const returnvalue="R" + numericPart?.toString().padStart(2, "0");
             // Reconstruct the string with the reduced numeric part
             if(returnvalue==="R00"){
 

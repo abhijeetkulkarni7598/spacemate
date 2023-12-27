@@ -5,7 +5,7 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["DEALWON","ITEM_CATEGORY","USER","STATUS","Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status","MONTHLYREV","MONTHLYREVR01"], //refresh when it innvalidates
+  tagTypes: ["Employee","Vendor","DEALWON","ITEM_CATEGORY","USER","STATUS","Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status","MONTHLYREV","MONTHLYREVR01"], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -285,6 +285,38 @@ const allApi = createApi({
           { type: "ITEM_CATEGORY", id: arg.id },
         ],
       }),
+      deleteVendor: build.mutation({
+        query: (id) => {
+    
+          return {
+            url: `/api2/vendor/${id}/`,
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Vendor", id: arg.id },
+        ],
+      }),
+      deleteEmployee: build.mutation({
+        query: (id) => {
+    
+          return {
+            url: `/api2/employee/${id}/`,
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Employee", id: arg.id },
+        ],
+      }),
       deleteClient: build.mutation({
         query: (id) => {
           //   var formdata = new FormData();
@@ -308,12 +340,7 @@ const allApi = createApi({
       createItem: build.mutation({
         query: (createJobcardData) => {
           const { user, ...data } = createJobcardData;
-          console.log(createJobcardData);
-          //   var formdata = new FormData();
-          //   Object.keys(data).map((form_key) =>
-          //     formdata.append(form_key, data[form_key] || "")
-          //   );
-
+ 
           return {
             url: `/api/items/`,
             method: "POST",
@@ -329,16 +356,47 @@ const allApi = createApi({
           { type: "ITEM_CATEGORY", id: arg.id },
         ],
       }),
+      createVendor: build.mutation({
+        query: (createJobcardData) => {
+          const { user, ...data } = createJobcardData;
+ 
+          return {
+            url: `/api2/vendor/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Vendor", id: arg.id },
+        ],
+      }),
+      createEmployee: build.mutation({
+        query: (createJobcardData) => {
+          const { user, ...data } = createJobcardData;
+ 
+          return {
+            url: `/api2/employee/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Employee", id: arg.id },
+        ],
+      }),
 
       upadteItems: build.mutation({
         query: (upadate_value) => {
           const { id, ...data } = upadate_value;
-          console.log(upadate_value);
 
-          //   var formdata = new FormData();
-          //   Object.keys(data).map((form_key) =>
-          //     formdata.append(form_key, data[form_key] || "")
-          //   );
           return {
             url: `/api/items/${id}/`,
             method: "PUT",
@@ -353,6 +411,44 @@ const allApi = createApi({
         invalidatesTags: (result, error, arg) => [
           { type: "Items", id: arg.id },
           { type: "ITEM_CATEGORY", id: arg.id },
+        ],
+      }),
+      upadteVendor: build.mutation({
+        query: (upadate_value) => {
+          const { id, ...data } = upadate_value;
+
+          return {
+            url: `/api2/vendor/${id}/`,
+            method: "PUT",
+            body: upadate_value,
+
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Vendor", id: arg.id },
+        ],
+      }),
+      upadteEmployee: build.mutation({
+        query: (upadate_value) => {
+          const { id, ...data } = upadate_value;
+
+          return {
+            url: `/api2/employee/${id}/`,
+            method: "PUT",
+            body: upadate_value,
+
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Employee", id: arg.id },
         ],
       }),
       getItems: build.query({
@@ -444,6 +540,44 @@ const allApi = createApi({
               "Category",
             ]
           : ["Category"],
+      }),
+      fetchVendor: build.query({
+        query: () => {
+          return {
+            url: "/api2/vendor/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.results?.length
+          ? [
+              ...result?.results?.map(({ id }) => ({ type: "Vendor", id })),
+              "Vendor",
+            ]
+          : ["Vendor"],
+      }),
+      fetchEmployee: build.query({
+        query: () => {
+          return {
+            url: "/api2/employee/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.results?.length
+          ? [
+              ...result?.results?.map(({ id }) => ({ type: "Employee", id })),
+              "Employee",
+            ]
+          : ["Employee"],
       }),
       fetchStatus: build.query({
         query: () => {
@@ -714,6 +848,16 @@ export const {
   useFetchMonthlyRevinueQuery,
   useFetchMonthlyRevinuer01Query,
   useFetchDealWonQuery,
+
+  useFetchEmployeeQuery,
+  useUpadteEmployeeMutation,
+  useCreateEmployeeMutation,
+  useDeleteEmployeeMutation,
+
+  useFetchVendorQuery,
+  useUpadteVendorMutation,
+  useCreateVendorMutation,
+  useDeleteVendorMutation,
 } = allApi;
 
 export { allApi };

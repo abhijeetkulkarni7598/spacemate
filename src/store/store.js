@@ -49,7 +49,12 @@ export {
   useFetchMonthlyRevinueQuery,
   useFetchMonthlyRevinuer01Query,
   useFetchDealWonQuery,
-  
-
-
+  useFetchEmployeeQuery,
+  useUpadteEmployeeMutation,
+  useCreateEmployeeMutation,
+  useDeleteEmployeeMutation,
+  useFetchVendorQuery,
+  useUpadteVendorMutation,
+  useCreateVendorMutation,
+  useDeleteVendorMutation,
 } from "./mutation/AllApi";
