@@ -3,19 +3,19 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { SlidebarData, SlidebarData2 } from "./SlidebarData";
+import { SlidebarData, SlidebarDataAdmin, SlidebarDataExecutionarHead, SlidebarDataSalesAndMarketing, SlidebarDataSuper } from "./SlidebarData";
 import Slidemenu from "./Slidemenu";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/mutation/userSlice";
-import logo from './../../assets/img/logo512.png'
+import logo from "./../../assets/img/logo512.png";
 // import  FaIcons from "react-icons/fa";
 // import  AiIcons from "react-icons/ai";
 const Nav = styled.div`
   position: relative;
-  background-color:var(--pr-color);
+  background-color: var(--pr-color);
   height: 50px;
   display: flex;
-   padding:0px 20px;
+  padding: 0px 20px;
   justify-content: space-between;
   align-items: center;
   .logo-span {
@@ -39,9 +39,9 @@ const NavIcon = styled(Link)`
   /* margin-top: 3rem; */
 `;
 const SlidebarNav = styled.nav`
-box-shadow: 0px 0px 7px #323a3d;
+  box-shadow: 0px 0px 7px #323a3d;
 
-  background-color:var(--pr-text-color);
+  background-color: var(--pr-text-color);
   width: 250px;
   height: 100vh;
   display: flex;
@@ -60,7 +60,7 @@ const IconStyle = styled.nav`
   margin-top: -6%;
 `;
 const Divstyle = styled.ul`
-  margin-bottom:0;
+  margin-bottom: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -83,61 +83,67 @@ function Slidebar() {
   const navigate = useNavigate();
 
   const [sidebar, setSidebar] = useState(false);
-const [token, settoken] = useState(localStorage.getItem("usertoken"));
-const [user1, setuser] = useState();
+  const [token, settoken] = useState(localStorage.getItem("usertoken"));
+  const [user1, setuser] = useState();
   let authLinks;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-useEffect(() => {
-  setuser(  JSON.parse(localStorage.getItem("user"))
-  )
-  // console.log(JSON.parse(localStorage.getItem("user")))
- settoken(localStorage.getItem("userToken"))
-}, [localStorage.getItem("usertoken"),localStorage.getItem("usera")]);
+  useEffect(() => {
+    setuser(JSON.parse(localStorage.getItem("user")));
+    // console.log(JSON.parse(localStorage.getItem("user")))
+    settoken(localStorage.getItem("userToken"));
+  }, [localStorage.getItem("usertoken"), localStorage.getItem("usera")]);
 
   const { loading, error, user, userToken, isAuthenticated } = useSelector(
     (state) => state?.user
   );
-  const logout1=()=>{
-    dispatch(logout())
-    navigate("/login")
-  }
+  const logout1 = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   if (userToken) {
-
     authLinks = (
       <Divstyle>
-        <li className="li-sidebar"
+        <li
+          className="li-sidebar"
           style={{
             textAlign: "right",
             color: "#fff",
-          
-            fontSize: "1.3rem",
-          }}>
-          Logged In as: <b>{localStorage.getItem("usera")}</b>
-        
-        </li>
-        <li className="li-sidebar" style={{fontSize:"1.3rem"}} onClick={() => logout1()}>Logout</li>
-        <li  className="li-sidebar">
-        <Link to="/setting" style={{fontSize:"20px",display:"flex",alignItems:"center"}}>
-     <AiIcons.AiFillSetting color="white"/>
-        </Link>
-        
 
+            fontSize: "1.3rem",
+          }}
+        >
+          Logged In as: <b>{localStorage.getItem("usera")}</b>
         </li>
-    
+        <li
+          className="li-sidebar"
+          style={{ fontSize: "1.3rem" }}
+          onClick={() => logout1()}
+        >
+          Logout
+        </li>
+        <li className="li-sidebar">
+          <Link
+            to="/setting"
+            style={{ fontSize: "20px", display: "flex", alignItems: "center" }}
+          >
+            <AiIcons.AiFillSetting color="white" />
+          </Link>
+        </li>
       </Divstyle>
     );
   } else {
     authLinks = (
-      <div 
-      className="login-btn"
+      <div
+        className="login-btn"
         style={{
           textAlign: "right",
           color: "#fff",
           padding: " 0 2rem ",
           fontSize: "1.6rem",
-        }}>
+        }}
+      >
         <Link to="/login">Login</Link>
       </div>
     );
@@ -168,36 +174,85 @@ useEffect(() => {
     <>
       <Style>
         <Nav id="navbar" className="main-nav-bar">
-          <NavIcon style={{fontSize:"20px"}}>
-            <FaIcons.FaBars onClick={showSidebar} color="white"/>
+          <NavIcon style={{ fontSize: "20px" }}>
+            <FaIcons.FaBars onClick={showSidebar} color="white" />
           </NavIcon>
-          <span className="logo-span">
-          </span>
+          <span className="logo-span"></span>
           {authLinks}
         </Nav>
 
         <SlidebarNav id="slidebar" sidebar={sidebar}>
           <SlidebarWrap>
             <NavIcon>
-              <IconStyle style={{fontSize:"20px"}}>
-                <AiIcons.AiOutlineClose onClick={showSidebar} color="black"/>
+              <IconStyle style={{ fontSize: "20px" }}>
+                <AiIcons.AiOutlineClose onClick={showSidebar} color="black" />
               </IconStyle>
-              <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginBottom:"50px"}} >
-               <img style={{width:"200px"}} src={logo} alt="" />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: "50px",
+                }}
+              >
+                <img style={{ width: "200px" }} src={logo} alt="" />
               </div>
             </NavIcon>
-            {user?.is_staff===true?
-
-            <>
-            {SlidebarData.map((item, index) => {
-              return <Slidemenu item={item} key={index} onClick={Autoclose} />;
-            })}
-            </>: <>
-            {SlidebarData2.map((item, index) => {
-              return <Slidemenu item={item} key={index} onClick={Autoclose} />;
-            })}
-            </>
-          }
+            {user?.is_superuser === true ? (
+              <>
+                {SlidebarDataSuper.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index} onClick={Autoclose} />
+                  );
+                })}
+              </>
+            ) : (
+              null
+            )}
+            {user?.is_admin === true ? (
+              <>
+                {SlidebarDataAdmin.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index} onClick={Autoclose} />
+                  );
+                })}
+              </>
+            ) : (
+              null
+            )}
+            {user?.is_sales_and_marketing === true ? (
+              <>
+                {SlidebarDataSalesAndMarketing.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index} onClick={Autoclose} />
+                  );
+                })}
+              </>
+            ) : (
+              null
+            )}
+            {user?.is_execution_head === true ? (
+              <>
+                {SlidebarDataExecutionarHead.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index} onClick={Autoclose} />
+                  );
+                })}
+              </>
+            ) : (
+              null
+            )}
+            {user?.is_customer === true ? (
+              <>
+                {SlidebarDataExecutionarHead.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index} onClick={Autoclose} />
+                  );
+                })}
+              </>
+            ) : (
+              null
+            )}
           </SlidebarWrap>
         </SlidebarNav>
       </Style>

@@ -35,6 +35,10 @@ import Location from "./pages/Location";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Vendor from "./pages/Vendor";
 import Employee from "./pages/Employee";
+import Enquiry from "./pages/enquiry/Enquiry";
+import EnquiryTable from "./pages/enquiry/form/EnquiryTable";
+import DesignTable from "./pages/enquiry/form/DesignTable";
+import MainDesignForm from "./pages/enquiry/form/design/MainDesignForm";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -58,6 +62,31 @@ const App = () => {
           <Route path="/thankyou" element={<ThankYou />} />
           <Route path="/download" element={<Download />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/enquiry" element={<Enquiry />} />
+          <Route path="/enquiry-table" element={
+          <Auth>
+
+            <EnquiryTable />
+          </Auth>
+          } />
+          <Route path="/design-table/:id" element={
+          <Auth>
+
+            <DesignTable />
+          </Auth>
+          } />
+          <Route path="/design-form" element={
+          <Auth>
+
+            <MainDesignForm />
+          </Auth>
+          } />
+          <Route path="/design-form/:id" element={
+          <Auth>
+
+            <MainDesignForm />
+          </Auth>
+          } />
           <Route path="/designobuild" element={<DesignLandingPage />} />
           <Route element={<Error />} />
 

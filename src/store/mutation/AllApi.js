@@ -5,7 +5,29 @@ const allApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
-  tagTypes: ["Employee","Vendor","DEALWON","ITEM_CATEGORY","USER","STATUS","Invoice", "Client", "User", "Items", "Quotation","Category","InteriorGallery","Inventory","DesignGallery","Status","MONTHLYREV","MONTHLYREVR01"], //refresh when it innvalidates
+  tagTypes: [
+    "Designs",
+    "Customer",
+    "Enquiry",
+    "Employee",
+    "Vendor",
+    "DEALWON",
+    "ITEM_CATEGORY",
+    "USER",
+    "STATUS",
+    "Invoice",
+    "Client",
+    "User",
+    "Items",
+    "Quotation",
+    "Category",
+    "InteriorGallery",
+    "Inventory",
+    "DesignGallery",
+    "Status",
+    "MONTHLYREV",
+    "MONTHLYREVR01",
+  ], //refresh when it innvalidates
   endpoints(build) {
     return {
       fetchInvoice: build.query({
@@ -105,7 +127,7 @@ const allApi = createApi({
         ],
       }),
       fetchQuotation: build.query({
-        query: ({ val, id ,client_name}) => {
+        query: ({ val, id, client_name }) => {
           return {
             url: `/api/quotation/?page=${val}&user_client_id=${id}&client_name=${client_name}`,
             method: "GET",
@@ -150,6 +172,34 @@ const allApi = createApi({
           if (id !== undefined) {
             return {
               url: `/api/quotation/${id}/`,
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            };
+          }
+        },
+      }),
+      getDesigns: build.query({
+        query: ({id}) => {
+          if (id !== undefined) {
+            return {
+              url: `/enquiry/designs/${id}/`,
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+            };
+          }
+        },
+      }),
+      getEnquiry: build.query({
+        query: (id) => {
+          if (id !== undefined) {
+            return {
+              url: `/enquiry/enquiry/${id}/`,
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -204,10 +254,12 @@ const allApi = createApi({
             : ["Client"],
       }),
       fetchItems: build.query({
-        query: ({ val, search ,item_category}) => {
-          console.log("lion",item_category)
+        query: ({ val, search, item_category }) => {
+          console.log("lion", item_category);
           return {
-            url: `/api/items/?page=${val}&search=${search}&item_category=${item_category?item_category:""}`,
+            url: `/api/items/?page=${val}&search=${search}&item_category=${
+              item_category ? item_category : ""
+            }`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -287,7 +339,6 @@ const allApi = createApi({
       }),
       deleteVendor: build.mutation({
         query: (id) => {
-    
           return {
             url: `/api2/vendor/${id}/`,
             method: "DELETE",
@@ -303,7 +354,6 @@ const allApi = createApi({
       }),
       deleteEmployee: build.mutation({
         query: (id) => {
-    
           return {
             url: `/api2/employee/${id}/`,
             method: "DELETE",
@@ -340,7 +390,7 @@ const allApi = createApi({
       createItem: build.mutation({
         query: (createJobcardData) => {
           const { user, ...data } = createJobcardData;
- 
+
           return {
             url: `/api/items/`,
             method: "POST",
@@ -359,7 +409,7 @@ const allApi = createApi({
       createVendor: build.mutation({
         query: (createJobcardData) => {
           const { user, ...data } = createJobcardData;
- 
+
           return {
             url: `/api2/vendor/`,
             method: "POST",
@@ -374,10 +424,54 @@ const allApi = createApi({
           { type: "Vendor", id: arg.id },
         ],
       }),
+      createEnquiry: build.mutation({
+        query: (createJobcardData) => {
+          const { ...data } = createJobcardData;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          return {
+            url: `/enquiry/enquires/`,
+            method: "POST",
+            body: formdata,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Enquiry", id: arg.id },
+        ],
+      }),
+      createDesign: build.mutation({
+        query: (createJobcardData) => {
+          const { ...data } = createJobcardData;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          return {
+            url: `/enquiry/designs/`,
+            method: "POST",
+            body: formdata,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Designs", id: arg.id },
+        ],
+      }),
       createEmployee: build.mutation({
         query: (createJobcardData) => {
           const { user, ...data } = createJobcardData;
- 
+
           return {
             url: `/api2/employee/`,
             method: "POST",
@@ -430,6 +524,55 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Vendor", id: arg.id },
+        ],
+      }),
+      updateEnquiry: build.mutation({
+        query: (upadate_value) => {
+          const { id, ...other } = upadate_value;
+          const { ...data } = upadate_value;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          return {
+            url: `/enquiry/enquires/${id}/`,
+            method: "PUT",
+            body: formdata,
+
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Enquiry", id: arg.id },
+        ],
+      }),
+      updateDesigns: build.mutation({
+        query: (upadate_value) => {
+          const { id, ...other } = upadate_value;
+          const { ...data } = upadate_value;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          console.log(formdata)
+          return {
+            url: `/enquiry/designs/${id}/`,
+            method: "PUT",
+            body: formdata,
+
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Designs", id: arg.id },
         ],
       }),
       upadteEmployee: build.mutation({
@@ -515,12 +658,12 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "Inventory", id })),
-              "Inventory",
-            ]
-          : ["Inventory"],
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "Inventory", id })),
+                "Inventory",
+              ]
+            : ["Inventory"],
       }),
       fetchCategory: build.query({
         query: () => {
@@ -534,12 +677,12 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "Category", id })),
-              "Category",
-            ]
-          : ["Category"],
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "Category", id })),
+                "Category",
+              ]
+            : ["Category"],
       }),
       fetchVendor: build.query({
         query: () => {
@@ -553,12 +696,50 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.results?.length
-          ? [
-              ...result?.results?.map(({ id }) => ({ type: "Vendor", id })),
-              "Vendor",
-            ]
-          : ["Vendor"],
+          result?.results?.length
+            ? [
+                ...result?.results?.map(({ id }) => ({ type: "Vendor", id })),
+                "Vendor",
+              ]
+            : ["Vendor"],
+      }),
+      fetchEnquiry: build.query({
+        query: ({user}) => {
+          return {
+            url: `/enquiry/enquires/?page=1&user=${user}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.results?.length
+            ? [
+                ...result?.results?.map(({ id }) => ({ type: "Enquiry", id })),
+                "Enquiry",
+              ]
+            : ["Enquiry"],
+      }),
+      fetchDesigns: build.query({
+        query: ({ enquiry,approval }) => {
+          return {
+            url: `/enquiry/designs/?page=1&enquiry=${enquiry}&approval=${approval}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.results?.length
+            ? [
+                ...result?.results?.map(({ id }) => ({ type: "Designs", id })),
+                "Designs",
+              ]
+            : ["Designs"],
       }),
       fetchEmployee: build.query({
         query: () => {
@@ -572,12 +753,12 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.results?.length
-          ? [
-              ...result?.results?.map(({ id }) => ({ type: "Employee", id })),
-              "Employee",
-            ]
-          : ["Employee"],
+          result?.results?.length
+            ? [
+                ...result?.results?.map(({ id }) => ({ type: "Employee", id })),
+                "Employee",
+              ]
+            : ["Employee"],
       }),
       fetchStatus: build.query({
         query: () => {
@@ -591,12 +772,28 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "Status", id })),
-              "Status",
-            ]
-          : ["Status"],
+          result?.length
+            ? [...result.map(({ id }) => ({ type: "Status", id })), "Status"]
+            : ["Status"],
+      }),
+      fetchCustomer: build.query({
+        query: () => {
+          return {
+            url: "/app/customer-user/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "Customer", id })),
+                "Customer",
+              ]
+            : ["Customer"],
       }),
       fetchInteriorGallery: build.query({
         query: () => {
@@ -610,12 +807,12 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "InteriorGallery", id })),
-              "InteriorGallery",
-            ]
-          : ["InteriorGallery"],
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "InteriorGallery", id })),
+                "InteriorGallery",
+              ]
+            : ["InteriorGallery"],
       }),
       fetchDesignGallery: build.query({
         query: () => {
@@ -629,16 +826,15 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "DesignGallery", id })),
-              "DesignGallery",
-            ]
-          : ["DesignGallery"],
-     
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "DesignGallery", id })),
+                "DesignGallery",
+              ]
+            : ["DesignGallery"],
       }),
       fetchStatusCount: build.query({
-        query: ({id}) => {
+        query: ({ id }) => {
           return {
             url: `/api/status-count/?user_client_id=${id}`,
             method: "GET",
@@ -649,13 +845,9 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "STATUS", id })),
-              "STATUS",
-            ]
-          : ["STATUS"],
-     
+          result?.length
+            ? [...result.map(({ id }) => ({ type: "STATUS", id })), "STATUS"]
+            : ["STATUS"],
       }),
       fetchItemCategoryCount: build.query({
         query: () => {
@@ -669,13 +861,12 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "ITEM_CATEGORY", id })),
-              "ITEM_CATEGORY",
-            ]
-          : ["ITEM_CATEGORY"],
-     
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "ITEM_CATEGORY", id })),
+                "ITEM_CATEGORY",
+              ]
+            : ["ITEM_CATEGORY"],
       }),
       fetchUserCount: build.query({
         query: (id) => {
@@ -689,16 +880,12 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "USER", id })),
-              "USER",
-            ]
-          : ["USER"],
-     
+          result?.length
+            ? [...result.map(({ id }) => ({ type: "USER", id })), "USER"]
+            : ["USER"],
       }),
       fetchMonthlyRevinue: build.query({
-        query: ({year}) => {
+        query: ({ year }) => {
           return {
             url: `/api/revinue/?year=${year}`,
             method: "GET",
@@ -709,16 +896,15 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "MONTHLYREV", id })),
-              "MONTHLYREV",
-            ]
-          : ["MONTHLYREV"],
-     
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "MONTHLYREV", id })),
+                "MONTHLYREV",
+              ]
+            : ["MONTHLYREV"],
       }),
       fetchMonthlyRevinuer01: build.query({
-        query: ({year}) => {
+        query: ({ year }) => {
           return {
             url: `/api/revinuer01/?year=${year}`,
             method: "GET",
@@ -729,16 +915,15 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "MONTHLYREVR01", id })),
-              "MONTHLYREVR01",
-            ]
-          : ["MONTHLYREVR01"],
-     
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "MONTHLYREVR01", id })),
+                "MONTHLYREVR01",
+              ]
+            : ["MONTHLYREVR01"],
       }),
       fetchDealWon: build.query({
-        query: ({year}) => {
+        query: ({ year }) => {
           return {
             url: `/api/deal-won/?year=${year}`,
             method: "GET",
@@ -749,13 +934,9 @@ const allApi = createApi({
           };
         },
         providesTags: (result = [], error, arg) =>
-        result?.length
-          ? [
-              ...result.map(({ id }) => ({ type: "DEALWON", id })),
-              "DEALWON",
-            ]
-          : ["DEALWON"],
-     
+          result?.length
+            ? [...result.map(({ id }) => ({ type: "DEALWON", id })), "DEALWON"]
+            : ["DEALWON"],
       }),
       upadteInventory: build.mutation({
         query: (upadate_value) => {
@@ -858,6 +1039,19 @@ export const {
   useUpadteVendorMutation,
   useCreateVendorMutation,
   useDeleteVendorMutation,
+
+  useCreateEnquiryMutation,
+  useFetchEnquiryQuery,
+  useUpdateEnquiryMutation,
+  useGetEnquiryQuery,
+
+
+  useFetchCustomerQuery,
+
+  useCreateDesignMutation,
+  useFetchDesignsQuery,
+  useUpdateDesignsMutation,
+  useGetDesignsQuery,
 } = allApi;
 
 export { allApi };

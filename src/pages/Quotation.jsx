@@ -36,11 +36,12 @@ const Quotation = () => {
   const { user } = useSelector((state) => state.user);
   const [user_id, setUser_id] = useState("");
   useEffect(() => {
-    if (user?.is_staff === true) {
+    if (user?.role === "ADMIN") {
     } else {
       setUser_id(user?.id);
     }
   }, [user]);
+  console.log("lion",user_id)
   const [searchText, setSearchText] = useState("");
 
   const {

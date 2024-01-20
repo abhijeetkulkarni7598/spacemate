@@ -32,7 +32,7 @@ const Client = () => {
   const [user_id, setUser_id] = useState("");
   useEffect(() => {
 
-   if(user?.is_staff===true){
+   if(user?.role==="ADMIN"){
     
 
    }else{

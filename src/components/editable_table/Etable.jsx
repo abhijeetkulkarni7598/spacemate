@@ -45,7 +45,7 @@ setCount(props?.data?.count)
       loading={props.loading}
       dataSource={data}
       scroll={{
-        x: 1500,
+        x: props?.scroll?props.scroll:1500,
         // y:500
       }}
       pagination={{
@@ -73,7 +73,7 @@ setCount(props?.data?.count)
         return {
           onClick: (event) => {
             // navigate(`/detail/${record.id}`);
-            props.navi(record)
+            props?.navi(record)
             
           },
         };

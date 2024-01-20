@@ -753,7 +753,7 @@ if(status&&props.data){
               <Form.Item style={{}} label="Date" name={["date"]} labelCol={5}>
                 <DatePicker format={"DD/MM/YY"} />
               </Form.Item>
-{user?.is_staff?
+{user?.role==="ADMIN"?
 
               <FormItem
                 style={{}}

@@ -43,7 +43,8 @@ export const getUser = createAsyncThunk(
   "api/account/me",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch(`${url}auth/users/me/`, {
+      // const res = await fetch(`${url}auth/users/me/`, {
+      const res = await fetch(`${url}app/me/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +54,7 @@ export const getUser = createAsyncThunk(
       });
       const data = await res.json();
 
-if(data.is_staff===true){
+if(data.role==="ADMIN"){
   // dispatch(is_staff());
   localStorage.setItem('alpha','beta')
 }else{

@@ -6,6 +6,8 @@ import { Button, Form, Input, message } from "antd";
 import { userLogin } from "../store/mutation/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import logo from "./../assets/img/logo512.png"
+
 const onFinish = ({username,password},dispatch) => {
 //   console.log(data);
 // localStorage.setItem("user", username,password);
@@ -47,15 +49,19 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login-box">
+        <div>
+<img src={logo} alt="" style={{width:"200px"}}/>
         <h2
           style={{
             textAlign: "center",
             marginBottom: "30px",
             color: "#323a3d",
           }}
-        >
-          Login
+          >
+          {/* Login */}
+
         </h2>
+          </div>
         <Form labelCol={20} onFinish={(data) => onFinish(data,dispatch)}>
           <Form.Item label="User name" name={"username"} >
             <Input placeholder="Enter Your User Name" required onChange={(e)=>setVname(e.target.value)}/>

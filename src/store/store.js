@@ -57,4 +57,17 @@ export {
   useUpadteVendorMutation,
   useCreateVendorMutation,
   useDeleteVendorMutation,
+  useCreateEnquiryMutation,
+  useFetchEnquiryQuery,
+  useUpdateEnquiryMutation,
+  useFetchCustomerQuery,
+  
+  useCreateDesignMutation,
+  useFetchDesignsQuery,
+  useUpdateDesignsMutation,
+  useGetEnquiryQuery,
+  useGetDesignsQuery,
+
+
+
 } from "./mutation/AllApi";

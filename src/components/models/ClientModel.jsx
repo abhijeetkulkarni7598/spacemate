@@ -14,7 +14,7 @@ export default function ClientModel({show,client_data}) {
     const { user } = useSelector((state) => state.user);
     const [user_id, setUser_id] = useState("");
     useEffect(() => {
-      if (user.is_staff === true) {
+      if (user.role === "ADMIN") {
       } else {
         setUser_id(user.id);
       }

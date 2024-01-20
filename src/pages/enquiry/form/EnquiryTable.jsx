@@ -1,55 +1,64 @@
 import React, { useEffect, useState } from "react";
-
-import ETable from "../components/editable_table/Etable";
-import "./../components/editable_table/etable.css";
-import { useNavigate, useParams } from "react-router-dom";
+import ETable from "../../../components/editable_table/Etable";
+import Slidebar from "../../../components/sidebar/Slidebar";
+import { Popconfirm, Select, Skeleton, message } from "antd";
 import {
-  useDeleteClientMutation,
-  useDeleteEmployeeMutation,
-  useFetchClientQuery,
-  useFetchEmployeeQuery,
-  useGetClientQuery,
-} from "../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { checkAuth } from "../store/mutation/userSlice";
-import { Button, Input, Popconfirm, Skeleton, message } from "antd";
-import useFormItemStatus from "antd/es/form/hooks/useFormItemStatus";
-
-import { ReactComponent as Cross } from "./../assets/img/close.svg";
-import Clientform from "../components/quotationfrom/Clientform";
-import Slidebar from "../components/sidebar/Slidebar";
+  useFetchCustomerQuery,
+  useFetchEnquiryQuery,
+  useUpdateEnquiryMutation,
+} from "../../../store/store";
 import { BiEdit, BiTrash } from "react-icons/bi";
-import Employeeform from "../components/quotationfrom/Employeeform";
+import { Option } from "antd/es/mentions";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Employee = () => {
-  const [show, setShow] = useState(false);
-  const [id, setid] = useState();
-  const navigate = useNavigate();
-  const { client_page } = useSelector((state) => state.user);
-  const { user } = useSelector((state) => state.user);
-  const [user_id, setUser_id] = useState("");
+const EnquiryTable = () => {
+  const [updateEnquiry, updateEnquiryResponseInfo] = useUpdateEnquiryMutation();
   useEffect(() => {
-    if (user?.role === "ADMIN") {
-    } else {
-      setUser_id(user?.id);
+    if (updateEnquiryResponseInfo?.isSuccess) {
+      message.success("User Set Successfull");
     }
-  }, [user]);
+  }, [updateEnquiryResponseInfo]);
+  const navigate = useNavigate();
+  const { user, userToken, checkAuthLoading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
+ const [user_id, setUser_id] = useState("");
+
   const {
     data: data,
     isLoading: loading,
     isFetching: fetch,
     error: error,
-  } = useFetchEmployeeQuery({
-    val: client_page,
-    id: user_id,
-  });
-
-  // const dispatch = useDispatch()
-  // useEffect(() => {
-  //   dispatch(checkAuth());
-  // }, []);
+  } = useFetchEnquiryQuery({user:user_id});
+  const {
+    data: customer_data,
+    isLoading: customer_loading,
+    isFetching: customer_fetch,
+    error: customer_error,
+  } = useFetchCustomerQuery();
   const [columns, setColumn] = useState();
 
+  const create_client = () => {};
+  const deletethis = (e) => {
+    e.stopPropagation();
+  };
+  const editfun = () => {};
+  const navi = (data) => {
+    navigate(`/design-table/${data.id}`);
+  };
+  const handleSelect = (data, record) => {
+    const { user, floor_plain, ...other } = record;
+    const newData = { user: data, ...other };
+
+    updateEnquiry(newData);
+  };
+  useEffect(() => {
+    if (user?.is_customer) {
+setUser_id(user?.id)
+    }
+  }, [user]);
+  const client_page = 1;
   useEffect(() => {
     if (user_id) {
       setColumn([
@@ -81,14 +90,37 @@ const Employee = () => {
           width: 200,
         },
         {
+          title: "User",
+          dataIndex: "user",
+          key: "id",
+          width: "15%",
+          render: (text, record, index) => {
+            return (
+              <p>
+                {
+                  customer_data?.filter(
+                    (item) => parseInt(item.id) === parseInt(record.user)
+                  )[0]?.username
+                }
+              </p>
+            );
+          },
+        },
+        {
+          title: "Floor Plan",
+          dataIndex: "floor_plain",
+          key: "id",
+          width: 300,
+        },
+        {
           title: "Phone",
-          dataIndex: "phone",
+          dataIndex: "mobile",
           key: "id",
         },
 
         {
-          title: "Site Address",
-          dataIndex: "site_address",
+          title: "Address",
+          dataIndex: "address",
           key: "id",
           width: 300,
         },
@@ -117,6 +149,7 @@ const Employee = () => {
           key: "id",
           //   ...getColumnSearchProps('name'),
           width: 100,
+          fixed: "left",
           render: (text, record, index) => {
             return <span>{client_page * 10 - 10 + index + 1}</span>;
           },
@@ -137,14 +170,53 @@ const Employee = () => {
           width: 200,
         },
         {
+          title: "User",
+          dataIndex: "user",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
+                {/* {
+                        status?.filter(
+                          (item) => parseInt(item.id) === parseInt(record.status)
+                        )[0]?.status
+                      } */}
+
+                <Select
+                  onSelect={(data) => handleSelect(data, record)}
+                  value={
+                    customer_data?.filter(
+                      (item) => parseInt(item.id) === parseInt(record.user)
+                    )[0]?.username
+                  }
+                  style={{ width: "150px" }}
+                >
+                  {customer_data?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.username}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            );
+          },
+        },
+        {
+          title: "Floor Plan",
+          dataIndex: "floor_plain",
+          key: "id",
+          width: 300,
+        },
+        {
           title: "Phone",
-          dataIndex: "number",
+          dataIndex: "mobile",
           key: "id",
         },
 
         {
-          title: "Site Address",
-          dataIndex: "permanent_address",
+          title: "Address",
+          dataIndex: "address",
           key: "id",
           width: 300,
         },
@@ -173,7 +245,8 @@ const Employee = () => {
           render: (record) => (
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => deletethis(record)}
+              onConfirm={(e) => deletethis(e, record)}
+              onCancel={(e) => e.stopPropagation()}
             >
               {/* <a style={{color:"red"}}>Delete</a> */}
               <BiTrash
@@ -188,81 +261,18 @@ const Employee = () => {
         },
       ]);
     }
-  }, [user_id, client_page]);
-  const [formdata, setFormdata] = useState();
-
-  const create_client = () => {
-    // navigate(`/create_client`)
-    setFormdata();
-    setid();
-    setShow(true);
-  };
-  const [deleteClient, deleteClientResponseInfo] = useDeleteEmployeeMutation();
-
-  useEffect(() => {
-    if (deleteClientResponseInfo?.status === "fulfilled") {
-      message.success("Delete Successfull");
-    }
-  }, [deleteClientResponseInfo]);
-  const editfun = (record) => {
-    // navigate(`/create_client/${record.id}`)
-    setShow(true);
-    setFormdata(record);
-    setid(record.id);
-  };
-  const deletethis = (record) => {
-    // navigate(`/create_client/${record.id}`)
-    console.log("delete this ", record.id);
-    deleteClient(record.id);
-  };
-  const shows = (data) => {
-    setShow(data);
-  };
-  // const { id } = useParams();
-  // const {data: formdata, isLoading: client_loading,isSuccess:here} = useGetClientQuery(id);
-  const CreateClinet = () => {
-    return (
-      <div>
-        {id ? (
-          <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-            Update Employee
-          </h2>
-        ) : (
-          <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-            Create Employee
-          </h2>
-        )}
-        {id ? (
-          <Employeeform show={shows} datas={formdata} id={id} />
-        ) : (
-          <Employeeform show={shows} id={id} />
-        )}
-      </div>
-    );
-  };
-
-  const ClientForm = () => {
-    return (
-      <>
-        <div className="model-con">
-          <div className="model-box" style={{ width: "80vw" }}>
-            {/* <Cross  className="model-cross" onClick={()=>setShow(false)}/> */}
-            <CreateClinet />
-          </div>
-        </div>
-      </>
-    );
-  };
-
+  }, [customer_data, data,user_id]);
   return (
     <div>
       {/* <Navbar/> */}
       <Slidebar />
 
       <div className="for-etable">
-        {/* <h2 className='e-table-h2' >Prospect List</h2> */}
+        <h2 className="e-table-h2">Enquiry Table</h2>
+        {user_id?null:
+
         <button
-          style={{
+        style={{
             padding: "10px 40px",
             borderRadius: "7px",
             border: "none",
@@ -275,8 +285,9 @@ const Employee = () => {
           }}
           onClick={create_client}
         >
-          Create New Employee
+          Create New Enquiry
         </button>
+        }
 
         {loading && columns ? (
           <Skeleton />
@@ -284,15 +295,16 @@ const Employee = () => {
           <ETable
             data={data}
             columns={columns}
-            loading={fetch}
+            loading={fetch || updateEnquiryResponseInfo?.isLoading}
             page={client_page}
             error={error}
+            navi={navi}
           />
         )}
-        {show ? <ClientForm /> : null}
+        {/* {show ? <ClientForm /> : null} */}
       </div>
     </div>
   );
 };
 
-export default Employee;
+export default EnquiryTable;
