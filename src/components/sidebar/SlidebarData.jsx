@@ -43,6 +43,16 @@ export const SlidebarDataSuper = [
     path: "/enquiry-table",
     icon: <FaIcons.FaClipboardList />,
   },
+  {
+    title: "Execution Table",
+    path: "/execution-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Execution",
+    path: "/execution-project",
+    icon: <FaIcons.FaClipboardList />,
+  },
 
 ];
 export const SlidebarDataAdmin = [

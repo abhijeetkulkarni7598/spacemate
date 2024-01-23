@@ -31,7 +31,7 @@ const Login = () => {
  if(userToken&&loading===false&&checkAuthLoading===false&&isAuthenticated===true){
   localStorage.setItem('usera',vname)
   message.success("SuccessFull Login")
-  navigate('/client')
+  navigate('/home')
 
  }
  if(userToken&&loading===false&&checkAuthLoading===false&&isAuthenticated===false){
@@ -40,7 +40,7 @@ const Login = () => {
  }
 
  if(isAuthenticated===true){
-  navigate('/client')
+  navigate('/home')
 
  }
   }, [loading]);

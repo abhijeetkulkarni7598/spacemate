@@ -81,4 +81,5 @@ input{
 
 .bi-edit:hover{
 color: var(--pr-color)!important;
+cursor: pointer;
 }

@@ -39,6 +39,9 @@ import Enquiry from "./pages/enquiry/Enquiry";
 import EnquiryTable from "./pages/enquiry/form/EnquiryTable";
 import DesignTable from "./pages/enquiry/form/DesignTable";
 import MainDesignForm from "./pages/enquiry/form/design/MainDesignForm";
+import ExecutionTable from "./pages/execution/ExecutionTable";
+import MainExecution from "./pages/execution/MainExecution";
+import CommonPage from "./pages/commonpage/CommonPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -63,6 +66,15 @@ const App = () => {
           <Route path="/download" element={<Download />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/enquiry" element={<Enquiry />} />
+          <Route path="/execution-table" element={<ExecutionTable />} />
+          {/* <Route path="/execution-project" element={<MainExecution />} /> */}
+          <Route path="/execution-project/:id" element={<MainExecution />} />
+          <Route path="/home" element={
+          <Auth>
+
+            <CommonPage />
+          </Auth>
+          } />
           <Route path="/enquiry-table" element={
           <Auth>
 

@@ -6,6 +6,10 @@ const allApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
   refetchOnMountOrArgChange: true,
   tagTypes: [
+    "Project",
+    "ExecutionUser",
+    "ExecutionDesign",
+    "ExecutionModel",
     "Designs",
     "Customer",
     "Enquiry",
@@ -446,6 +450,92 @@ const allApi = createApi({
           { type: "Enquiry", id: arg.id },
         ],
       }),
+      createExecutionDesign: build.mutation({
+        query: (createJobcardData) => {
+          const { ...data } = createJobcardData;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          return {
+            url: `/execution/designs/`,
+            method: "POST",
+            body: formdata,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "ExecutionDesign", id: arg.id },
+        ],
+      }),
+      createProject: build.mutation({
+        query: (createJobcardData) => {
+          const { ...data } = createJobcardData;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          return {
+            url: `/execution/model-users/`,
+            method: "POST",
+            body: formdata,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Project", id: arg.id },
+          { type: "ExecutionUser" },
+        ],
+      }),
+      deleteProject: build.mutation({
+        query: (createJobcardData) => {
+          const { ...data } = createJobcardData;
+          const { id,...other } = createJobcardData;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          return {
+            url: `/execution/model-users/${id}/`,
+            method: "DELETE",
+            // body: formdata,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Project", id: arg.id },
+          { type: "ExecutionUser" },
+        ],
+      }),
+      deleteExecutionDesign: build.mutation({
+        query: (createJobcardData) => {
+          const { id,...data } = createJobcardData;
+
+          return {
+            url: `/execution/designs/${id}/`,
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "ExecutionDesign", id: arg.id },
+        ],
+      }),
       createDesign: build.mutation({
         query: (createJobcardData) => {
           const { ...data } = createJobcardData;
@@ -573,6 +663,31 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Designs", id: arg.id },
+        ],
+      }),
+      updateExecutionModel: build.mutation({
+        query: (upadate_value) => {
+          const { id, ...other } = upadate_value;
+          const { ...data } = upadate_value;
+
+          var formdata = new FormData();
+          Object.keys(data).map((form_key) =>
+            formdata.append(form_key, data[form_key] || "")
+          );
+          console.log(formdata)
+          return {
+            url: `/execution/stepsModel/${id}/`,
+            method: "PUT",
+            body: formdata,
+
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "ExecutionModel", id: arg.id },
         ],
       }),
       upadteEmployee: build.mutation({
@@ -740,6 +855,63 @@ const allApi = createApi({
                 "Designs",
               ]
             : ["Designs"],
+      }),
+      fetchExecutionModel: build.query({
+        query: (id) => {
+          return {
+            url: `/execution/stepsModel/user/?id=${id}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "ExecutionModel", id })),
+                "ExecutionModel",
+              ]
+            : ["ExecutionModel"],
+      }),
+      fetchExecutionUsers: build.query({
+        query: () => {
+          return {
+            url: `/execution/model-users/`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "ExecutionUser", id })),
+                "ExecutionUser",
+              ]
+            : ["ExecutionUser"],
+      }),
+      fetchExecutionDesigns: build.query({
+        query: (id) => {
+          return {
+            url: `/execution/designs/stepsmodel/?id=${id}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "ExecutionDesign", id })),
+                "ExecutionDesign",
+              ]
+            : ["ExecutionDesign"],
       }),
       fetchEmployee: build.query({
         query: () => {
@@ -1052,6 +1224,17 @@ export const {
   useFetchDesignsQuery,
   useUpdateDesignsMutation,
   useGetDesignsQuery,
+
+  useFetchExecutionModelQuery,
+  useUpdateExecutionModelMutation,
+  useFetchExecutionDesignsQuery,
+  useCreateExecutionDesignMutation,
+  useDeleteExecutionDesignMutation,
+
+  useFetchExecutionUsersQuery,
+
+  useCreateProjectMutation,
+  useDeleteProjectMutation,
 } = allApi;
 
 export { allApi };

@@ -269,7 +269,7 @@ setUser_id(user?.id)
 
       <div className="for-etable">
         <h2 className="e-table-h2">Enquiry Table</h2>
-        {user_id?null:
+        {/* {user_id?null:
 
         <button
         style={{
@@ -287,7 +287,7 @@ setUser_id(user?.id)
         >
           Create New Enquiry
         </button>
-        }
+        } */}
 
         {loading && columns ? (
           <Skeleton />
