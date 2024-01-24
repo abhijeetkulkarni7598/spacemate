@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { SlidebarData, SlidebarDataAdmin, SlidebarDataExecutionarHead, SlidebarDataSalesAndMarketing, SlidebarDataSuper } from "./SlidebarData";
+import { SlidebarData, SlidebarDataAdmin, SlidebarDataExecutionarHead, SlidebarDataExecutionarHead2, SlidebarDataSalesAndMarketing, SlidebarDataSuper } from "./SlidebarData";
 import Slidemenu from "./Slidemenu";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/mutation/userSlice";
 import logo from "./../../assets/img/logo512.png";
+import {useFetchExecutionModelQuery} from './../../store/store'
 // import  FaIcons from "react-icons/fa";
 // import  AiIcons from "react-icons/ai";
 const Nav = styled.div`
@@ -97,6 +98,13 @@ function Slidebar() {
   const { loading, error, user, userToken, isAuthenticated } = useSelector(
     (state) => state?.user
   );
+
+  const {
+    data: project_data,
+    isLoading: project_loading,
+    isFetching: fetch,
+    error: project_error,
+  } = useFetchExecutionModelQuery(user?.id);
   const logout1 = () => {
     dispatch(logout());
     navigate("/login");
@@ -244,11 +252,23 @@ function Slidebar() {
             )}
             {user?.is_customer === true ? (
               <>
-                {SlidebarDataExecutionarHead.map((item, index) => {
+              {project_data&&project_data.length>0?
+<>
+{SlidebarDataExecutionarHead2.map((item, index) => {
                   return (
                     <Slidemenu item={item} key={index} onClick={Autoclose} />
-                  );
-                })}
+                    );
+                  })}
+</>
+              :
+              <>
+                {SlidebarDataExecutionarHead.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index}  onClick={Autoclose} />
+                    );
+                  })}
+                  </>
+                }
               </>
             ) : (
               null

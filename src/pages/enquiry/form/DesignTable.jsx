@@ -28,9 +28,11 @@ const DesignTable = () => {
     (state) => state.user
   );
   const [approval, setApproval] = useState("");
+  const [user_id, setUser_id] = useState("");
   useEffect(() => {
  if(user?.is_customer){
   setApproval("Rejected")
+  setUser_id(user.id)
  }
   }, [user]);
   const {
@@ -62,7 +64,7 @@ const DesignTable = () => {
 
     updateDesign(newData);
   };
-  const user_id = null;
+
   const client_page = 1;
   useEffect(() => {
     if (user_id) {
@@ -92,8 +94,31 @@ const DesignTable = () => {
           dataIndex: "approval",
           key: "id",
           width: 100,
+          render: (text, record, index) => {
+            return (
+              <>
+                {/* {
+                        status?.filter(
+                          (item) => parseInt(item.id) === parseInt(record.status)
+                        )[0]?.status
+                      } */}
 
-          //   ...getColumnSearchProps('name'),
+                <Select
+                  onSelect={(data) => handleSelect(data, record)}
+                  value={
+                    ApprovalArray?.filter((item) => item === record.approval)[0]
+                  }
+                  style={{ width: "150px" }}
+                >
+                  {ApprovalArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            );
+          },
         },
         {
           title: "Image",

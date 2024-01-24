@@ -14,7 +14,7 @@ const MainExecution = () => {
         error: error,
       } = useFetchExecutionModelQuery(id);
       console.log(data)
-      
+   
   return (
     <div>
         <Slidebar/>

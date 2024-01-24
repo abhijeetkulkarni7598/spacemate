@@ -3,6 +3,8 @@ import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
 import { useCreateDesignMutation, useUpdateDesignsMutation } from "../../../../store/store";
 import { useNavigate } from "react-router-dom";
+import PdfViewer from "../../../commonpage/PdfViewer";
+import { useSelector } from "react-redux";
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 20 },
@@ -18,6 +20,15 @@ const CreateDesignForm = ({ query,datas }) => {
     console.log(data)
     updateEnquiry(data)
   };
+  const { user, userToken, checkAuthLoading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
+  const [user_id, setUser_id] = useState("");
+  useEffect(() => {
+ if(user?.is_customer){
+  setUser_id(user.id)
+ }
+  }, [user]);
   const [createEnquiry, createEnquiryResponseInfo] = useCreateDesignMutation();
   const [updateEnquiry, upadteEnquiryResponseInfo] = useUpdateDesignsMutation();
   const navigate=useNavigate()
@@ -74,6 +85,12 @@ if(datas){
       }}
     >
       <div style={{ width: "800px" }}>
+      {user_id?<>
+        {datas?.image?
+<PdfViewer data={datas.image}/>:null
+
+}
+      </>:<>
         <Form
           form={form}
           name="dynamic_form_nest_item"
@@ -118,6 +135,10 @@ setImage(event.target.value)
     }}
   />
 </Form.Item>
+{datas?.image?
+<PdfViewer data={datas.image}/>:null
+
+}
 {image ? <>{image}</> : <>
 null
 </>
@@ -133,11 +154,14 @@ null
               type="primary"
               htmlType="submit"
               style={{ marginRight: "40px", background: "var(--pr-color) " }}
-            >
+              >
               {datas ? <>Update</> : <>Submit</>}
             </Button>
           </Form.Item>
+      
         </Form>
+      </>}
+       
       </div>
     </div>
   );

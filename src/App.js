@@ -42,6 +42,7 @@ import MainDesignForm from "./pages/enquiry/form/design/MainDesignForm";
 import ExecutionTable from "./pages/execution/ExecutionTable";
 import MainExecution from "./pages/execution/MainExecution";
 import CommonPage from "./pages/commonpage/CommonPage";
+import ExeAuth from "./store/ExeAuth";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -66,7 +67,12 @@ const App = () => {
           <Route path="/download" element={<Download />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/enquiry" element={<Enquiry />} />
-          <Route path="/execution-table" element={<ExecutionTable />} />
+          <Route path="/execution-table" element={
+            <ExeAuth>
+
+          <ExecutionTable />
+            </ExeAuth>
+          } />
           {/* <Route path="/execution-project" element={<MainExecution />} /> */}
           <Route path="/execution-project/:id" element={<MainExecution />} />
           <Route path="/home" element={

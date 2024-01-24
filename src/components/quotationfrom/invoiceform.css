@@ -83,3 +83,31 @@ input{
 color: var(--pr-color)!important;
 cursor: pointer;
 }
+
+.main-project-box{
+    display: flex;
+}
+
+.project-step-box{
+    margin: 20px 0px;
+    padding: 20px;
+    
+}
+
+
+
+@media screen and (max-width: 700px) {
+   
+
+
+    .main-project-box{
+        flex-direction: column;
+        padding: 20px;
+    }
+    .project-step-box{
+        margin: 10px 0px;
+        padding: 10px;
+    }
+    /* color: var(--main-text-color); */
+ }
+ 

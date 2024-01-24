@@ -136,7 +136,7 @@ navigate(`/execution-project/${record.id}`)
       key: "id",
       fixed: "right",
       width: "50px",
-
+// backgroundColor:"red!important",
       render: (record) => (
         <FaEye
           className="bi-edit FaEye"
@@ -171,6 +171,9 @@ navigate(`/execution-project/${record.id}`)
       ),
     },
   ];
+  const getRowClassName = (record, index) => {
+    return index % 2 === 0 ? 'even-row' : 'odd-row';
+  };
   const [show, setShow] = useState(false);
   return (
     <div className="for-etable">
@@ -195,6 +198,7 @@ navigate(`/execution-project/${record.id}`)
         className="custom-table-ant"
         dataSource={user_data}
         columns={columns}
+        rowClassName={getRowClassName}
       />
       
     {show?
