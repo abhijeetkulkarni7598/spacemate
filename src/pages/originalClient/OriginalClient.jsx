@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
 
-import ETable from '../components/editable_table/Etable';
-import "./../components/editable_table/etable.css"
+import ETable from '../../components/editable_table/Etable';
+import "./../../components/editable_table/etable.css"
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateClientMutation, useCreateCustomerMutation, useDeleteClientMutation, useFetchClientQuery, useFetchStatusQuery, useGetClientQuery, useUpdateEnquiryMutation } from '../store/store';
+import { useCreateClientMutation, useCreateCustomerMutation, useDeleteClientMutation, useFetchClientQuery, useGetClientQuery, useUpdateEnquiryMutation } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuth } from '../store/mutation/userSlice';
-import { Button, Input, Popconfirm, Select, Skeleton, message } from 'antd';
-import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
 
-import { ReactComponent as Cross } from "./../assets/img/close.svg";
-import Clientform from '../components/quotationfrom/Clientform';
-import Slidebar from '../components/sidebar/Slidebar';
+import { Button, Input, Popconfirm, Skeleton, message } from 'antd';
+
+
+
+import Clientform from '../../components/quotationfrom/Clientform';
+import Slidebar from '../../components/sidebar/Slidebar';
 import { BiEdit, BiTrash } from 'react-icons/bi';
-import { Option } from 'antd/es/mentions';
 
 
 
 
 
 
-const Client = () => {
+const OriginalClient = () => {
   const [show, setShow] = useState(false);
   const [id, setid] = useState();
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ const Client = () => {
    }
   }, [user]);
   const { data: data, isLoading: loading,isFetching:fetch ,error:error} = useFetchClientQuery({
-    val:client_page,id:user_id,status:"Prospect"
+    val:client_page,id:user_id,status:"Client"
   });
 
   // const dispatch = useDispatch()
@@ -78,18 +77,6 @@ const handleSelectStatus = (record) => {
   updateEnquiry(newData);
 
 }
-const handleSelect = (data, record) => {
-  // record.status=data
-  const { customer_status,floor_plain, ...remain } = record;
-  const newData = { ...remain,floor_plain, customer_status: data };
-
-  updateEnquiry(newData);
-};
-const {
-  data: status,
-  isLoading: statusLoading,
-  isFetching: statusFetching,
-} = useFetchStatusQuery();
 useEffect(() => {
 if(createCustomerResponseInfo?.isSuccess){
   console.log(createCustomerResponseInfo?.data)
@@ -202,41 +189,6 @@ if(createCustomerResponseInfo?.isError){
         key: 'id',
       //   ...getColumnSearchProps('age'),
       },
-      {
-        title: "Status",
-        dataIndex: "customer_status",
-        key: "id",
-        width: 160,
-        render: (text, record, index) => {
-          return (
-            <>
-              {/* {
-                status?.filter(
-                  (item) => parseInt(item.id) === parseInt(record.status)
-                )[0]?.status
-              } */}
-
-              <Select
-                optionFilterProp="children"
-
-                onSelect={(data) => handleSelect(data, record)}
-                value={
-                  status?.filter(
-                    (item) => parseInt(item.id) === parseInt(record.customer_status)
-                  )[0]?.status
-                }
-                style={{ width: "150px" }}
-              >
-                {status?.map((item) => (
-                  <Option value={item.id} key={item.id}>
-                    {item.status}
-                  </Option>
-                ))}
-              </Select>
-            </>
-          );
-        },
-      },
 
       {
         title: 'Cx Email',
@@ -261,22 +213,7 @@ if(createCustomerResponseInfo?.isError){
   
    
       },
-      {
-        title: ' ',
-        key: 'id',
-        fixed: 'right',
-        width:120,
-
-        render: (record) => 
-        
-  <Popconfirm title="Sure to Create An User?" onConfirm={() => handleRegister(record)}>
-  <Button size="small"  >
-
-Register
-     </Button>
-</Popconfirm>
-  
-      },
+    
       {
         title: ' ',
         key: 'id',
@@ -317,7 +254,7 @@ Register
       },
     ])
   }
- }, [user_id,client_page,status]);
+ }, [user_id,client_page]);
  const [formdata, setFormdata] = useState();
   
 const create_client=()=>{
@@ -392,7 +329,7 @@ const navi=()=>{
                 {/* <button  style={{padding:"10px 40px" ,borderRadius:"7px" ,border:"none",backgroundColor:"#0253a2",color:"white",fontSize:"15px",fontWeight:"bolder",cursor:"pointer",marginBottom:"30px"}} onClick={create_client}>Create New Prospect</button> */}
             
                 {loading&&columns?<Skeleton />:
-        <ETable data={data}  columns={columns} loading={fetch||statusFetching}  page={client_page} error={error} navi={navi}/>
+        <ETable data={data}  columns={columns} loading={fetch}  page={client_page} error={error} navi={navi}/>
                 }
            {show?<ClientForm/>:null
            }
@@ -401,4 +338,4 @@ const navi=()=>{
     );
 }
 
-export default Client;
+export default OriginalClient;

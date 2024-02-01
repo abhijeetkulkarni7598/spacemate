@@ -43,6 +43,7 @@ import ExecutionTable from "./pages/execution/ExecutionTable";
 import MainExecution from "./pages/execution/MainExecution";
 import CommonPage from "./pages/commonpage/CommonPage";
 import ExeAuth from "./store/ExeAuth";
+import OriginalClient from "./pages/originalClient/OriginalClient";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -118,10 +119,18 @@ const App = () => {
             }
           />
           <Route
-            path="/client"
+            path="/prospect"
             element={
               <Auth>
                 <Client />
+              </Auth>
+            }
+          />
+          <Route
+            path="/client"
+            element={
+              <Auth>
+                <OriginalClient />
               </Auth>
             }
           />
@@ -249,3 +258,9 @@ export default App;
 //proper error everywhere(done)
 //specification limit 500(done)
 //emp-data client_name/date(done)
+
+
+
+// 27/1/24
+// equyiry show to person who careted
+//reject revision

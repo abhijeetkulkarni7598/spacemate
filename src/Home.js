@@ -11,6 +11,7 @@ import WhatsApp from './components/common/WhatsApp'
 import PhoneCall from './components/common/PhoneCall'
 
 const Home = () => {
+
   return (
     <div>
       <Navbar />

@@ -13,6 +13,11 @@ export const SlidebarDataSuper = [
   },
   {
     title: "Prospect Table",
+    path: "/prospect",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Client Table",
     path: "/client",
     icon: <FaIcons.FaClipboardList />,
   },

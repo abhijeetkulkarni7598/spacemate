@@ -1,17 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ETable from "../../../components/editable_table/Etable";
 import Slidebar from "../../../components/sidebar/Slidebar";
-import { Popconfirm, Select, Skeleton, message } from "antd";
+import {
+  Button,
+  Input,
+  Popconfirm,
+  Select,
+  Skeleton,
+  Space,
+  message,
+} from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+
 import {
   useFetchCustomerQuery,
   useFetchEnquiryQuery,
+  useFetchStatusQuery,
   useUpdateEnquiryMutation,
 } from "../../../store/store";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { FaEye } from "react-icons/fa";
+import PdfViewer from "./../../commonpage/PdfViewer";
+import { MdViewList } from "react-icons/md";
+import { Filter_Enquiry } from "../../../store/mutation/userSlice";
+import { EnquiryStatusArray } from "../../../components/Functions/State";
 
+const ViewModel = ({ performCancel, getData }) => {
+  return (
+    <>
+      <div className="model-con">
+        <div className="model-box" style={{ width: "80vw" }}>
+          <PdfViewer data={getData} />
+          {getData}
+          <div style={{ margin: "20px 0px" }}>
+            <Button onClick={() => performCancel()} type="primary" danger>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 const EnquiryTable = () => {
   const [updateEnquiry, updateEnquiryResponseInfo] = useUpdateEnquiryMutation();
   useEffect(() => {
@@ -20,17 +54,23 @@ const EnquiryTable = () => {
     }
   }, [updateEnquiryResponseInfo]);
   const navigate = useNavigate();
-  const { user, userToken, checkAuthLoading, isAuthenticated } = useSelector(
-    (state) => state.user
-  );
- const [user_id, setUser_id] = useState("");
+  const { user, userToken, enquiry_page,filter_enquiry, checkAuthLoading, isAuthenticated } =
+    useSelector((state) => state.user);
+  const [user_id, setUser_id] = useState("");
+const dispatch=useDispatch()
+  const handleChange = (pagination, filters, sorter) => {
+    console.log(pagination);
+    dispatch(Filter_Enquiry(filters));
+   
 
+    console.log(sorter);
+  };
   const {
     data: data,
     isLoading: loading,
     isFetching: fetch,
     error: error,
-  } = useFetchEnquiryQuery({user:user_id});
+  } = useFetchEnquiryQuery({ user: user_id, page: enquiry_page ,name:filter_enquiry.name===null?"": filter_enquiry?.name[0]});
   const {
     data: customer_data,
     isLoading: customer_loading,
@@ -43,22 +83,156 @@ const EnquiryTable = () => {
   const deletethis = (e) => {
     e.stopPropagation();
   };
-  const editfun = () => {};
+  const [getData, setGetData] = useState();
+  const [showFloorPlan, setShowFloorPlan] = useState(false);
+  const performCancel = () => {
+    setGetData();
+    setShowFloorPlan(false);
+  };
+  const editfun = (record) => {
+    setGetData(record.floor_plain);
+    setShowFloorPlan(true);
+  };
   const navi = (data) => {
+    // navigate(`/design-table/${data.id}`);
+  };
+  const navi2 = (data) => {
     navigate(`/design-table/${data.id}`);
   };
   const handleSelect = (data, record) => {
-    const { user, floor_plain, ...other } = record;
-    const newData = { user: data, ...other };
+    const { customer_id, floor_plain, ...other } = record;
+    const newData = { customer_id: data, ...other };
 
     updateEnquiry(newData);
   };
+  const handleSelectCustomerStatus = (data, record) => {
+    const { status, floor_plain, ...other } = record;
+    const newData = { status: data, ...other };
+    updateEnquiry(newData);
+
+  };
   useEffect(() => {
     if (user?.is_customer) {
-setUser_id(user?.id)
+      setUser_id(user?.id);
     }
   }, [user]);
-  const client_page = 1;
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+      filter,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{}}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+          >
+            Reset
+          </Button>
+          {/* <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button> */}
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <>
+        <SearchOutlined
+          className="SearchOutlined"
+          style={{
+            color: filtered ? "#ffffff" : undefined,
+          }}
+        />
+      </>
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+    filteredValue:
+    filter_enquiry[dataIndex] || undefined,
+  });
+
+
   useEffect(() => {
     if (user_id) {
       setColumn([
@@ -70,7 +244,7 @@ setUser_id(user?.id)
           width: 100,
           fixed: "left",
           render: (text, record, index) => {
-            return <span>{client_page * 10 - 10 + index + 1}</span>;
+            return <span>{enquiry_page * 10 - 10 + index + 1}</span>;
           },
         },
         {
@@ -79,7 +253,6 @@ setUser_id(user?.id)
           key: "id",
           width: "100",
           fixed: "left",
-
           //   ...getColumnSearchProps('name'),
         },
 
@@ -90,8 +263,8 @@ setUser_id(user?.id)
           width: 200,
         },
         {
-          title: "User",
-          dataIndex: "user",
+          title: "Customer",
+          dataIndex: "customer_id",
           key: "id",
           width: "15%",
           render: (text, record, index) => {
@@ -106,12 +279,7 @@ setUser_id(user?.id)
             );
           },
         },
-        {
-          title: "Floor Plan",
-          dataIndex: "floor_plain",
-          key: "id",
-          width: 300,
-        },
+       
         {
           title: "Phone",
           dataIndex: "mobile",
@@ -130,7 +298,23 @@ setUser_id(user?.id)
           fixed: "right",
           width: 50,
           render: (record) => (
-            <BiEdit
+            <MdViewList
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navi2(record);
+              }}
+            />
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaEye
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
@@ -151,14 +335,16 @@ setUser_id(user?.id)
           width: 100,
           fixed: "left",
           render: (text, record, index) => {
-            return <span>{client_page * 10 - 10 + index + 1}</span>;
+            return <span>{enquiry_page * 10 - 10 + index + 1}</span>;
           },
         },
         {
           title: "Name",
           dataIndex: "name",
-          key: "id",
+          key: "name",
           width: "100",
+
+          ...getColumnSearchProps("name"),
 
           //   ...getColumnSearchProps('name'),
         },
@@ -166,23 +352,42 @@ setUser_id(user?.id)
         {
           title: "Cx Email",
           dataIndex: "email",
-          key: "id",
+          key: "email",
           width: 200,
+          // ...getColumnSearchProps("email"),
         },
         {
-          title: "User",
-          dataIndex: "user",
+          title: "Customer Status",
+          dataIndex: "status",
           key: "id",
           width: 160,
           render: (text, record, index) => {
             return (
               <>
-                {/* {
-                        status?.filter(
-                          (item) => parseInt(item.id) === parseInt(record.status)
-                        )[0]?.status
-                      } */}
-
+                <Select
+                  onSelect={(data) => handleSelectCustomerStatus(data, record)}
+                 value={text}
+                  style={{ width: "150px" }}
+                >
+                  {EnquiryStatusArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            );
+          },
+        },
+       
+        {
+          title: "Customer",
+          dataIndex: "customer_id",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
                 <Select
                   onSelect={(data) => handleSelect(data, record)}
                   value={
@@ -202,12 +407,7 @@ setUser_id(user?.id)
             );
           },
         },
-        {
-          title: "Floor Plan",
-          dataIndex: "floor_plain",
-          key: "id",
-          width: 300,
-        },
+    
         {
           title: "Phone",
           dataIndex: "mobile",
@@ -226,7 +426,23 @@ setUser_id(user?.id)
           fixed: "right",
           width: 50,
           render: (record) => (
-            <BiEdit
+            <MdViewList
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navi2(record);
+              }}
+            />
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaEye
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
@@ -261,7 +477,8 @@ setUser_id(user?.id)
         },
       ]);
     }
-  }, [customer_data, data,user_id]);
+  }, [customer_data, data, user_id, searchText, searchedColumn, filter_enquiry]);
+
   return (
     <div>
       {/* <Navbar/> */}
@@ -296,12 +513,16 @@ setUser_id(user?.id)
             data={data}
             columns={columns}
             loading={fetch || updateEnquiryResponseInfo?.isLoading}
-            page={client_page}
+            page={enquiry_page}
             error={error}
+            field={"enquiry"}
             navi={navi}
+            handleChange={handleChange}
           />
         )}
-        {/* {show ? <ClientForm /> : null} */}
+        {showFloorPlan ? (
+          <ViewModel performCancel={performCancel} getData={getData} />
+        ) : null}
       </div>
     </div>
   );

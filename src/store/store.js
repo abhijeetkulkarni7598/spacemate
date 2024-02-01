@@ -18,6 +18,8 @@ export default store;
 export {
   useFetchInvoiceQuery,
   useGetInvoiceQuery,
+  useUpdateQuotationMutation,
+
   useCreateInvoiceMutation,
   useDeleteInvoiceMutation,
   useFetchClientQuery,
@@ -77,6 +79,7 @@ export {
 
   useCreateProjectMutation,
   useDeleteProjectMutation,
+  useCreateCustomerMutation,
 
 
 

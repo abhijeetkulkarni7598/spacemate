@@ -50,6 +50,25 @@ const allApi = createApi({
             ? [...result.map(({ id }) => ({ type: "Invoice", id })), "Invoice"]
             : ["Invoice"],
       }),
+      updateQuotation: build.mutation({
+        query: (upadate_value) => {
+          const { id, ...data } = upadate_value;
+
+          return {
+            url: `/api/quotation/${id}/`,
+            method: "PATCH",
+            body: upadate_value,
+
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Quotation", id: arg.id },
+        ],
+      }),
       getInvoice: build.query({
         query: (id) => {
           return {
@@ -83,6 +102,27 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Invoice", id: arg.id },
+        ],
+      }),
+      createCustomer: build.mutation({
+        query: (createJobcardData) => {
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+
+          return {
+            url: `/app/customer/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Customer", id: arg.id },
         ],
       }),
       deleteInvoice: build.mutation({
@@ -153,7 +193,7 @@ const allApi = createApi({
         query: ({ name }) => {
           if (name) {
             return {
-              url: `/api/quotation/?quotation_number=${name}`,
+              url: `/api/quotation2/?quotation_number=${name}`,
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -236,12 +276,13 @@ const allApi = createApi({
       }),
 
       fetchClient: build.query({
-        query: ({ val, id }) => {
+        query: ({ val, id ,status}) => {
           if (id === undefined) {
             id = "";
           }
           return {
-            url: `/api/client/?page=${val}&user_client_id=${id}`,
+            // url: `/api/client/?page=${val}&user_client_id=${id}`,
+            url: `/enquiry/enquires/?page=${val}&user=${id}&status=${status?status:""}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -282,7 +323,8 @@ const allApi = createApi({
       searchClient: build.query({
         query: ({ val, id, page }) => {
           return {
-            url: `/api/client/?page=${page}&search=${val}&user_client_id=${id}`,
+            // url: `/api/client/?page=${page}&search=${val}&user_client_id=${id}`,
+            url: `/enquiry/enquires/?page=${page}&name=${val}&user=${id}&status=Prospect`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -616,6 +658,7 @@ const allApi = createApi({
           { type: "Vendor", id: arg.id },
         ],
       }),
+    
       updateEnquiry: build.mutation({
         query: (upadate_value) => {
           const { id, ...other } = upadate_value;
@@ -638,6 +681,7 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Enquiry", id: arg.id },
+          { type: "Client", id: arg.id },
         ],
       }),
       updateDesigns: build.mutation({
@@ -750,11 +794,14 @@ const allApi = createApi({
         query: (id) => {
           if (id !== undefined) {
             return {
-              url: `/api/client/${id}/`,
+              // url: `/api/client/${id}/`,
+              url: `/enquiry/enquires/${id}/`,
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+
               },
             };
           }
@@ -819,9 +866,9 @@ const allApi = createApi({
             : ["Vendor"],
       }),
       fetchEnquiry: build.query({
-        query: ({user}) => {
+        query: ({user,page,name}) => {
           return {
-            url: `/enquiry/enquires/?page=1&user=${user}`,
+            url: `/enquiry/enquires/?page=${page}&user=${user}&name=${name}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -838,9 +885,9 @@ const allApi = createApi({
             : ["Enquiry"],
       }),
       fetchDesigns: build.query({
-        query: ({ enquiry,approval }) => {
+        query: ({ enquiry,approval,page }) => {
           return {
-            url: `/enquiry/designs/?page=1&enquiry=${enquiry}&approval=${approval}`,
+            url: `/enquiry/designs/?page=${page}&enquiry=${enquiry}&approval=${approval}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -1163,6 +1210,7 @@ const allApi = createApi({
 
 export const {
   useFetchInvoiceQuery,
+  useUpdateQuotationMutation,
   useGetInvoiceQuery,
   useCreateInvoiceMutation,
   useDeleteInvoiceMutation,
@@ -1217,7 +1265,7 @@ export const {
   useUpdateEnquiryMutation,
   useGetEnquiryQuery,
 
-
+  useCreateCustomerMutation,
   useFetchCustomerQuery,
 
   useCreateDesignMutation,
@@ -1235,6 +1283,8 @@ export const {
 
   useCreateProjectMutation,
   useDeleteProjectMutation,
+
+
 } = allApi;
 
 export { allApi };

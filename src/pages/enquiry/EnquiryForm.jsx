@@ -72,7 +72,7 @@ if(createEnquiryResponseInfo?.isSuccess){
           </Form.Item>
           
           <Form.Item name={["floor_plain"]} label="Floor Plan" valuePropName="fileList">
-            <Input placeholder="Enter your Floor Plan" type='file' onChange={(e)=>form.setFieldsValue({floor_plain:e.target.files[0]})} />
+            <Input required placeholder="Enter your Floor Plan" type='file' onChange={(e)=>form.setFieldsValue({floor_plain:e.target.files[0]})} />
           </Form.Item><Form.Item name={["requirement"]} label="Requirement">
             <TextArea placeholder="Enter Requirement" />
           </Form.Item>

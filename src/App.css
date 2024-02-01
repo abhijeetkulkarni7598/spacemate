@@ -94,3 +94,12 @@ width: 1000px;
 .odd-row{
   /* background-color: #c8d8e7; */
 }
+.ant-table-filter-trigger::hover{
+  background-color: var(--pr-color)!important;
+
+}
+.ant-table-filter-trigger  {
+background-color: var(--pr-color)!important;
+border: none!important;
+color: white!important;
+}

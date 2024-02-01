@@ -27,6 +27,7 @@ return sortedData
 
 
 export const ApprovalArray=["Approved","Rejected","Pending"]
+export const EnquiryStatusArray=["Enquiry","Prospect","Client"]
 
 export  const getQueryParamsObject = (id) => {
     // Assuming you have the full URL or use the window.location.search

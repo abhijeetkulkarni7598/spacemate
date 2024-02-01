@@ -101,10 +101,10 @@ const Clientform = ({ datas, id, show }) => {
           initialValues={datas}
           // initialValues={thisone}
         >
-          <Form.Item name={["contact_person_name"]} label="Prospect Name">
+          <Form.Item name={["name"]} label="Prospect Name">
             <Input placeholder="Enter Your Prospect Name" />
           </Form.Item>
-          <Form.Item name={["phone"]} label="Contact No">
+          <Form.Item name={["mobile"]} label="Contact No">
             <InputNumber
               placeholder="Enter your Phone No"
               style={{ width: "200px" }}
@@ -116,7 +116,7 @@ const Clientform = ({ datas, id, show }) => {
           {/* <Form.Item name={["allocate_name"]} label="Allocated Name">
                     <Input placeholder="Enter Your Allocated Name" />
                   </Form.Item> */}
-          <Form.Item name={["site_address"]} label="Site Address">
+          <Form.Item name={["address"]} label="Site Address">
             <Input placeholder="Enter Site Address" />
           </Form.Item>
           <Form.Item name={["email"]} label="Email">

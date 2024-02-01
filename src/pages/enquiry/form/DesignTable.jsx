@@ -24,7 +24,7 @@ const DesignTable = () => {
       message.success("Approval Set Successfull");
     }
   }, [UpdateDesignsResponseInfo]);
-  const { user, userToken, checkAuthLoading, isAuthenticated } = useSelector(
+  const { user, userToken, checkAuthLoading, design_page,isAuthenticated } = useSelector(
     (state) => state.user
   );
   const [approval, setApproval] = useState("");
@@ -40,7 +40,7 @@ const DesignTable = () => {
     isLoading: loading,
     isFetching: fetch,
     error: error,
-  } = useFetchDesignsQuery({enquiry:id,approval:approval});
+  } = useFetchDesignsQuery({enquiry:id,approval:approval,page:design_page});
   const {
     data: customer_data,
     isLoading: customer_loading,
@@ -65,7 +65,7 @@ const DesignTable = () => {
     updateDesign(newData);
   };
 
-  const client_page = 1;
+
   useEffect(() => {
     if (user_id) {
       setColumn([
@@ -77,7 +77,7 @@ const DesignTable = () => {
           width: 20,
           fixed: "left",
           render: (text, record, index) => {
-            return <span>{client_page * 10 - 10 + index + 1}</span>;
+            return <span>{design_page * 10 - 10 + index + 1}</span>;
           },
         },
         {
@@ -156,7 +156,7 @@ const DesignTable = () => {
           width: 30,
           fixed: "left",
           render: (text, record, index) => {
-            return <span>{client_page * 10 - 10 + index + 1}</span>;
+            return <span>{design_page * 10 - 10 + index + 1}</span>;
           },
         },
         {
@@ -280,9 +280,10 @@ const DesignTable = () => {
             data={data}
             columns={columns}
             loading={fetch || UpdateDesignsResponseInfo?.isLoading}
-            page={client_page}
+            page={design_page}
             error={error}
             navi={navi}
+            field={"design"}
             scroll={"100%"}
           />
         )}

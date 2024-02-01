@@ -14,7 +14,7 @@ export default function ClientModel({show,client_data}) {
     const { user } = useSelector((state) => state.user);
     const [user_id, setUser_id] = useState("");
     useEffect(() => {
-      if (user.role === "ADMIN") {
+      if (user?.is_superuser ||user?.is_admin) {
       } else {
         setUser_id(user.id);
       }
@@ -50,7 +50,7 @@ export default function ClientModel({show,client_data}) {
           },
         {
           title: 'Name',
-          dataIndex: 'contact_person_name',
+          dataIndex: 'name',
           key: 'id',
           width:200,
     

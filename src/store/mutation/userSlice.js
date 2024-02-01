@@ -8,7 +8,6 @@ const url = "http://127.0.0.1:8000/";
 
 // export const url = "https://abundancesystems.pythonanywhere.com/";
 
-
 // userActions.js
 export const userLogin = createAsyncThunk(
   "user/login",
@@ -33,7 +32,7 @@ export const userLogin = createAsyncThunk(
       return { data, userToken: data.access };
     } catch (err) {
       // return custom error message from API if any
-      message.error("Invalid Credentials")
+      message.error("Invalid Credentials");
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -54,13 +53,12 @@ export const getUser = createAsyncThunk(
       });
       const data = await res.json();
 
-if(data.role==="ADMIN"){
-  // dispatch(is_staff());
-  localStorage.setItem('alpha','beta')
-}else{
-  localStorage.removeItem('alpha')
-}
-
+      if (data.role === "ADMIN") {
+        // dispatch(is_staff());
+        localStorage.setItem("alpha", "beta");
+      } else {
+        localStorage.removeItem("alpha");
+      }
 
       localStorage.setItem("user", JSON.stringify({ ...data }));
       console.log("getuser", data);
@@ -75,7 +73,6 @@ if(data.role==="ADMIN"){
   }
 );
 
-
 export const checkAuth1 = createAsyncThunk(
   "api/account/verify",
   async (_, thunkAPI) => {
@@ -89,7 +86,7 @@ export const checkAuth1 = createAsyncThunk(
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body:access,
+      body: access,
       redirect: "follow",
     };
     try {
@@ -103,12 +100,12 @@ export const checkAuth1 = createAsyncThunk(
         // dispatch(getUser());
         // localStorage.getItem("userToken", access);
         return data;
-      } else if (res.status === 401){
+      } else if (res.status === 401) {
         localStorage.removeItem("userToken");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
         localStorage.removeItem("alpha");
-      localStorage.removeItem("usera");
+        localStorage.removeItem("usera");
 
         return thunkAPI.rejectWithValue(data);
       }
@@ -124,11 +121,11 @@ export const checkAuth1 = createAsyncThunk(
 );
 export const client_page = createAsyncThunk(
   "client_page",
-  async (username , thunkAPI) => {
+  async (username, thunkAPI) => {
     try {
       // configure header's Content-Type as JSON
-      
-     console.log("client_page",username)
+
+      console.log("client_page", username);
       return username;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -137,11 +134,11 @@ export const client_page = createAsyncThunk(
 );
 export const quotation_page = createAsyncThunk(
   "quotation_page",
-  async (username , thunkAPI) => {
+  async (username, thunkAPI) => {
     try {
       // configure header's Content-Type as JSON
-      
-     console.log("quotation_page",username)
+
+      console.log("quotation_page", username);
       return username;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -150,11 +147,50 @@ export const quotation_page = createAsyncThunk(
 );
 export const item_page = createAsyncThunk(
   "item_page",
-  async (username , thunkAPI) => {
+  async (username, thunkAPI) => {
     try {
       // configure header's Content-Type as JSON
-      
-     console.log("item_page",username)
+
+      console.log("item_page", username);
+      return username;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+export const Design_page = createAsyncThunk(
+  "design_page",
+  async (username, thunkAPI) => {
+    try {
+      // configure header's Content-Type as JSON
+
+      console.log("design_page", username);
+      return username;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+export const Enquiry_page = createAsyncThunk(
+  "enquiry_page",
+  async (username, thunkAPI) => {
+    try {
+      // configure header's Content-Type as JSON
+
+      console.log("enquiry_page", username);
+      return username;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+export const Filter_Enquiry = createAsyncThunk(
+  "filter_enquiry",
+  async (username, thunkAPI) => {
+    try {
+      // configure header's Content-Type as JSON
+
+      console.log("filter_enquiry", username);
       return username;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -182,17 +218,14 @@ export const checkAuth = createAsyncThunk(
       redirect: "follow",
     };
     try {
-      const res = await fetch(
-        `${url}auth/jwt/verify/`,
-        requestOptions
-      );
+      const res = await fetch(`${url}auth/jwt/verify/`, requestOptions);
 
       const data = await res.json();
       console.log("checkauth", data);
 
       if (res.status === 200) {
         const { dispatch } = thunkAPI;
-// console.log("2000000")
+        // console.log("2000000")
         dispatch(getUser());
         // localStorage.getItem("userToken", access);
         return data;
@@ -201,8 +234,7 @@ export const checkAuth = createAsyncThunk(
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
         localStorage.removeItem("alpha");
-      localStorage.removeItem("usera");
-
+        localStorage.removeItem("usera");
 
         return thunkAPI.rejectWithValue(data);
       }
@@ -232,10 +264,15 @@ const initialState = {
   error: null,
   loginStatus: "",
   loginError: "",
-  client_page:1,
-  quotation_page:1,
-  item_page:1,
-
+  client_page: 1,
+  quotation_page: 1,
+  item_page: 1,
+  enquiry_page: 1,
+  design_page: 1,
+  filter_enquiry: {
+    name: [""],
+  
+  },
 };
 
 const userSlice = createSlice({
@@ -255,12 +292,16 @@ const userSlice = createSlice({
         user: "",
         loading: false,
         isAuthenticated: false,
-        userToken:"",
-        client_page:1,
-        item_page:1,
-        quotation_page:1,
-
-
+        userToken: "",
+        client_page: 1,
+        item_page: 1,
+        quotation_page: 1,
+        enquiry_page: 1,
+        design_page: 1,
+        filter_enquiry: {
+          name: [""],
+        
+        },
       };
     },
   },
@@ -279,8 +320,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = payload;
         state.isAuthenticated = false;
-        state.userToken="";
-
+        state.userToken = "";
       })
       //   get user
       .addCase(getUser.pending, (state) => {
@@ -294,15 +334,12 @@ const userSlice = createSlice({
       .addCase(getUser.rejected, (state) => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.userToken="";
-
-
+        state.userToken = "";
       })
       //   check authenticated or not authenticated
       .addCase(checkAuth.pending, (state) => {
         state.checkAuthLoading = true;
         state.checkAuthLoading = false;
-
       })
       .addCase(checkAuth.fulfilled, (state) => {
         state.checkAuthLoading = false;
@@ -312,32 +349,28 @@ const userSlice = createSlice({
         state.checkAuthLoading = false;
         state.loading = false;
         state.isAuthenticated = false;
-        state.userToken="";
-        
+        state.userToken = "";
+
         state = action.payload;
-
-
       })
       .addCase(client_page.fulfilled, (state, action) => {
         state.client_page = action.payload;
-      
-
-
       })
       .addCase(quotation_page.fulfilled, (state, action) => {
         state.quotation_page = action.payload;
-      
-
-
       })
       .addCase(item_page.fulfilled, (state, action) => {
         state.item_page = action.payload;
-      
-
-
       })
-      
-      
+      .addCase(Design_page.fulfilled, (state, action) => {
+        state.design_page = action.payload;
+      })
+      .addCase(Filter_Enquiry.fulfilled, (state, action) => {
+        state.filter_enquiry = action.payload;
+      })
+      .addCase(Enquiry_page.fulfilled, (state, action) => {
+        state.enquiry_page = action.payload;
+      });
 
     // logout
     // .addCase(logout.pending, (state) => {

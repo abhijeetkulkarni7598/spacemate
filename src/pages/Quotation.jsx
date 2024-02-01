@@ -36,7 +36,7 @@ const Quotation = () => {
   const { user } = useSelector((state) => state.user);
   const [user_id, setUser_id] = useState("");
   useEffect(() => {
-    if (user?.role === "ADMIN") {
+    if (user?.is_superuser || user?.is_admin) {
     } else {
       setUser_id(user?.id);
     }
@@ -121,9 +121,7 @@ const Quotation = () => {
   const deletethis = (record) => {
     deleteInvoice(record.id);
   };
-  if (!statusFetching) {
-    console.log("tiger", status);
-  }
+ 
   useEffect(() => {
     if (deleteInvoiceResponseInfo?.status === "fulfilled") {
       message.success("Delete Successfull");
@@ -280,36 +278,53 @@ const Quotation = () => {
           },
           //   ...getColumnSearchProps('name'),
         },
+        // {
+        //   title: "Status",
+        //   dataIndex: "status",
+        //   key: "id",
+        //   width: 160,
+        //   render: (text, record, index) => {
+        //     return (
+        //       <>
+        //         {/* {
+        //           status?.filter(
+        //             (item) => parseInt(item.id) === parseInt(record.status)
+        //           )[0]?.status
+        //         } */}
+
+        //         <Select
+        //           onSelect={(data) => handleSelect(data, record)}
+        //           value={
+        //             status?.filter(
+        //               (item) => parseInt(item.id) === parseInt(record.status)
+        //             )[0]?.status
+        //           }
+        //           style={{ width: "150px" }}
+        //         >
+        //           {status?.map((item) => (
+        //             <Option value={item.id} key={item.id}>
+        //               {item.status}
+        //             </Option>
+        //           ))}
+        //         </Select>
+        //       </>
+        //     );
+        //   },
+        // },
         {
           title: "Status",
           dataIndex: "status",
           key: "id",
-          width: 160,
+          width: "15%",
           render: (text, record, index) => {
             return (
-              <>
-                {/* {
+              <p>
+                {
                   status?.filter(
                     (item) => parseInt(item.id) === parseInt(record.status)
                   )[0]?.status
-                } */}
-
-                <Select
-                  onSelect={(data) => handleSelect(data, record)}
-                  value={
-                    status?.filter(
-                      (item) => parseInt(item.id) === parseInt(record.status)
-                    )[0]?.status
-                  }
-                  style={{ width: "150px" }}
-                >
-                  {status?.map((item) => (
-                    <Option value={item.id} key={item.id}>
-                      {item.status}
-                    </Option>
-                  ))}
-                </Select>
-              </>
+                }
+              </p>
             );
           },
         },

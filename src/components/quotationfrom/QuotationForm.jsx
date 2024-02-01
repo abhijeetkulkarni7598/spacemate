@@ -30,6 +30,7 @@ import {
   useGetQuotationCountQuery,
   useSearchClientQuery,
   useUpadteInventoryMutation,
+  useUpdateQuotationMutation,
 } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import moment from "moment/moment";
@@ -116,6 +117,7 @@ const onUpdate = (
   // thisfun,
   setformdata_update,
   createQuotation,
+  updateQuotation,
   client_id,
   client_name,
   client_address,
@@ -167,14 +169,14 @@ const onUpdate = (
       }),
     };
 
-    updatedObject?.item?.forEach((obj) => {
-      delete obj["id"];
-      delete obj["quotation"];
-    });
+    // updatedObject?.item?.forEach((obj) => {
+    //   delete obj["id"];
+    //   delete obj["quotation"];
+    // });
 
     console.log("Payload", updatedObject);
 
-    createQuotation(updatedObject);
+    updateQuotation(updatedObject);
   }
 };
 const onFinish = (
@@ -291,15 +293,16 @@ const QuotationForm = (props) => {
   const [client_name, setClient_name] = useState();
   const [clientShow, setClientShow] = useState(false);
   const client_fun_to_get_id = (data) => {
+    console.log(data.id)
     setClient_id(data.id);
   };
 
   useEffect(() => {
-    console.log("client", client_data);
+    console.log("client data", client_data);
     if (client_data) {
       setClient_address(client_data.site_address);
       setClient_contact(client_data.phone);
-      setClient_name(client_data.contact_person_name);
+      setClient_name(client_data.name);
     }
   }, [client_data]);
 
@@ -378,6 +381,8 @@ const QuotationForm = (props) => {
 
   const [createQuotation, creatQuotationResponseInfo] =
     useCreateQuotationMutation();
+  const [updateQuotation, updateQuotationResponseInfo] =
+    useUpdateQuotationMutation();
   const [deleteQuotation, deleteQuotationResponseInfo] =
     useDeleteQuotationMutation();
   const [formdata_update, setformdata_update] = useState();
@@ -424,16 +429,18 @@ const QuotationForm = (props) => {
     //  if(creatQuotationResponseInfo?)
   }, [creatQuotationResponseInfo]);
   useEffect(() => {
-    if (deleteQuotationResponseInfo?.isSuccess === true) {
+    if (updateQuotationResponseInfo?.isSuccess) {
       navigate("/quotation");
     }
     //  if(creatQuotationResponseInfo?)
-  }, [deleteQuotationResponseInfo]);
+  }, [updateQuotationResponseInfo]);
 
   useEffect(() => {
     if (creatQuotationResponseInfo?.isSuccess === true) {
       if (datas !== "name" && revision === false) {
-        deleteQuotation(formdata_update);
+        // deleteQuotation(formdata_update);
+      navigate("/quotation");
+
       }
     }
     //  if(creatQuotationResponseInfo?)
@@ -633,6 +640,7 @@ if(status&&props.data){
                     // thisfun,
                     // setformdata_update,
                     createQuotation,
+                    updateQuotation,
                     client_id,
                     client_name,
                     client_address,
@@ -738,6 +746,7 @@ if(status&&props.data){
      
             </div>
             <Form.Item  style={{margin:"0px",padding:"0px"}} name="client_id"></Form.Item>
+            <Form.Item  style={{margin:"0px",padding:"0px"}} name="id"></Form.Item>
             <Form.Item style={{margin:"0px",padding:"0px"}} name="revision_no"></Form.Item>
 
             <div className="address">

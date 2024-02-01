@@ -45,18 +45,13 @@ const Login = () => {
  }
   }, [loading]);
 
-  let obj=["a","b"]
  
-  let obj2 ={
-    ...obj,
 
-  }
-  console.log(obj2[1])
   return (
     <div className="login">
       <div className="login-box">
         <div>
-<img src={logo} alt="" style={{width:"200px"}}/>
+<img src={logo} alt="" onClick={()=>navigate('/')}  style={{width:"200px"}}/>
         <h2
           style={{
             textAlign: "center",
