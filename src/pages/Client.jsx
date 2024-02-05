@@ -12,8 +12,9 @@ import useFormItemStatus from 'antd/es/form/hooks/useFormItemStatus';
 import { ReactComponent as Cross } from "./../assets/img/close.svg";
 import Clientform from '../components/quotationfrom/Clientform';
 import Slidebar from '../components/sidebar/Slidebar';
-import { BiEdit, BiTrash } from 'react-icons/bi';
+import { BiAddToQueue, BiEdit, BiTrash } from 'react-icons/bi';
 import { Option } from 'antd/es/mentions';
+import { FaEye } from 'react-icons/fa';
 
 
 
@@ -73,15 +74,15 @@ useEffect(() => {
   }
 }, [updateEnquiryResponseInfo]);
 const handleSelectStatus = (record) => {
-  const { status, floor_plain,user, ...other } = dataInstance;
-  const newData = { status: "Client",user:record.id, ...other };
+  const { status, floor_plain,customer_id, ...other } = dataInstance;
+  const newData = { status: "Client",customer_id:record.id, ...other };
   updateEnquiry(newData);
 
 }
 const handleSelect = (data, record) => {
   // record.status=data
   const { customer_status,floor_plain, ...remain } = record;
-  const newData = { ...remain,floor_plain, customer_status: data };
+  const newData = { ...remain, customer_status: data };
 
   updateEnquiry(newData);
 };
@@ -188,6 +189,45 @@ if(createCustomerResponseInfo?.isError){
           return <span>{client_page * 10 - 10 + index + 1}</span>;
         },
         },
+        {
+          title: "Status",
+          dataIndex: "customer_status",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
+          
+  
+                <Select
+                  optionFilterProp="children"
+  
+                  onSelect={(data) => handleSelect(data, record)}
+                  value={
+                    status?.filter(
+                      (item) => parseInt(item.id) === parseInt(record.customer_status)
+                    )[0]?.status
+                  }
+                  style={{ width: "150px" }}
+                >
+                  {status?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.status}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            );
+          },
+        },
+      {
+        title: 'Value',
+        dataIndex: 'total_value_with_discount',
+        key: 'id',
+        width:"100",
+  
+      //   ...getColumnSearchProps('name'),
+      },
       {
         title: 'Name',
         dataIndex: 'name',
@@ -197,62 +237,23 @@ if(createCustomerResponseInfo?.isError){
       //   ...getColumnSearchProps('name'),
       },
       {
-        title: 'Representative',
-        dataIndex: 'created_by',
-        key: 'id',
-      //   ...getColumnSearchProps('age'),
-      },
-      {
-        title: "Status",
-        dataIndex: "customer_status",
-        key: "id",
-        width: 160,
-        render: (text, record, index) => {
-          return (
-            <>
-              {/* {
-                status?.filter(
-                  (item) => parseInt(item.id) === parseInt(record.status)
-                )[0]?.status
-              } */}
-
-              <Select
-                optionFilterProp="children"
-
-                onSelect={(data) => handleSelect(data, record)}
-                value={
-                  status?.filter(
-                    (item) => parseInt(item.id) === parseInt(record.customer_status)
-                  )[0]?.status
-                }
-                style={{ width: "150px" }}
-              >
-                {status?.map((item) => (
-                  <Option value={item.id} key={item.id}>
-                    {item.status}
-                  </Option>
-                ))}
-              </Select>
-            </>
-          );
-        },
-      },
-
-      {
-        title: 'Cx Email',
-        dataIndex: 'email',
-        key: 'id',
-        width:200
-
-   
-      },
-      {
         title: 'Phone',
         dataIndex: 'mobile',
         key: 'id',
    
       },
-
+      {
+        title: 'Executive',
+        dataIndex: 'created_by',
+        key: 'id',
+      //   ...getColumnSearchProps('age'),
+      },
+      {
+        title: 'Remark',
+        dataIndex: 'remark',
+        key: 'id',
+      //   ...getColumnSearchProps('age'),
+      },
       {
         title: 'Site Address',
         dataIndex: 'address',
@@ -261,40 +262,57 @@ if(createCustomerResponseInfo?.isError){
   
    
       },
-      {
-        title: ' ',
-        key: 'id',
-        fixed: 'right',
-        width:120,
 
-        render: (record) => 
-        
-  <Popconfirm title="Sure to Create An User?" onConfirm={() => handleRegister(record)}>
-  <Button size="small"  >
-
-Register
-     </Button>
-</Popconfirm>
-  
-      },
       {
         title: ' ',
         key: 'id',
         fixed: 'right',
         width: 50,
-        render: (record) =>   <BiEdit
+        render: (record) =>   {
+          if(record.latest_quotation_id){
+           return  <BiEdit
+            className="bi-edit"
+    
+            style={{ width: "100%", height: "20px" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              updateQuotation(record);
+            }}
+          />
+          }else{
+
+            return <BiAddToQueue
+            className="bi-edit"
+            
+            style={{ width: "100%", height: "20px" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              createQuotation(record);
+            }}
+            />
+          }
+        }
+  
+  
+      },
+     
+      {
+        title: ' ',
+        key: 'id',
+        fixed: 'right',
+        width: 50,
+        render: (record) =>   <FaEye
         className="bi-edit"
 
         style={{ width: "100%", height: "20px" }}
         onClick={(e) => {
           e.stopPropagation();
-          editfun(record);
+          viewQuotation(record);
         }}
       />,
   
   
       },
-      
       {
         title: ' ',
         key: 'id',
@@ -315,6 +333,26 @@ Register
   
   
       },
+      {
+        title: ' ',
+        key: 'id',
+        fixed: 'right',
+        width:120,
+
+        render: (record) => 
+        
+  <Popconfirm title="Sure to Create An User?" onConfirm={() => handleRegister(record)}>
+  <Button size="small"  >
+
+Register
+     </Button>
+</Popconfirm>
+  
+      },
+    
+   
+      
+    
     ])
   }
  }, [user_id,client_page,status]);
@@ -341,6 +379,17 @@ setShow(true)
     setid(record.id)
 
     
+  }
+  const createQuotation=(record)=>{
+    navigate(`/create/${record.id}`)
+  }
+  const updateQuotation=(record)=>{
+    navigate(`/quotation/${record.latest_quotation_id}`)
+
+  }
+  const viewQuotation=(record)=>{
+    navigate(`/view/${record.latest_quotation_id}`)
+
   }
   const deletethis=(record)=>{
     // navigate(`/create_client/${record.id}`)
@@ -388,7 +437,7 @@ const navi=()=>{
             <Slidebar/>
 
             <div className='for-etable'>
-                {/* <h2 className='e-table-h2' >Prospect List</h2> */}
+                <h2 className='e-table-h2' >Prospect List</h2>
                 {/* <button  style={{padding:"10px 40px" ,borderRadius:"7px" ,border:"none",backgroundColor:"#0253a2",color:"white",fontSize:"15px",fontWeight:"bolder",cursor:"pointer",marginBottom:"30px"}} onClick={create_client}>Create New Prospect</button> */}
             
                 {loading&&columns?<Skeleton />:

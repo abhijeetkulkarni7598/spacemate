@@ -44,6 +44,7 @@ import MainExecution from "./pages/execution/MainExecution";
 import CommonPage from "./pages/commonpage/CommonPage";
 import ExeAuth from "./store/ExeAuth";
 import OriginalClient from "./pages/originalClient/OriginalClient";
+import MainEnquiryForm from "./pages/enquiry/form/enquiry/MainEnquiryForm";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -68,44 +69,58 @@ const App = () => {
           <Route path="/download" element={<Download />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/enquiry" element={<Enquiry />} />
-          <Route path="/execution-table" element={
-            <ExeAuth>
-
-          <ExecutionTable />
-            </ExeAuth>
-          } />
+          <Route
+            path="/execution-table"
+            element={
+              <ExeAuth>
+                <ExecutionTable />
+              </ExeAuth>
+            }
+          />
           {/* <Route path="/execution-project" element={<MainExecution />} /> */}
           <Route path="/execution-project/:id" element={<MainExecution />} />
-          <Route path="/home" element={
-          <Auth>
-
-            <CommonPage />
-          </Auth>
-          } />
-          <Route path="/enquiry-table" element={
-          <Auth>
-
-            <EnquiryTable />
-          </Auth>
-          } />
-          <Route path="/design-table/:id" element={
-          <Auth>
-
-            <DesignTable />
-          </Auth>
-          } />
-          <Route path="/design-form" element={
-          <Auth>
-
-            <MainDesignForm />
-          </Auth>
-          } />
-          <Route path="/design-form/:id" element={
-          <Auth>
-
-            <MainDesignForm />
-          </Auth>
-          } />
+          <Route path="/create-enquiry" element={<MainEnquiryForm />} />
+          <Route path="/create-enquiry/:id" element={<MainEnquiryForm />} />
+          <Route
+            path="/home"
+            element={
+              <Auth>
+                <CommonPage />
+              </Auth>
+            }
+          />
+          <Route
+            path="/enquiry-table"
+            element={
+              <Auth>
+                <EnquiryTable />
+              </Auth>
+            }
+          />
+          <Route
+            path="/design-table/:id"
+            element={
+              <Auth>
+                <DesignTable />
+              </Auth>
+            }
+          />
+          <Route
+            path="/design-form"
+            element={
+              <Auth>
+                <MainDesignForm />
+              </Auth>
+            }
+          />
+          <Route
+            path="/design-form/:id"
+            element={
+              <Auth>
+                <MainDesignForm />
+              </Auth>
+            }
+          />
           <Route path="/designobuild" element={<DesignLandingPage />} />
           <Route element={<Error />} />
 
@@ -190,7 +205,7 @@ const App = () => {
           />
           <Route
             exact
-            path="/create"
+            path="/create/:client_id"
             element={
               <Auth>
                 <CreateQuotation />
@@ -259,8 +274,9 @@ export default App;
 //specification limit 500(done)
 //emp-data client_name/date(done)
 
-
-
 // 27/1/24
 // equyiry show to person who careted
 //reject revision
+
+//sale and marketing
+//dash borad client table prospect table quotation table enquire table no delete

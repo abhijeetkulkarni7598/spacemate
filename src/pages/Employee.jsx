@@ -245,7 +245,7 @@ const Employee = () => {
     return (
       <>
         <div className="model-con">
-          <div className="model-box" style={{ width: "80vw" }}>
+          <div className="model-box" style={{ width: "80vw",height:"100%" }}>
             {/* <Cross  className="model-cross" onClick={()=>setShow(false)}/> */}
             <CreateClinet />
           </div>

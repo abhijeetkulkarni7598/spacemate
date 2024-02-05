@@ -52,7 +52,6 @@ const ly = {
 const onRevision = (
   data,
   createQuotation,
-  client_id,
   client_name,
   client_address,
   client_contact,
@@ -65,12 +64,9 @@ const onRevision = (
 
   data.client_address = client_address;
   data.client_contact = client_contact;
-  data.client_id = client_id;
   data.client_name = client_name;
-  if(Number.isInteger(parseInt(statusInit))){
-
-    data.status=statusInit;
-
+  if (Number.isInteger(parseInt(statusInit))) {
+    data.status = statusInit;
   }
   console.log(data1);
 
@@ -93,7 +89,7 @@ const onRevision = (
   // Output the formatted date
   // if(day!=="NaN"){
 
-    data.date = undefined;
+  data.date = undefined;
   // }
 
   const updatedObject = {
@@ -126,10 +122,8 @@ const onUpdate = (
   total
 ) => {
   console.log("Upadte", data);
-  if(Number.isInteger(parseInt(statusInit))){
-
-    data.status=statusInit;
-
+  if (Number.isInteger(parseInt(statusInit))) {
+    data.status = statusInit;
   }
   // setformdata_update(id);
 
@@ -147,17 +141,14 @@ const onUpdate = (
   // Output the formatted date
   data.date = formattedDate;
 
-
   data.total_with_discount = total;
   if (client_id) {
     data.client_address = client_address;
     data.client_contact = client_contact;
     data.client_id = client_id;
     data.client_name = client_name;
-
   }
   if (data) {
-
     const updatedObject = {
       ...data,
       item: data.item.map((item) => {
@@ -196,10 +187,8 @@ const onFinish = (
   data.client_contact = client_contact;
   data.client_id = client_id;
   data.client_name = client_name;
-  if(Number.isInteger(parseInt(statusInit))){
-
-    data.status=statusInit;
-
+  if (Number.isInteger(parseInt(statusInit))) {
+    data.status = statusInit;
   }
 
   console.log(data1);
@@ -225,9 +214,8 @@ const onFinish = (
   const formattedDate = `${day}/${month}/${year}`;
 
   // Output the formatted date
-  console.log()
-  if(day!=="NaN"){
-
+  console.log();
+  if (day !== "NaN") {
     data.date = formattedDate;
   }
 
@@ -241,7 +229,7 @@ const onFinish = (
       };
     }),
   };
-  console.log(updatedObject)
+  console.log(updatedObject);
   createQuotation(updatedObject);
 };
 
@@ -252,7 +240,7 @@ const QuotationForm = (props) => {
   const { data: data1, isLoading: loading } = useFetchQuotationQuery({
     val: 1,
     id: "",
-    client_name:""
+    client_name: "",
   });
   const [quo_no, setQuo_no] = useState();
   const { data: count, isLoading: countloading } = useGetQuotationCountQuery({
@@ -276,7 +264,7 @@ const QuotationForm = (props) => {
   //     );
   //   }
   // }, [invoice_data]);
-  const { user, userToken, checkAuthLoading ,isAuthenticated} = useSelector(
+  const { user, userToken, checkAuthLoading, isAuthenticated } = useSelector(
     (state) => state.user
   );
   const [client_id, setClient_id] = useState();
@@ -285,7 +273,11 @@ const QuotationForm = (props) => {
     isLoading: client_loading,
     isSuccess: client_success,
   } = useGetClientQuery(client_id);
-
+  useEffect(() => {
+    if (props.client_id) {
+      setClient_id(props.client_id);
+    }
+  }, [props.client_id]);
   const [discount, setDiscount] = useState();
 
   const [client_address, setClient_address] = useState();
@@ -293,15 +285,15 @@ const QuotationForm = (props) => {
   const [client_name, setClient_name] = useState();
   const [clientShow, setClientShow] = useState(false);
   const client_fun_to_get_id = (data) => {
-    console.log(data.id)
+    console.log(data.id);
     setClient_id(data.id);
   };
 
   useEffect(() => {
     console.log("client data", client_data);
     if (client_data) {
-      setClient_address(client_data.site_address);
-      setClient_contact(client_data.phone);
+      setClient_address(client_data.address);
+      setClient_contact(client_data.mobile);
       setClient_name(client_data.name);
     }
   }, [client_data]);
@@ -379,12 +371,18 @@ const QuotationForm = (props) => {
     }
   }, [total_bam, discount]);
 
-  const [createQuotation, creatQuotationResponseInfo] =
-    useCreateQuotationMutation();
-  const [updateQuotation, updateQuotationResponseInfo] =
-    useUpdateQuotationMutation();
-  const [deleteQuotation, deleteQuotationResponseInfo] =
-    useDeleteQuotationMutation();
+  const [
+    createQuotation,
+    creatQuotationResponseInfo,
+  ] = useCreateQuotationMutation();
+  const [
+    updateQuotation,
+    updateQuotationResponseInfo,
+  ] = useUpdateQuotationMutation();
+  const [
+    deleteQuotation,
+    deleteQuotationResponseInfo,
+  ] = useDeleteQuotationMutation();
   const [formdata_update, setformdata_update] = useState();
   useEffect(() => {
     if (props.id) {
@@ -393,44 +391,35 @@ const QuotationForm = (props) => {
   }, [props.id]);
   useEffect(() => {
     if (creatQuotationResponseInfo?.isSuccess === true) {
-      if(props.data){
-        
-        if(revision===true){
-
+      if (props.data) {
+        if (revision === true) {
           message.success("Quotation Revision Created");
-        }else{
-
+        } else {
           message.success("Quotation Updated");
         }
-      }else{
+      } else {
         message.success("Quotation Created");
-
       }
       if (!props.data || revision === true) {
-        navigate("/quotation");
+        navigate("/prospect");
       }
     }
     if (creatQuotationResponseInfo?.isError === true) {
-      if(props.data){
-        
-        if(revision===true){
-
+      if (props.data) {
+        if (revision === true) {
           message.error("Quotation Revision Failed");
-        }else{
-
+        } else {
           message.error("Quotation Update Failed");
         }
-      }else{
+      } else {
         message.error("Quotation Creation Failed");
-
       }
-   
     }
     //  if(creatQuotationResponseInfo?)
   }, [creatQuotationResponseInfo]);
   useEffect(() => {
     if (updateQuotationResponseInfo?.isSuccess) {
-      navigate("/quotation");
+      navigate("/prospect");
     }
     //  if(creatQuotationResponseInfo?)
   }, [updateQuotationResponseInfo]);
@@ -439,8 +428,7 @@ const QuotationForm = (props) => {
     if (creatQuotationResponseInfo?.isSuccess === true) {
       if (datas !== "name" && revision === false) {
         // deleteQuotation(formdata_update);
-      navigate("/quotation");
-
+        navigate("/prospect");
       }
     }
     //  if(creatQuotationResponseInfo?)
@@ -490,19 +478,18 @@ const QuotationForm = (props) => {
     }
   }, [props.loading, props.isSuccess]);
   const [date, setDate] = useState();
-  
-  const {
-    data: status,
-    isLoading: statusLoading,
-   
-  } = useFetchStatusQuery();
-const [statusInit, setStatusInit] = useState("");
-useEffect(() => {
-if(status&&props.data){
-  setStatusInit(status?.filter((item)=>parseInt(item.id)===parseInt(props.data?.status))[0]?.status)
 
-}
-}, [props.data,status]);
+  const { data: status, isLoading: statusLoading } = useFetchStatusQuery();
+  const [statusInit, setStatusInit] = useState("");
+  useEffect(() => {
+    if (status && props.data) {
+      setStatusInit(
+        status?.filter(
+          (item) => parseInt(item.id) === parseInt(props.data?.status)
+        )[0]?.status
+      );
+    }
+  }, [props.data, status]);
   useEffect(() => {
     if (props.data && props.id) {
       setQuo_no(props.data?.quotation_number);
@@ -590,7 +577,6 @@ if(status&&props.data){
     setFormData(updatedData);
   };
 
-
   return (
     <div
       style={{
@@ -621,7 +607,6 @@ if(status&&props.data){
                   data,
                   createQuotation,
 
-                  client_id,
                   client_name,
                   client_address,
                   client_contact,
@@ -645,7 +630,7 @@ if(status&&props.data){
                     client_name,
                     client_address,
                     client_contact,
-                  statusInit,
+                    statusInit,
 
                     total
                   );
@@ -657,7 +642,7 @@ if(status&&props.data){
                     client_name,
                     client_address,
                     client_contact,
-                  statusInit,
+                    statusInit,
 
                     data1,
                     total
@@ -673,7 +658,7 @@ if(status&&props.data){
             initialValues={datas}
             // initialValues={thisone}
           >
-            <Form.Item>
+            {/* <Form.Item>
               <Button
                 style={{ background: "var(--pr-color) " }}
                 type="primary"
@@ -681,26 +666,18 @@ if(status&&props.data){
               >
                 Select Client
               </Button>
-            </Form.Item>
-
+            </Form.Item> */}
+            {/* 
             {clientShow ? (
               <ClientModel
                 show={manage_client_show}
                 client_data={client_fun_to_get_id}
               />
-            ) : null}
+            ) : null} */}
             <div className="address">
               <h3 className="h3-title">Client Details</h3>
-              <Form.Item
-                label="Remark"
-                name={["remark"]}
-                labelCol={5}
-              >
-                
-                  <Input
-                    type="text"
-                    placeholder="Enter Remark"
-                  />
+              <Form.Item label="Remark" name={["remark"]} labelCol={5}>
+                <Input type="text" placeholder="Enter Remark" />
               </Form.Item>
               <Form.Item
                 label="Client Name"
@@ -743,11 +720,19 @@ if(status&&props.data){
                   />
                 </p>
               </Form.Item>
-     
             </div>
-            <Form.Item  style={{margin:"0px",padding:"0px"}} name="client_id"></Form.Item>
-            <Form.Item  style={{margin:"0px",padding:"0px"}} name="id"></Form.Item>
-            <Form.Item style={{margin:"0px",padding:"0px"}} name="revision_no"></Form.Item>
+            <Form.Item
+              style={{ margin: "0px", padding: "0px" }}
+              name="client_id"
+            ></Form.Item>
+            <Form.Item
+              style={{ margin: "0px", padding: "0px" }}
+              name="id"
+            ></Form.Item>
+            <Form.Item
+              style={{ margin: "0px", padding: "0px" }}
+              name="revision_no"
+            ></Form.Item>
 
             <div className="address">
               <h3 className="h3-title">Item Details</h3>
@@ -757,42 +742,46 @@ if(status&&props.data){
                 name={["special_note"]}
                 labelCol={5}
               >
-                  <Input placeholder="Enter Special Note" />
+                <Input placeholder="Enter Special Note" />
               </Form.Item>
               <Form.Item style={{}} label="Date" name={["date"]} labelCol={5}>
                 <DatePicker format={"DD/MM/YY"} />
               </Form.Item>
-{user?.role==="ADMIN"?
-
-              <FormItem
-                style={{}}
-                label="Status"
-                name={["status"]}
-                labelCol={5}
-              >
-<p>
-
-                <Select 
-                onSelect={(data)=>setStatusInit(data)}
-                value={statusInit}
+              {user?.role === "ADMIN" ? (
+                <FormItem
+                  style={{}}
+                  label="Status"
+                  name={["status"]}
+                  labelCol={5}
                 >
-
-                {status?.map((item)=>
-
-<Option value={item.id} key={item.id}>{item.status}</Option>
-                  )}
-                </Select>
-
+                  <p>
+                    <Select
+                      onSelect={(data) => setStatusInit(data)}
+                      value={statusInit}
+                    >
+                      {status?.map((item) => (
+                        <Option value={item.id} key={item.id}>
+                          {item.status}
+                        </Option>
+                      ))}
+                    </Select>
                   </p>
-              </FormItem>
-:  <FormItem
-style={{display:"none"}}
-name={["status"]}
-></FormItem>}
-
+                </FormItem>
+              ) : (
+                <FormItem
+                  style={{ display: "none" }}
+                  name={["status"]}
+                ></FormItem>
+              )}
             </div>
-            <Form.Item style={{margin:"0px",padding:"0px"}} name="user_client"></Form.Item>
-            <Form.Item style={{margin:"0px",padding:"0px"}} name="user_client_id"></Form.Item>
+            <Form.Item
+              style={{ margin: "0px", padding: "0px" }}
+              name="user_client"
+            ></Form.Item>
+            <Form.Item
+              style={{ margin: "0px", padding: "0px" }}
+              name="user_client_id"
+            ></Form.Item>
             <div className="add-amount">
               <ItemTable data1={datafun} total_bam={total_bam} />
               <Form.Item name="quotation_number"></Form.Item>

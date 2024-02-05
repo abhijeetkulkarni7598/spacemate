@@ -278,6 +278,12 @@ const Quotation = () => {
           },
           //   ...getColumnSearchProps('name'),
         },
+        {
+          title: "Date",
+          dataIndex: "date",
+          key: "id",
+          width: 150,
+        },
         // {
         //   title: "Status",
         //   dataIndex: "status",
@@ -311,23 +317,7 @@ const Quotation = () => {
         //     );
         //   },
         // },
-        {
-          title: "Status",
-          dataIndex: "status",
-          key: "id",
-          width: "15%",
-          render: (text, record, index) => {
-            return (
-              <p>
-                {
-                  status?.filter(
-                    (item) => parseInt(item.id) === parseInt(record.status)
-                  )[0]?.status
-                }
-              </p>
-            );
-          },
-        },
+      
         {
           title: "Total",
           dataIndex: "total_with_discount",
@@ -374,13 +364,7 @@ const Quotation = () => {
           key: "id",
           width: 150,
         },
-        {
-          title: "Remark",
-          dataIndex: "remark",
-          key: "id",
-          width: 250,
-        },
-
+       
         {
           title: "Quotation No",
           dataIndex: "quotation_number",
@@ -388,12 +372,7 @@ const Quotation = () => {
           width: 150,
         },
 
-        {
-          title: "Date",
-          dataIndex: "date",
-          key: "id",
-          width: 150,
-        },
+      
 
         {
           title: " ",

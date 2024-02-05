@@ -91,8 +91,14 @@ export const SlidebarDataAdmin = [
 ];
 export const SlidebarDataSalesAndMarketing = [
 
+
   {
     title: "Prospect Table",
+    path: "/prospect",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Client Table",
     path: "/client",
     icon: <FaIcons.FaClipboardList />,
   },
@@ -106,7 +112,12 @@ export const SlidebarDataSalesAndMarketing = [
     title: "Item Table",
     path: "/item",
     icon: <FaIcons.FaClipboardList />,
-  }
+  },
+  {
+    title: "Enquiry Table",
+    path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
 ];
 export const SlidebarDataExecutionarHead = [
 

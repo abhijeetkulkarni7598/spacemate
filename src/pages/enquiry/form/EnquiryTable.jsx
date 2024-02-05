@@ -16,6 +16,7 @@ import Highlighter from "react-highlight-words";
 import {
   useFetchCustomerQuery,
   useFetchEnquiryQuery,
+  useFetchSalesUserQuery,
   useFetchStatusQuery,
   useUpdateEnquiryMutation,
 } from "../../../store/store";
@@ -23,7 +24,7 @@ import { BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { FaEye } from "react-icons/fa";
+import { FaEdit, FaEye } from "react-icons/fa";
 import PdfViewer from "./../../commonpage/PdfViewer";
 import { MdViewList } from "react-icons/md";
 import { Filter_Enquiry } from "../../../store/mutation/userSlice";
@@ -70,16 +71,24 @@ const dispatch=useDispatch()
     isLoading: loading,
     isFetching: fetch,
     error: error,
-  } = useFetchEnquiryQuery({ user: user_id, page: enquiry_page ,name:filter_enquiry.name===null?"": filter_enquiry?.name[0]});
+  } = useFetchEnquiryQuery({ user: user?.is_customer?user_id:"",created_by:!user?.is_customer&&user_id?user_id:"", page: enquiry_page ,name:filter_enquiry.name===null?"": filter_enquiry?.name[0]});
   const {
     data: customer_data,
     isLoading: customer_loading,
     isFetching: customer_fetch,
     error: customer_error,
   } = useFetchCustomerQuery();
+  const {
+    data: sales_data,
+    isLoading: sales_loading,
+    isFetching: sales_fetch,
+    error: sales_error,
+  } = useFetchSalesUserQuery();
   const [columns, setColumn] = useState();
 
-  const create_client = () => {};
+  const create_client = () => {
+    navigate("/create-enquiry")
+  };
   const deletethis = (e) => {
     e.stopPropagation();
   };
@@ -105,6 +114,12 @@ const dispatch=useDispatch()
 
     updateEnquiry(newData);
   };
+  const handleSelectSales = (data, record) => {
+    const { created_by, floor_plain, ...other } = record;
+    const newData = { created_by: data, ...other };
+
+    updateEnquiry(newData);
+  };
   const handleSelectCustomerStatus = (data, record) => {
     const { status, floor_plain, ...other } = record;
     const newData = { status: data, ...other };
@@ -114,6 +129,11 @@ const dispatch=useDispatch()
   useEffect(() => {
     if (user?.is_customer) {
       setUser_id(user?.id);
+    }else if(user?.is_superuser||user?.is_admin){
+
+    }else{
+      setUser_id(user?.id);
+
     }
   }, [user]);
   const [searchText, setSearchText] = useState("");
@@ -234,7 +254,7 @@ const dispatch=useDispatch()
 
 
   useEffect(() => {
-    if (user_id) {
+    if (user_id&&user?.is_customer) {
       setColumn([
         {
           title: "Sr.no",
@@ -262,23 +282,7 @@ const dispatch=useDispatch()
           key: "id",
           width: 200,
         },
-        {
-          title: "Customer",
-          dataIndex: "customer_id",
-          key: "id",
-          width: "15%",
-          render: (text, record, index) => {
-            return (
-              <p>
-                {
-                  customer_data?.filter(
-                    (item) => parseInt(item.id) === parseInt(record.user)
-                  )[0]?.username
-                }
-              </p>
-            );
-          },
-        },
+        
        
         {
           title: "Phone",
@@ -314,6 +318,23 @@ const dispatch=useDispatch()
           fixed: "right",
           width: 50,
           render: (record) => (
+            <FaEdit
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/create-enquiry/${record.id}`)
+
+              }}
+            />
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
             <FaEye
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
@@ -324,8 +345,9 @@ const dispatch=useDispatch()
             />
           ),
         },
+
       ]);
-    } else {
+    } else if(user_id){
       setColumn([
         {
           title: "Sr.no",
@@ -388,25 +410,31 @@ const dispatch=useDispatch()
           render: (text, record, index) => {
             return (
               <>
+              {customer_data?
+                
                 <Select
-                  onSelect={(data) => handleSelect(data, record)}
-                  value={
-                    customer_data?.filter(
-                      (item) => parseInt(item.id) === parseInt(record.user)
+                optionFilterProp="children"
+                
+                onSelect={(data) => handleSelect(data, record)}
+                value={
+                  customer_data?.filter(
+                    (item) => parseInt(item.id) === parseInt(record.customer_id)
                     )[0]?.username
                   }
                   style={{ width: "150px" }}
-                >
+                  >
                   {customer_data?.map((item) => (
                     <Option value={item.id} key={item.id}>
                       {item.username}
                     </Option>
                   ))}
-                </Select>
+                </Select>:null
+                }
               </>
             );
           },
         },
+    
     
         {
           title: "Phone",
@@ -420,18 +448,218 @@ const dispatch=useDispatch()
           key: "id",
           width: 300,
         },
+        // {
+        //   title: " ",
+        //   key: "id",
+        //   fixed: "right",
+        //   width: 50,
+        //   render: (record) => (
+        //     <MdViewList
+        //       className="bi-edit"
+        //       style={{ width: "100%", height: "20px" }}
+        //       onClick={(e) => {
+        //         e.stopPropagation();
+        //         navi2(record);
+        //       }}
+        //     />
+        //   ),
+        // },
         {
           title: " ",
           key: "id",
           fixed: "right",
           width: 50,
           render: (record) => (
-            <MdViewList
+            <FaEdit
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
-                navi2(record);
+                navigate(`/create-enquiry/${record.id}`)
+
+              }}
+            />
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaEye
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                editfun(record);
+              }}
+            />
+          ),
+        },
+
+       
+      ]);
+    }
+      else {
+      setColumn([
+        {
+          title: "Sr.no",
+          dataIndex: "id",
+          key: "id",
+          //   ...getColumnSearchProps('name'),
+          width: 100,
+          fixed: "left",
+          render: (text, record, index) => {
+            return <span>{enquiry_page * 10 - 10 + index + 1}</span>;
+          },
+        },
+        {
+          title: "Name",
+          dataIndex: "name",
+          key: "name",
+          width: "100",
+
+          ...getColumnSearchProps("name"),
+
+          //   ...getColumnSearchProps('name'),
+        },
+
+        {
+          title: "Cx Email",
+          dataIndex: "email",
+          key: "email",
+          width: 200,
+          // ...getColumnSearchProps("email"),
+        },
+        {
+          title: "Customer Status",
+          dataIndex: "status",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
+                <Select
+                  onSelect={(data) => handleSelectCustomerStatus(data, record)}
+                 value={text}
+                  style={{ width: "150px" }}
+                >
+                  {EnquiryStatusArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            );
+          },
+        },
+       
+        {
+          title: "Customer",
+          dataIndex: "customer_id",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
+              {customer_data?
+                
+                <Select
+                optionFilterProp="children"
+                
+                onSelect={(data) => handleSelect(data, record)}
+                value={
+                  customer_data?.filter(
+                    (item) => parseInt(item.id) === parseInt(record.customer_id)
+                    )[0]?.username
+                  }
+                  style={{ width: "150px" }}
+                  >
+                  {customer_data?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.username}
+                    </Option>
+                  ))}
+                </Select>:null
+                }
+              </>
+            );
+          },
+        },
+        {
+          title: "Sales Executive",
+          dataIndex: "created_by",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
+              {sales_data?
+                
+                <Select
+                optionFilterProp="children"
+                
+                onSelect={(data) => handleSelectSales(data, record)}
+                value={
+                  sales_data?.filter(
+                    (item) => parseInt(item.id) === parseInt(record.created_by)
+                    )[0]?.username
+                  }
+                  style={{ width: "150px" }}
+                  >
+                  {sales_data?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.username}
+                    </Option>
+                  ))}
+                </Select>:null
+                }
+              </>
+            );
+          },
+        },
+        {
+          title: "Phone",
+          dataIndex: "mobile",
+          key: "id",
+        },
+
+        {
+          title: "Address",
+          dataIndex: "address",
+          key: "id",
+          width: 300,
+        },
+        // {
+        //   title: " ",
+        //   key: "id",
+        //   fixed: "right",
+        //   width: 50,
+        //   render: (record) => (
+        //     <MdViewList
+        //       className="bi-edit"
+        //       style={{ width: "100%", height: "20px" }}
+        //       onClick={(e) => {
+        //         e.stopPropagation();
+        //         navi2(record);
+        //       }}
+        //     />
+        //   ),
+        // },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaEdit
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+               navigate(`/create-enquiry/${record.id}`)
               }}
             />
           ),
@@ -477,7 +705,7 @@ const dispatch=useDispatch()
         },
       ]);
     }
-  }, [customer_data, data, user_id, searchText, searchedColumn, filter_enquiry]);
+  }, [customer_data,sales_data, data, user_id, searchText, searchedColumn, filter_enquiry]);
 
   return (
     <div>
@@ -486,7 +714,7 @@ const dispatch=useDispatch()
 
       <div className="for-etable">
         <h2 className="e-table-h2">Enquiry Table</h2>
-        {/* {user_id?null:
+        {user_id&&user?.is_customer?null:
 
         <button
         style={{
@@ -504,15 +732,15 @@ const dispatch=useDispatch()
         >
           Create New Enquiry
         </button>
-        } */}
+        }
 
-        {loading && columns ? (
+        {loading ||!columns||customer_fetch ||sales_loading? (
           <Skeleton />
         ) : (
           <ETable
             data={data}
             columns={columns}
-            loading={fetch || updateEnquiryResponseInfo?.isLoading}
+            loading={fetch || updateEnquiryResponseInfo?.isLoading||customer_fetch||sales_loading}
             page={enquiry_page}
             error={error}
             field={"enquiry"}

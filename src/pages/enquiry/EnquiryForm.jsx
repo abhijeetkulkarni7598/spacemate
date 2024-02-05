@@ -1,30 +1,60 @@
 import { Button, Form, Input, InputNumber, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useEffect } from 'react'
-import { useCreateEnquiryMutation } from '../../store/store';
+import { useCreateEnquiryMutation, useUpdateEnquiryMutation } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 20 },
 };
-const onFinish=(data,createEnquiry)=>{
+const onFinish=(data,createEnquiry,user)=>{
   console.log(data)
+  if(user){
+
+    data.created_by=user.id
+  }
   createEnquiry(data)
 }
-const onUpdate=()=>{
+const onUpdate=(data,updateEnquiry)=>{
+  const {floor_plain,...other}=data
+  // updateEnquiry(data)
+  if(data?.floor_plain?.target){
+    data.floor_plain=data.floor_plain.target.files[0]
+    updateEnquiry(data)
+
+  }else{
+
+    updateEnquiry(other)
+  }
+  //  console.log(data)
 
 }
 
 
-const EnquiryForm = () => {
+const EnquiryForm = ({user,enquiry}) => {
   const [createEnquiry, createEnquiryResponseInfo] = useCreateEnquiryMutation();
+  const [updateEnquiry, updateEnquiryResponseInfo] = useUpdateEnquiryMutation();
+  const navigate=useNavigate()
   useEffect(() => {
 if(createEnquiryResponseInfo?.isSuccess){
   message.success("Successfully Sent..!!!")
+  if(user){
+
+    navigate('/enquiry-table')
+  }
 }
   }, [createEnquiryResponseInfo]);
+  useEffect(() => {
+if(updateEnquiryResponseInfo?.isSuccess){
+  message.success("Successfully Updated..!!!")
+  if(user){
+
+    navigate('/enquiry-table')
+  }
+}
+  }, [updateEnquiryResponseInfo]);
   const [form] = Form.useForm();
 
-  const datas=null
   return (
     <div style={{display:"flex",justifyContent:"center",alignItems:"center",margin:"30px 0px"}}>
       <div style={{width:"800px"}}>
@@ -34,10 +64,10 @@ if(createEnquiryResponseInfo?.isSuccess){
 
           name="dynamic_form_nest_item"
           onFinish={(data) => {
-            if (datas) {
-              onUpdate(data);
+            if (enquiry) {
+              onUpdate(data,updateEnquiry);
             } else {
-              onFinish(data,createEnquiry);
+              onFinish(data,createEnquiry,user);
             }
           }}
           style={{
@@ -45,16 +75,23 @@ if(createEnquiryResponseInfo?.isSuccess){
           }}
           // autoComplete="off"
           {...layout}
-          initialValues={datas}
+          initialValues={enquiry}
           // initialValues={thisone}
         >
+          <Form.Item name={["id"]} style={{display:"none"}}>
+          </Form.Item>
+          <Form.Item name={["customer_id"]} style={{display:"none"}}>
+          </Form.Item>
+          <Form.Item name={["created_by"]} style={{display:"none"}}>
+          </Form.Item>
           <Form.Item name={["name"]} label="Name">
-            <Input placeholder="Enter Your Name" />
+          <Input placeholder="Enter Your Name" disabled={user?.is_customer} style={{color:"black"}}/>
           </Form.Item>
           <Form.Item name={["mobile"]} label="Contact No">
             <InputNumber
               placeholder="Enter your Phone No"
-              style={{ width: "200px" }}
+              style={{ width: "200px" ,color:"black"}}
+              disabled={user?.is_customer} 
             />
           </Form.Item>
           {/* <Form.Item name={["company_name"]} label="Company Name">
@@ -65,15 +102,27 @@ if(createEnquiryResponseInfo?.isSuccess){
                   </Form.Item> */}
           
           <Form.Item name={["email"]} label="Email">
-            <Input placeholder="Enter your Email" />
+            <Input placeholder="Enter your Email" disabled={user?.is_customer} style={{color:"black"}}/>
           </Form.Item>
           <Form.Item name={["address"]} label="Address">
-            <Input placeholder="Enter Address" />
+            <Input placeholder="Enter Address" disabled={user?.is_customer} style={{color:"black"}}/>
           </Form.Item>
-          
+          {/* {enquiry?.floor_plain?null: */}
+
           <Form.Item name={["floor_plain"]} label="Floor Plan" valuePropName="fileList">
-            <Input required placeholder="Enter your Floor Plan" type='file' onChange={(e)=>form.setFieldsValue({floor_plain:e.target.files[0]})} />
-          </Form.Item><Form.Item name={["requirement"]} label="Requirement">
+            <Input  placeholder="Enter your Floor Plan" type='file' disabled={user?.is_customer} style={{color:"black"}}/>
+          </Form.Item>
+          {/* } */}
+          <Form.Item name={["unit_size"]} label="Unit Size">
+            <Input type='number' placeholder="Enter Unit Size" disabled={user?.is_customer} style={{color:"black"}}/>
+          </Form.Item>
+          {enquiry||user?
+
+<Form.Item name={["booking_amount"]} label="Booking Amount">
+            <Input type='number' placeholder="Enter Booking Amount" disabled={user?.is_customer} style={{color:"black"}}/>
+          </Form.Item>:null
+          }
+          <Form.Item name={["requirement"]} label="Requirement">
             <TextArea placeholder="Enter Requirement" />
           </Form.Item>
 
@@ -83,7 +132,7 @@ if(createEnquiryResponseInfo?.isSuccess){
               htmlType="submit"
               style={{ marginRight: "40px", background: "var(--pr-color) " }}
             >
-              {datas ? <>Update</> : <>Submit</>}
+              {enquiry ? <>Update</> : <>Submit</>}
             </Button>
      
           </Form.Item>

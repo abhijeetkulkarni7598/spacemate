@@ -16,7 +16,7 @@ export default function Item() {
   const { user } = useSelector((state) => state.user);
   const [user_id, setUser_id] = useState("");
   useEffect(() => {
-    if (user?.role === "ADMIN") {
+    if (user?.is_superuser===true || user?.is_admin===true) {
     } else {
       setUser_id(user?.id);
     }

@@ -12,6 +12,7 @@ const allApi = createApi({
     "ExecutionModel",
     "Designs",
     "Customer",
+    "Sales-User",
     "Enquiry",
     "Employee",
     "Vendor",
@@ -243,7 +244,7 @@ const allApi = createApi({
         query: (id) => {
           if (id !== undefined) {
             return {
-              url: `/enquiry/enquiry/${id}/`,
+              url: `/enquiry/enquires/${id}/`,
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -665,8 +666,8 @@ const allApi = createApi({
           const { ...data } = upadate_value;
 
           var formdata = new FormData();
-          Object.keys(data).map((form_key) =>
-            formdata.append(form_key, data[form_key] || "")
+          Object.keys(other).map((form_key) =>
+            formdata.append(form_key, other[form_key] || "")
           );
           return {
             url: `/enquiry/enquires/${id}/`,
@@ -866,9 +867,9 @@ const allApi = createApi({
             : ["Vendor"],
       }),
       fetchEnquiry: build.query({
-        query: ({user,page,name}) => {
+        query: ({user,page,name,created_by}) => {
           return {
-            url: `/enquiry/enquires/?page=${page}&user=${user}&name=${name}`,
+            url: `/enquiry/enquires/?page=${page}&customer_id=${user}&name=${name}&created_by=${created_by}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -1013,6 +1014,25 @@ const allApi = createApi({
                 "Customer",
               ]
             : ["Customer"],
+      }),
+      fetchSalesUser: build.query({
+        query: () => {
+          return {
+            url: "/app/sales-user/",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+          result?.length
+            ? [
+                ...result.map(({ id }) => ({ type: "Sales-User", id })),
+                "Sales-User",
+              ]
+            : ["Sales-User"],
       }),
       fetchInteriorGallery: build.query({
         query: () => {
@@ -1267,6 +1287,7 @@ export const {
 
   useCreateCustomerMutation,
   useFetchCustomerQuery,
+  useFetchSalesUserQuery,
 
   useCreateDesignMutation,
   useFetchDesignsQuery,

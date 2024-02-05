@@ -19,6 +19,7 @@ export {
   useFetchInvoiceQuery,
   useGetInvoiceQuery,
   useUpdateQuotationMutation,
+  useFetchSalesUserQuery,
 
   useCreateInvoiceMutation,
   useDeleteInvoiceMutation,
