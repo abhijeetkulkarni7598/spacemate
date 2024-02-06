@@ -192,11 +192,11 @@ const onFinish = (
   }
 
   console.log(data1);
-  data.quotation_number =
-    "SM" +
-    (1 + data1.count).toString().padStart(4, "0") +
-    (moment(new Date()).format("/YY") +
-      moment(new Date()).add(1, "years").format("-YY"));
+  // data.quotation_number =
+  //   "SM" +
+  //   (1 + data1.count).toString().padStart(4, "0") +
+  //   (moment(new Date()).format("/YY") +
+  //     moment(new Date()).add(1, "years").format("-YY"));
   data.revision_no = "R" + (1).toString().padStart(2, "0");
 
   data.user_client = JSON.parse(localStorage.getItem("user")).username;

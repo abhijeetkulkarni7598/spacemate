@@ -66,12 +66,13 @@ const dispatch=useDispatch()
 
     console.log(sorter);
   };
+
   const {
     data: data,
     isLoading: loading,
     isFetching: fetch,
     error: error,
-  } = useFetchEnquiryQuery({ user: user?.is_customer?user_id:"",created_by:!user?.is_customer&&user_id?user_id:"", page: enquiry_page ,name:filter_enquiry.name===null?"": filter_enquiry?.name[0]});
+  } = useFetchEnquiryQuery({ user: user?.is_customer?user_id:"",created_by:!user?.is_customer&&user_id?user_id:"", page: enquiry_page ,name:filter_enquiry.name===null?"": filter_enquiry?.name[0],email:filter_enquiry.email===null?"": filter_enquiry?.email[0],mobile:filter_enquiry.mobile===null?"": filter_enquiry?.mobile[0]});
   const {
     data: customer_data,
     isLoading: customer_loading,
@@ -376,6 +377,8 @@ const dispatch=useDispatch()
           dataIndex: "email",
           key: "email",
           width: 200,
+          ...getColumnSearchProps("email"),
+
           // ...getColumnSearchProps("email"),
         },
         {
@@ -530,7 +533,7 @@ const dispatch=useDispatch()
           dataIndex: "email",
           key: "email",
           width: 200,
-          // ...getColumnSearchProps("email"),
+          ...getColumnSearchProps("email"),
         },
         {
           title: "Customer Status",
@@ -623,7 +626,9 @@ const dispatch=useDispatch()
         {
           title: "Phone",
           dataIndex: "mobile",
-          key: "id",
+          key: "mobile",
+          ...getColumnSearchProps("mobile"),
+
         },
 
         {
@@ -733,7 +738,15 @@ const dispatch=useDispatch()
           Create New Enquiry
         </button>
         }
-
+  {/* <Search
+            placeholder="Search Quotation By Clients Name"
+            enterButton="Search"
+            size="large"
+            onSearch={(data) => {
+              console.log(data);
+              setSearchText(data);
+            }}
+          /> */}
         {loading ||!columns||customer_fetch ||sales_loading? (
           <Skeleton />
         ) : (

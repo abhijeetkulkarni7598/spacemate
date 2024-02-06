@@ -271,6 +271,8 @@ const initialState = {
   design_page: 1,
   filter_enquiry: {
     name: [""],
+    email: [""],
+    mobile: [""],
   
   },
 };
@@ -300,6 +302,9 @@ const userSlice = createSlice({
         design_page: 1,
         filter_enquiry: {
           name: [""],
+          email: [""],
+          mobile: [""],
+
         
         },
       };

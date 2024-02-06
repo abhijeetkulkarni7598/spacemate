@@ -212,6 +212,15 @@ const App = () => {
               </Auth>
             }
           />
+          <Route
+            exact
+            path="/create"
+            element={
+              <Auth>
+                <CreateQuotation />
+              </Auth>
+            }
+          />
 
           <Route
             exact

@@ -277,13 +277,13 @@ const allApi = createApi({
       }),
 
       fetchClient: build.query({
-        query: ({ val, id ,status}) => {
+        query: ({ val, id ,status,search}) => {
           if (id === undefined) {
             id = "";
           }
           return {
             // url: `/api/client/?page=${val}&user_client_id=${id}`,
-            url: `/enquiry/enquires/?page=${val}&user=${id}&status=${status?status:""}`,
+            url: `/enquiry/enquires/?page=${val}&user=${id}&status=${status?status:""}&search=${search}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -867,9 +867,9 @@ const allApi = createApi({
             : ["Vendor"],
       }),
       fetchEnquiry: build.query({
-        query: ({user,page,name,created_by}) => {
+        query: ({user,page,name,created_by,email,mobile}) => {
           return {
-            url: `/enquiry/enquires/?page=${page}&customer_id=${user}&name=${name}&created_by=${created_by}`,
+            url: `/enquiry/enquires/?page=${page}&customer_id=${user}&name=${name}&created_by=${created_by}&email=${email}&mobile=${mobile}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
