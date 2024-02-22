@@ -390,17 +390,17 @@ const dispatch=useDispatch()
           render: (text, record, index) => {
             return (
               <>
-                <Select
-                  onSelect={(data) => handleSelectCustomerStatus(data, record)}
-                 value={text}
-                  style={{ width: "150px" }}
-                >
-                  {EnquiryStatusArray?.map((item) => (
-                    <Option value={item} key={item}>
-                      {item}
-                    </Option>
-                  ))}
-                </Select>
+                <Popconfirm
+                disabled={text==="Prospect"||text==="Client"?true:false}
+              title="Make It Prospect Are You Sure?"
+              onConfirm={(e) => handleSelectCustomerStatus(e,"Prospect", record)}
+              onCancel={(e) => e.stopPropagation()}
+            >
+              <Button size="small"  disabled={text==="Prospect"||text==="Client"?true:false}>
+
+             Forward To Prospect
+              </Button>
+            </Popconfirm>
 
               </>
             );
