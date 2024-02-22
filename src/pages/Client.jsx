@@ -7,6 +7,7 @@ import {
   useCreateClientMutation,
   useCreateCustomerMutation,
   useDeleteClientMutation,
+  useDeleteEnquiryMutation,
   useFetchClientQuery,
   useFetchStatusQuery,
   useGetClientQuery,
@@ -24,6 +25,7 @@ import { BiAddToQueue, BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
 import { FaEye } from "react-icons/fa";
 import Search from "antd/es/input/Search";
+import { generatePassword } from "../components/Functions/State";
 
 const Client = () => {
   const [show, setShow] = useState(false);
@@ -68,7 +70,7 @@ const Client = () => {
       username: record.email,
       email: record.email,
 
-      password: "Pass@123",
+      password: generatePassword(8),
     };
     createCustomer(newObj);
   };
@@ -337,13 +339,13 @@ const Client = () => {
               title="Sure to Create An User?"
               onConfirm={() => handleRegister(record)}
             >
-              <Button size="small">Register</Button>
+              <Button loading={createCustomerResponseInfo?.isLoading} size="small">Register</Button>
             </Popconfirm>
           ),
         },
       ]);
     }
-  }, [user_id, client_page, status]);
+  }, [user_id, client_page, status,createCustomerResponseInfo]);
   const [formdata, setFormdata] = useState();
 
   const create_client = () => {
@@ -352,7 +354,7 @@ const Client = () => {
     setid();
     setShow(true);
   };
-  const [deleteClient, deleteClientResponseInfo] = useDeleteClientMutation();
+  const [deleteClient, deleteClientResponseInfo] = useDeleteEnquiryMutation();
 
   useEffect(() => {
     if (deleteClientResponseInfo?.status === "fulfilled") {

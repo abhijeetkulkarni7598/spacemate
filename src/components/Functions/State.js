@@ -74,3 +74,33 @@ export  const getQueryParamsObject = (id) => {
       });
       return IndianDate
 }
+
+export function generatePassword(length) {
+  var lowercaseLetters = 'abcdefghijklmnpqrstuvwxyz';
+  var uppercaseLetters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
+  var digits = '123456789';
+  var symbols = '@#$%&';
+
+  // Ensure at least one capital letter and one symbol
+  var passwordCharacters = lowercaseLetters + digits;
+  var password = uppercaseLetters.charAt(Math.floor(Math.random() * uppercaseLetters.length));
+  var middleSymbol = symbols.charAt(Math.floor(Math.random() * symbols.length));
+
+  for (var i = 0; i < Math.floor((length - 2) / 2); i++) {
+      password += passwordCharacters.charAt(Math.floor(Math.random() * passwordCharacters.length));
+  }
+
+  password += middleSymbol;
+
+  for (var j = 0; j < Math.ceil((length - 2) / 2); j++) {
+      password += passwordCharacters.charAt(Math.floor(Math.random() * passwordCharacters.length));
+  }
+
+  // Shuffle the password characters
+  password = password.split('').sort(function(){return 0.5-Math.random()}).join('');
+  
+  // Capitalize the first letter
+  password = password.charAt(0).toUpperCase() + password.slice(1);
+
+  return password;
+}

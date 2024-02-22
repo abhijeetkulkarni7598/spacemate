@@ -7,6 +7,7 @@ import {
   useCreateClientMutation,
   useCreateCustomerMutation,
   useDeleteClientMutation,
+  useDeleteEnquiryMutation,
   useFetchClientQuery,
   useFetchCustomerQuery,
   useGetClientQuery,
@@ -44,6 +45,7 @@ const OriginalClient = () => {
     val: client_page,
     id: user_id,
     status: "Client",
+    search:""
   });
 
   // const dispatch = useDispatch()
@@ -281,7 +283,7 @@ const OriginalClient = () => {
     setid();
     setShow(true);
   };
-  const [deleteClient, deleteClientResponseInfo] = useDeleteClientMutation();
+  const [deleteClient, deleteClientResponseInfo] = useDeleteEnquiryMutation();
 
   useEffect(() => {
     if (deleteClientResponseInfo?.status === "fulfilled") {

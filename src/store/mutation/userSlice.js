@@ -43,7 +43,7 @@ export const getUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       // const res = await fetch(`${url}auth/users/me/`, {
-      const res = await fetch(`${url}app/me/`, {
+      const res = await fetch(`${url}app/userinfo`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

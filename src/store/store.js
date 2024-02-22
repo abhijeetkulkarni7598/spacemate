@@ -84,6 +84,7 @@ export {
 
 
 
+  useDeleteEnquiryMutation,
 
 
 } from "./mutation/AllApi";

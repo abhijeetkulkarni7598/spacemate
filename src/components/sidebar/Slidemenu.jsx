@@ -39,7 +39,7 @@ const DropdownLink = styled(Link)`
   transition: all 0.5s ease;
   color:black;
   &:hover {
-    background-color: #6bc9d6;
+    background-color:var(--clr-hover-DropdownLink);
     color:#29384f;
 
     

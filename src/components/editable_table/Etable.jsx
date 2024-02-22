@@ -41,7 +41,7 @@ const ETable = (props) => {
   return (
     <>
       <Table
-        
+        size={props?.size?props.size:"large"}
         style={{ cursor: "pointer" }}
         className="custom-table-ant"
         columns={columns}

@@ -145,7 +145,7 @@ const onUpdate = (
   if (client_id) {
     data.client_address = client_address;
     data.client_contact = client_contact;
-    data.client_id = client_id;
+    data.client_id_new = client_id;
     data.client_name = client_name;
   }
   if (data) {
@@ -185,7 +185,7 @@ const onFinish = (
 
   data.client_address = client_address;
   data.client_contact = client_contact;
-  data.client_id = client_id;
+  data.client_id_new = client_id;
   data.client_name = client_name;
   if (Number.isInteger(parseInt(statusInit))) {
     data.status = statusInit;
@@ -723,7 +723,7 @@ const QuotationForm = (props) => {
             </div>
             <Form.Item
               style={{ margin: "0px", padding: "0px" }}
-              name="client_id"
+              name="client_id_new"
             ></Form.Item>
             <Form.Item
               style={{ margin: "0px", padding: "0px" }}

@@ -433,6 +433,27 @@ const allApi = createApi({
           { type: "Client", id: arg.id },
         ],
       }),
+      deleteEnquiry: build.mutation({
+        query: (id) => {
+          //   var formdata = new FormData();
+          //   Object.keys(data).map((form_key) =>
+          //     formdata.append(form_key, data[form_key] || "")
+          //   );
+          return {
+            url: `/enquiry/enquires/${id}/`,
+            method: "DELETE",
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "Enquiry", id: arg.id },
+          { type: "Client", id: arg.id },
+
+        ],
+      }),
 
       createItem: build.mutation({
         query: (createJobcardData) => {
@@ -1284,6 +1305,7 @@ export const {
   useFetchEnquiryQuery,
   useUpdateEnquiryMutation,
   useGetEnquiryQuery,
+  useDeleteEnquiryMutation,
 
   useCreateCustomerMutation,
   useFetchCustomerQuery,

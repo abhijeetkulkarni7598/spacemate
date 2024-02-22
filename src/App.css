@@ -11,6 +11,9 @@ body{
   /* --pr-color:#53cfcd; */
   --pr-color:#0253a2;
   --pr-text-color:white;
+  --clr-hover-DropdownLink:white;
+  --clr-dark-secondary:#6bc9d6;
+
 }
 
 

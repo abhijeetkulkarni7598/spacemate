@@ -7,52 +7,89 @@ import * as MdIcons from "react-icons/md";
 
 export const SlidebarDataSuper = [
   {
-    title: "Dashboard",
-    path: "/dashboard",
-    icon: <FaIcons.FaClipboardList />,
-  },
-  {
-    title: "Prospect Table",
-    path: "/prospect",
-    icon: <FaIcons.FaClipboardList />,
-  },
-  {
-    title: "Client Table",
-    path: "/client",
-    icon: <FaIcons.FaClipboardList />,
-  },
-
-  {
-    title: "Quotation Table",
-    path: "/quotation",
+    title: "Sales",
     icon: <MdIcons.MdOutlineInventory2 />,
-  },
-  {
-    title: "Item Table",
-    path: "/item",
-    icon: <FaIcons.FaClipboardList />,
-  },
-
-  {
-    title: "Vendor Table",
-    path: "/vendor",
-    icon: <FaIcons.FaClipboardList />,
-  },
-  {
-    title: "Employee Table",
-    path: "/employee",
-    icon: <FaIcons.FaClipboardList />,
-  },
-  {
-    title: "Enquiry Table",
-    path: "/enquiry-table",
-    icon: <FaIcons.FaClipboardList />,
+    iconclosed: <RiIcons.RiArrowDownFill />,
+    iconopened: <RiIcons.RiArrowUpFill />,
+    subnav: [
+      {
+        title: "Dashboard",
+        path: "/dashboard",
+        icon: <FaIcons.FaClipboardList />,
+      },
+      {
+        title: "Enquiry Table",
+        path: "/enquiry-table",
+        icon: <FaIcons.FaClipboardList />,
+      },
+      {
+        title: "Prospect Table",
+        path: "/prospect",
+        icon: <FaIcons.FaClipboardList />,
+      },
+      {
+        title: "Client Table",
+        path: "/client",
+        icon: <FaIcons.FaClipboardList />,
+      },
+    
+      {
+        title: "Quotation Table",
+        path: "/quotation",
+        icon: <MdIcons.MdOutlineInventory2 />,
+      },
+    ],
   },
   {
     title: "Execution Table",
     path: "/execution-table",
     icon: <FaIcons.FaClipboardList />,
   },
+  {
+    title: "Accounts",
+    icon: <MdIcons.MdOutlineInventory2 />,
+    iconclosed: <RiIcons.RiArrowDownFill />,
+    iconopened: <RiIcons.RiArrowUpFill />,
+    subnav: [
+      {
+        title: "Vendor Table",
+        path: "/vendor",
+        icon: <FaIcons.FaClipboardList />,
+      },
+    ],
+  },
+  {
+    title: "HR",
+    icon: <MdIcons.MdOutlineInventory2 />,
+    iconclosed: <RiIcons.RiArrowDownFill />,
+    iconopened: <RiIcons.RiArrowUpFill />,
+    subnav: [
+      {
+        title: "Employee Table",
+        path: "/employee",
+        icon: <FaIcons.FaClipboardList />,
+      },
+    ],
+  },
+  {
+    title: "Setting",
+    icon: <MdIcons.MdOutlineInventory2 />,
+    iconclosed: <RiIcons.RiArrowDownFill />,
+    iconopened: <RiIcons.RiArrowUpFill />,
+    subnav: [
+      {
+        title: "Item Table",
+        path: "/item",
+        icon: <FaIcons.FaClipboardList />,
+      },
+    ],
+  },
+
+
+
+  
+  
+ 
 
 ];
 export const SlidebarDataAdmin = [
@@ -91,7 +128,11 @@ export const SlidebarDataAdmin = [
 ];
 export const SlidebarDataSalesAndMarketing = [
 
-
+  {
+    title: "Enquiry Table",
+    path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
   {
     title: "Prospect Table",
     path: "/prospect",
@@ -113,11 +154,7 @@ export const SlidebarDataSalesAndMarketing = [
     path: "/item",
     icon: <FaIcons.FaClipboardList />,
   },
-  {
-    title: "Enquiry Table",
-    path: "/enquiry-table",
-    icon: <FaIcons.FaClipboardList />,
-  },
+
 ];
 export const SlidebarDataExecutionarHead = [
 

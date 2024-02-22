@@ -121,7 +121,8 @@ const dispatch=useDispatch()
 
     updateEnquiry(newData);
   };
-  const handleSelectCustomerStatus = (data, record) => {
+  const handleSelectCustomerStatus = (e,data, record) => {
+    e.stopPropagation()
     const { status, floor_plain, ...other } = record;
     const newData = { status: data, ...other };
     updateEnquiry(newData);
@@ -400,6 +401,7 @@ const dispatch=useDispatch()
                     </Option>
                   ))}
                 </Select>
+
               </>
             );
           },
@@ -539,11 +541,11 @@ const dispatch=useDispatch()
           title: "Customer Status",
           dataIndex: "status",
           key: "id",
-          width: 160,
+          width: 180,
           render: (text, record, index) => {
             return (
               <>
-                <Select
+                {/* <Select
                   onSelect={(data) => handleSelectCustomerStatus(data, record)}
                  value={text}
                   style={{ width: "150px" }}
@@ -553,7 +555,18 @@ const dispatch=useDispatch()
                       {item}
                     </Option>
                   ))}
-                </Select>
+                </Select> */}
+                <Popconfirm
+                disabled={text==="Prospect"||text==="Client"?true:false}
+              title="Make It Prospect Are You Sure?"
+              onConfirm={(e) => handleSelectCustomerStatus(e,"Prospect", record)}
+              onCancel={(e) => e.stopPropagation()}
+            >
+              <Button size="small"  disabled={text==="Prospect"||text==="Client"?true:false}>
+
+             Forward To Prospect
+              </Button>
+            </Popconfirm>
               </>
             );
           },
@@ -751,6 +764,7 @@ const dispatch=useDispatch()
           <Skeleton />
         ) : (
           <ETable
+          size={"small"}
             data={data}
             columns={columns}
             loading={fetch || updateEnquiryResponseInfo?.isLoading||customer_fetch||sales_loading}
