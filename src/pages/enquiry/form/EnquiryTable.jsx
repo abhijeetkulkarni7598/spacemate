@@ -650,22 +650,22 @@ const dispatch=useDispatch()
           key: "id",
           width: 300,
         },
-        // {
-        //   title: " ",
-        //   key: "id",
-        //   fixed: "right",
-        //   width: 50,
-        //   render: (record) => (
-        //     <MdViewList
-        //       className="bi-edit"
-        //       style={{ width: "100%", height: "20px" }}
-        //       onClick={(e) => {
-        //         e.stopPropagation();
-        //         navi2(record);
-        //       }}
-        //     />
-        //   ),
-        // },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <MdViewList
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navi2(record);
+              }}
+            />
+          ),
+        },
         {
           title: " ",
           key: "id",

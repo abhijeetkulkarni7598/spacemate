@@ -8,12 +8,20 @@ const layout = {
   wrapperCol: { span: 20 },
 };
 const onFinish=(data,createEnquiry,user)=>{
-  console.log(data)
+  const {floor_plain,...other}=data
+
   if(user){
 
     data.created_by=user.id
   }
-  createEnquiry(data)
+  if(data?.floor_plain?.target){
+    data.floor_plain=data.floor_plain.target.files[0]
+    createEnquiry(data)
+
+  }else{
+
+    createEnquiry(other)
+  }
 }
 const onUpdate=(data,updateEnquiry)=>{
   const {floor_plain,...other}=data
