@@ -104,3 +104,16 @@ export function generatePassword(length) {
 
   return password;
 }
+
+
+export const modifyUrl=(url)=> {
+  if (url&&url.startsWith("http")) {
+      return url.replace(/^http:\/\/[^\/]+\/image\//, '/');
+  } else {
+      return url;
+  }
+}
+
+export const roundUpTenPercent=(number)=> {
+  return Math.ceil(number * 0.1);
+}

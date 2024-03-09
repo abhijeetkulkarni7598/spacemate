@@ -7,6 +7,7 @@ const allApi = createApi({
   refetchOnMountOrArgChange: true,
   tagTypes: [
     "Project",
+    "Payment",
     "ExecutionUser",
     "ExecutionDesign",
     "ExecutionModel",
@@ -103,6 +104,27 @@ const allApi = createApi({
         },
         invalidatesTags: (result, error, arg) => [
           { type: "Invoice", id: arg.id },
+        ],
+      }),
+      createOrder: build.mutation({
+        query: (createJobcardData) => {
+         
+
+          return {
+            url: `/razorpay/pay/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+      
+        invalidatesTags: (result, error, arg) => [
+          { type: "Payment", id: arg.id },
         ],
       }),
       createCustomer: build.mutation({
@@ -1327,6 +1349,8 @@ export const {
   useCreateProjectMutation,
   useDeleteProjectMutation,
 
+
+  useCreateOrderMutation,
 
 } = allApi;
 

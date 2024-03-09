@@ -7,7 +7,7 @@ import {
   useFetchDesignsQuery,
   useFetchEnquiryQuery,
   useUpdateDesignsMutation,
-  useUpdateEnquiryMutation,
+
 } from "../../../store/store";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";

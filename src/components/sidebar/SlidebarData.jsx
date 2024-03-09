@@ -4,6 +4,7 @@ import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
 import * as RiIcons from "react-icons/ri";
 import * as MdIcons from "react-icons/md";
+import { useSelector } from "react-redux";
 
 export const SlidebarDataSuper = [
   {
@@ -159,7 +160,32 @@ export const SlidebarDataSalesAndMarketing = [
 export const SlidebarDataExecutionarHead = [
 
   {
-    title: "Enquiry Table",
+    title: "Requirement",
+    path: "/create-enquiry/2",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Floor Plan",
+    path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Unit Size",
+    path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Estimate/Quotation",
+    path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Furniture Plan",
+    path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
+    title: "Mood Board",
     path: "/enquiry-table",
     icon: <FaIcons.FaClipboardList />,
   },

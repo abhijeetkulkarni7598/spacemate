@@ -32,9 +32,20 @@
     /* position: absolute; */
 }
 
+@media print{
+    .print-body{
+        width: 1240px;
+    }
+    .view-main{
+    width: 1240px ;
+    padding: 40px!important;
+
+
+    }
+}
+
 .view-main{
     background-color: white;
-    width: 1240px ;
     /* height: 1754px ; */
     /* height: 100em ; */
     line-height:18px!important;
@@ -43,7 +54,7 @@
     min-height: 1000px;
     margin: auto;
     box-sizing: border-box;
-    padding: 40px;
+    padding: 20px;
     page-break-after: always;
 
 }

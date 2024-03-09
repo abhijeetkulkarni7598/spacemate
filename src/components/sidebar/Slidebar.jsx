@@ -3,12 +3,19 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { SlidebarData, SlidebarDataAdmin, SlidebarDataExecutionarHead, SlidebarDataExecutionarHead2, SlidebarDataSalesAndMarketing, SlidebarDataSuper } from "./SlidebarData";
+import {
+  SlidebarData,
+  SlidebarDataAdmin,
+  
+  SlidebarDataExecutionarHead2,
+  SlidebarDataSalesAndMarketing,
+  SlidebarDataSuper,
+} from "./SlidebarData";
 import Slidemenu from "./Slidemenu";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/mutation/userSlice";
 import logo from "./../../assets/img/logo512.png";
-import {useFetchExecutionModelQuery} from './../../store/store'
+import { useFetchExecutionModelQuery } from "./../../store/store";
 // import  FaIcons from "react-icons/fa";
 // import  AiIcons from "react-icons/ai";
 const Nav = styled.div`
@@ -82,7 +89,44 @@ const Divstyle = styled.ul`
 `;
 function Slidebar() {
   const navigate = useNavigate();
+  const { loading, error, user, userToken, isAuthenticated } = useSelector(
+    (state) => state?.user
+  );
+ const SlidebarDataExecutionarHead = [
 
+    {
+      title: "Requirement",
+      path: `/create-enquiry/${user?.enquiry?.id}`,
+      icon: <FaIcons.FaClipboardList />,
+    },
+    {
+      title: "Floor Plan",
+      path: "/floor-plan",
+      icon: <FaIcons.FaClipboardList />,
+    },
+    {
+      title: "Unit Size",
+      path: "/enquiry-table",
+      icon: <FaIcons.FaClipboardList />,
+    },
+    {
+      title: "Estimate/Quotation",
+      path: `/view/${user?.enquiry?.latest_quotation_id}`,
+      icon: <FaIcons.FaClipboardList />,
+    },
+    {
+      title: "Furniture Plan",
+      path: "/furniture-plan",
+      icon: <FaIcons.FaClipboardList />,
+    },
+    {
+      title: "Mood Board",
+      path: "/mood-plan",
+      icon: <FaIcons.FaClipboardList />,
+    },
+  
+  
+  ];
   const [sidebar, setSidebar] = useState(false);
   const [token, settoken] = useState(localStorage.getItem("usertoken"));
   const [user1, setuser] = useState();
@@ -95,9 +139,7 @@ function Slidebar() {
     settoken(localStorage.getItem("userToken"));
   }, [localStorage.getItem("usertoken"), localStorage.getItem("usera")]);
 
-  const { loading, error, user, userToken, isAuthenticated } = useSelector(
-    (state) => state?.user
-  );
+ 
 
   const {
     data: project_data,
@@ -214,9 +256,7 @@ function Slidebar() {
                   );
                 })}
               </>
-            ) : (
-              null
-            )}
+            ) : null}
             {user?.is_admin === true ? (
               <>
                 {SlidebarDataAdmin.map((item, index) => {
@@ -225,9 +265,7 @@ function Slidebar() {
                   );
                 })}
               </>
-            ) : (
-              null
-            )}
+            ) : null}
             {user?.is_sales_and_marketing === true ? (
               <>
                 {SlidebarDataSalesAndMarketing.map((item, index) => {
@@ -236,9 +274,7 @@ function Slidebar() {
                   );
                 })}
               </>
-            ) : (
-              null
-            )}
+            ) : null}
             {user?.is_execution_head === true ? (
               <>
                 {SlidebarDataExecutionarHead.map((item, index) => {
@@ -247,32 +283,36 @@ function Slidebar() {
                   );
                 })}
               </>
-            ) : (
-              null
-            )}
+            ) : null}
             {user?.is_customer === true ? (
               <>
-              {project_data&&project_data.length>0?
-<>
-{SlidebarDataExecutionarHead2.map((item, index) => {
-                  return (
-                    <Slidemenu item={item} key={index} onClick={Autoclose} />
-                    );
-                  })}
-</>
-              :
-              <>
-                {SlidebarDataExecutionarHead.map((item, index) => {
-                  return (
-                    <Slidemenu item={item} key={index}  onClick={Autoclose} />
-                    );
-                  })}
+                {project_data && project_data.length > 0 ? (
+                  <>
+                    {SlidebarDataExecutionarHead2.map((item, index) => {
+                      return (
+                        <Slidemenu
+                          item={item}
+                          key={index}
+                          onClick={Autoclose}
+                        />
+                      );
+                    })}
                   </>
-                }
+                ) : (
+                  <>
+                    {SlidebarDataExecutionarHead.map((item, index) => {
+                      return (
+                        <Slidemenu
+                          item={item}
+                          key={index}
+                          onClick={Autoclose}
+                        />
+                      );
+                    })}
+                  </>
+                )}
               </>
-            ) : (
-              null
-            )}
+            ) : null}
           </SlidebarWrap>
         </SlidebarNav>
       </Style>

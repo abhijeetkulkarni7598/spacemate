@@ -87,6 +87,10 @@ h1{
 .body-width{
 width: 1000px;
 }
+.body-width-vw{
+width: 90vw;
+margin: auto;
+}
 
 .FaEye{
   cursor: pointer;

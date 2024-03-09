@@ -45,12 +45,17 @@ import CommonPage from "./pages/commonpage/CommonPage";
 import ExeAuth from "./store/ExeAuth";
 import OriginalClient from "./pages/originalClient/OriginalClient";
 import MainEnquiryForm from "./pages/enquiry/form/enquiry/MainEnquiryForm";
+import FloorPlan from "./pages/enquiry/floorplan/FloorPlan";
+import { modifyUrl } from "./components/Functions/State";
+import MoodPlan from "./pages/enquiry/floorplan/MoodPlan";
+import FurniturePlan from "./pages/enquiry/floorplan/FurniturePlan";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(checkAuth());
   }, []);
+  console.log(modifyUrl("http://127.0.0.1:8000/image/floor_plans/WhatsApp_Image_2023-10-07_at_10.16.47_AM_1_U6eqANy.jpeg"))
   return (
     <>
       <BrowserRouter>
@@ -94,6 +99,38 @@ const App = () => {
             element={
               <Auth>
                 <EnquiryTable />
+              </Auth>
+            }
+          />
+          <Route
+            path="/floor-plan"
+            element={
+              <Auth>
+                <FloorPlan />
+              </Auth>
+            }
+          />
+          <Route
+            path="/mood-plan"
+            element={
+              <Auth>
+                <MoodPlan />
+              </Auth>
+            }
+          />
+          <Route
+            path="/furniture-plan"
+            element={
+              <Auth>
+                <FurniturePlan />
+              </Auth>
+            }
+          />
+          <Route
+            path="/floor-plan"
+            element={
+              <Auth>
+                <FloorPlan />
               </Auth>
             }
           />

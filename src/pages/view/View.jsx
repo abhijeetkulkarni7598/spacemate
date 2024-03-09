@@ -12,6 +12,9 @@ import { useParams } from "react-router-dom";
 import { useGetInvoiceQuery, useGetQuotationQuery } from "../../store/store";
 import Footer from "../../components/footer/Footer";
 import Slidebar from "../../components/sidebar/Slidebar";
+import { Button } from "antd";
+import { roundUpTenPercent } from "../../components/Functions/State";
+import PayNow from "./PayNow";
 // import logo2 from "./../../assets/img/logo2new.png";
 // import logo1 from "./../../assets/img/logo1new.png";
 const View = () => {
@@ -52,7 +55,9 @@ const View = () => {
   const handlePrint = useReactToPrint({
     copyStyles: true,
     content: () => componentRef.current,
-    documentTitle: `${formdata?.client_name}_ESTIMATE_SPACEMATE_${new Date().toLocaleDateString('en-GB')}`,
+    documentTitle: `${
+      formdata?.client_name
+    }_ESTIMATE_SPACEMATE_${new Date().toLocaleDateString("en-GB")}`,
     onAfterPrint: () => alert(`Printed`),
   });
 
@@ -81,9 +86,16 @@ const View = () => {
     }
   }, [formdata]);
 
+
+
+
+
+
+
+
   return (
     <>
-    <Slidebar/>
+      <Slidebar />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="view-print">
           <button className="print-btn" onClick={handlePrint}>
@@ -91,10 +103,9 @@ const View = () => {
           </button>
         </div>
         <div
-          className="view-body"
+          className="view-body print-body"
           ref={componentRef}
           style={{
-            width: "1240px",
             // height: window.innerHeight,
             margin: "auto",
             background: "white",
@@ -111,8 +122,8 @@ const View = () => {
                   <tr>
                     <td
                       style={{
-                        background: "#6bc9d6" ,
-                        color:"black",
+                        background: "#6bc9d6",
+                        color: "black",
                         borderTop: "2px solid black",
                         borderLeft: "2px solid black",
                       }}
@@ -125,10 +136,10 @@ const View = () => {
                       colSpan={2}
                       rowSpan={4}
                     >
-                      <Logo1 style={{width:"400px"}} />
+                      <Logo1 style={{ maxWidth: "400px" }} />
                     </td>
                   </tr>
-            
+
                   <tr>
                     <td
                       style={{ border: "2px solid black", textAlign: "left" }}
@@ -145,13 +156,10 @@ const View = () => {
                     </td>
                   </tr>
                   <tr>
-
-<td colSpan={2}
-  style={{ textAlign: "left" }}
-  >
-  <b>Date :</b> {formdata?.date}
-</td>
-  </tr>
+                    <td colSpan={2} style={{ textAlign: "left" }}>
+                      <b>Date :</b> {formdata?.date}
+                    </td>
+                  </tr>
                   <tr>
                     <td colSpan={2} style={{ textAlign: "left" }}>
                       <b>Contact :</b>
@@ -161,15 +169,16 @@ const View = () => {
                       SPACEMATE INTERIOR SOLUTIONS, PUNE - 9975149820
                     </td>
                   </tr>
-          
-                 
-            
 
-                  <tr style={{  background: "#6bc9d6" ,color:"black" }}>
-                    <th style={{ width: "10%",textAlign:"center" }}>SR NO</th>
-                    <th style={{ width: "40%",textAlign:"center" }}>PARTICULAR</th>
-                    <th style={{ width: "30%",textAlign:"center" }}>SIZE ( L x H ) </th>
-                    <th style={{ width: "30%",textAlign:"center" }}>PRICE</th>
+                  <tr style={{ background: "#6bc9d6", color: "black" }}>
+                    <th style={{ width: "10%", textAlign: "center" }}>SR NO</th>
+                    <th style={{ width: "40%", textAlign: "center" }}>
+                      PARTICULAR
+                    </th>
+                    <th style={{ width: "30%", textAlign: "center" }}>
+                      SIZE ( L x H ){" "}
+                    </th>
+                    <th style={{ width: "30%", textAlign: "center" }}>PRICE</th>
                   </tr>
                   <tr>
                     <td style={{ background: "#eafcfc" }} colSpan={4}>
@@ -180,7 +189,10 @@ const View = () => {
                   {uniqueCategories.map((item) => (
                     <>
                       <tr>
-                        <td colSpan={4} style={{ background: "#6bc9d6" ,color:"black"}}>
+                        <td
+                          colSpan={4}
+                          style={{ background: "#6bc9d6", color: "black" }}
+                        >
                           {item}
                         </td>
                       </tr>
@@ -190,10 +202,10 @@ const View = () => {
                           <tr>
                             <td>{counter()}</td>
                             <td>
-                              {op.item_name} x ({op.quantity}) 
+                              {op.item_name} x ({op.quantity})
                               {/* <span style={{color:"red"}}> */}
                               &nbsp;&nbsp;
-                              {op.specifications?op.specifications:null}
+                              {op.specifications ? op.specifications : null}
                               {/* </span> */}
                             </td>
                             {/* <td>
@@ -204,14 +216,68 @@ const View = () => {
                               
                             </td> */}
                             <td>
-                            {op.length ? <>{parseFloat(op.length).toString()}'L{op.height||op.depth || op.width ||op.numbers||op.sqft||op.running_foot  ? ' x ' : ''}</> : null}
-                              {op.height ? <>{parseFloat(op.height).toString()}'H{op.depth || op.width ||op.numbers||op.sqft||op.running_foot  ? ' x ' : ''}</> : null}
-                             
-                              {op.depth ? <>{parseFloat(op.depth).toString()}'D{op.width ||op.numbers||op.sqft||op.running_foot ? ' x ' : ''}</> : null}
-                              {op.width ? <>{parseFloat(op.width).toString()}'W{op.numbers||op.sqft||op.running_foot ? ' x ' : ''}</> : null}
-                              {op.numbers ? <>{parseFloat(op.numbers).toString()}'No's{op.sqft||op.running_foot ? ' x ' : ''}</> : null}
-                              {op.sqft ? <>{parseFloat(op.sqft).toString()}'sqft{op.running_foot ? ' x ' : ''}</> : null}
-                              {op.running_foot ? <>{parseFloat(op.running_foot).toString()}'feet</> : null}
+                              {op.length ? (
+                                <>
+                                  {parseFloat(op.length).toString()}'L
+                                  {op.height ||
+                                  op.depth ||
+                                  op.width ||
+                                  op.numbers ||
+                                  op.sqft ||
+                                  op.running_foot
+                                    ? " x "
+                                    : ""}
+                                </>
+                              ) : null}
+                              {op.height ? (
+                                <>
+                                  {parseFloat(op.height).toString()}'H
+                                  {op.depth ||
+                                  op.width ||
+                                  op.numbers ||
+                                  op.sqft ||
+                                  op.running_foot
+                                    ? " x "
+                                    : ""}
+                                </>
+                              ) : null}
+
+                              {op.depth ? (
+                                <>
+                                  {parseFloat(op.depth).toString()}'D
+                                  {op.width ||
+                                  op.numbers ||
+                                  op.sqft ||
+                                  op.running_foot
+                                    ? " x "
+                                    : ""}
+                                </>
+                              ) : null}
+                              {op.width ? (
+                                <>
+                                  {parseFloat(op.width).toString()}'W
+                                  {op.numbers || op.sqft || op.running_foot
+                                    ? " x "
+                                    : ""}
+                                </>
+                              ) : null}
+                              {op.numbers ? (
+                                <>
+                                  {parseFloat(op.numbers).toString()}'No's
+                                  {op.sqft || op.running_foot ? " x " : ""}
+                                </>
+                              ) : null}
+                              {op.sqft ? (
+                                <>
+                                  {parseFloat(op.sqft).toString()}'sqft
+                                  {op.running_foot ? " x " : ""}
+                                </>
+                              ) : null}
+                              {op.running_foot ? (
+                                <>
+                                  {parseFloat(op.running_foot).toString()}'feet
+                                </>
+                              ) : null}
                             </td>
                             <td>{op.total}</td>
                           </tr>
@@ -237,14 +303,13 @@ const View = () => {
 
                     <td>{total}</td>
                   </tr>
-                  {
-                    formdata?.special_note?
+                  {formdata?.special_note ? (
                     <tr>
-                    <td style={{ background: "#f4cccc" }} colSpan={4}>
-                      {formdata?.special_note}
-                    </td>
-                  </tr>:null
-                  }
+                      <td style={{ background: "#f4cccc" }} colSpan={4}>
+                        {formdata?.special_note}
+                      </td>
+                    </tr>
+                  ) : null}
                   <tr>
                     <td style={{ border: "1px solid lightgrey" }} colSpan={4}>
                       <b>TERMS AND CONDITIONS</b>
@@ -412,7 +477,7 @@ const View = () => {
           </div>
         </div>
       </div>
-
+    <PayNow total={total}/>
       <Footer />
     </>
   );

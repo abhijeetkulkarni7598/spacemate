@@ -80,7 +80,7 @@ const OriginalClient = () => {
     }
   }, [updateEnquiryResponseInfo]);
   const handleSelectStatus = (record) => {
-    const { status, floor_plain, customer_id, ...other } = dataInstance;
+    const { status, floor_plain, customer_id,moon_board,proposed_furniture_plan, ...other } = dataInstance;
     const newData = { status: "Client", customer_id: record.id, ...other };
     updateEnquiry(newData);
   };

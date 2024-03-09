@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import { CloseOutlined } from "@ant-design/icons";
 
 import {
   useFetchCustomerQuery,
@@ -34,14 +35,24 @@ const ViewModel = ({ performCancel, getData }) => {
   return (
     <>
       <div className="model-con">
-        <div className="model-box" style={{ width: "80vw" }}>
-          <PdfViewer data={getData} />
-          {getData}
-          <div style={{ margin: "20px 0px" }}>
-            <Button onClick={() => performCancel()} type="primary" danger>
-              Cancel
-            </Button>
+        <div className="model-box" style={{ width: "80vw" ,height:"90vh"}}>
+          <div style={{height:"100%",overflow:"auto"}}>
+
+          <h2>Floor Plan</h2>
+          <PdfViewer data={getData?.floor_plain} />
+          <h2>Mood Board</h2>
+          <PdfViewer data={getData?.moon_board} />
+          <h2>Furniture Plan</h2>
+          <PdfViewer data={getData?.proposed_furniture_plan} />
           </div>
+          
+          
+          {/* {getData} */}
+          {/* <div style={{ margin: "20px 0px" }}> */}
+          <p className="p--cross--custom" onClick={()=>performCancel()}>
+                    <CloseOutlined />
+                  </p>
+          {/* </div> */}
         </div>
       </div>
     </>
@@ -100,7 +111,7 @@ const dispatch=useDispatch()
     setShowFloorPlan(false);
   };
   const editfun = (record) => {
-    setGetData(record.floor_plain);
+    setGetData(record);
     setShowFloorPlan(true);
   };
   const navi = (data) => {
@@ -110,20 +121,20 @@ const dispatch=useDispatch()
     navigate(`/design-table/${data.id}`);
   };
   const handleSelect = (data, record) => {
-    const { customer_id, floor_plain, ...other } = record;
+    const { customer_id, floor_plain, proposed_furniture_plan,moon_board,...other } = record;
     const newData = { customer_id: data, ...other };
 
     updateEnquiry(newData);
   };
   const handleSelectSales = (data, record) => {
-    const { created_by, floor_plain, ...other } = record;
+    const { created_by, floor_plain,proposed_furniture_plan, moon_board,...other } = record;
     const newData = { created_by: data, ...other };
 
     updateEnquiry(newData);
   };
   const handleSelectCustomerStatus = (e,data, record) => {
     e.stopPropagation()
-    const { status, floor_plain, ...other } = record;
+    const { status, floor_plain,proposed_furniture_plan, moon_board,...other } = record;
     const newData = { status: data, ...other };
     updateEnquiry(newData);
 
