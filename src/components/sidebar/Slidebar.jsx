@@ -7,9 +7,12 @@ import {
   SlidebarData,
   SlidebarDataAdmin,
   
+  SlidebarDataExecutionarHead,
+  
   SlidebarDataExecutionarHead2,
   SlidebarDataSalesAndMarketing,
   SlidebarDataSuper,
+  SliderForDesignHead,
 } from "./SlidebarData";
 import Slidemenu from "./Slidemenu";
 import { useDispatch, useSelector } from "react-redux";
@@ -92,7 +95,7 @@ function Slidebar() {
   const { loading, error, user, userToken, isAuthenticated } = useSelector(
     (state) => state?.user
   );
- const SlidebarDataExecutionarHead = [
+ const SliderForCustomer = [
 
     {
       title: "Requirement",
@@ -164,7 +167,7 @@ function Slidebar() {
             fontSize: "1.3rem",
           }}
         >
-          Logged In as: <b>{localStorage.getItem("usera")}</b>
+          Logged In as: <b>{user?.username}</b>
         </li>
         <li
           className="li-sidebar"
@@ -288,7 +291,7 @@ function Slidebar() {
               <>
                 {project_data && project_data.length > 0 ? (
                   <>
-                    {SlidebarDataExecutionarHead2.map((item, index) => {
+                    {SliderForCustomer.map((item, index) => {
                       return (
                         <Slidemenu
                           item={item}
@@ -300,7 +303,7 @@ function Slidebar() {
                   </>
                 ) : (
                   <>
-                    {SlidebarDataExecutionarHead.map((item, index) => {
+                    {SliderForCustomer.map((item, index) => {
                       return (
                         <Slidemenu
                           item={item}
@@ -312,6 +315,23 @@ function Slidebar() {
                   </>
                 )}
               </>
+            ) : null}
+            {user?.is_design_head === true||user?.is_design_staff===true ? (
+             
+              
+                  <>
+                    {SliderForDesignHead.map((item, index) => {
+                      return (
+                        <Slidemenu
+                          item={item}
+                          key={index}
+                          onClick={Autoclose}
+                        />
+                      );
+                    })}
+                  </>
+              
+          
             ) : null}
           </SlidebarWrap>
         </SlidebarNav>

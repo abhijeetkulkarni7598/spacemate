@@ -5,6 +5,7 @@ import "./navbar.css";
 import { ReactComponent as Spacemate_logo } from "../../assets/spacemate_logo.svg";
 import Logo from "../logo/Logo";
 import PayOnline from "../button/PayOnline";
+import PayNow from "../../pages/view/PayNow";
 
 const Navbar = () => {
   const [showMediaIcons, setShowMediaIcons] = useState(false);
@@ -42,6 +43,7 @@ const Navbar = () => {
         </div>
         <div className="social-media">
           <PayOnline title="Pay Online" />
+          {/* <PayNow title="Pay Online"/> */}
           {/*<div className="conatct-section">
             <ul className="social-media-desktop">
               <li></li>

@@ -86,6 +86,14 @@ export {
 
   useDeleteEnquiryMutation,
   useCreateOrderMutation,
+  useCancelOrderMutation,
+
+  useFailedOrderMutation,
+  useSuccessOrderMutation,
+  useFetchOrderQuery,
+  useUpdateOrderMutation,
+
+
 
 
 

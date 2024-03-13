@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import {
   Design_page,
   Enquiry_page,
+  Order_page,
   client_page,
   item_page,
   quotation_page,
@@ -64,7 +65,11 @@ const ETable = (props) => {
               dispatch(Enquiry_page(page));
             } else if (props?.field === "design") {
               dispatch(Design_page(page));
-            } else {
+            }
+            else if (props?.field === "order") {
+              dispatch(Order_page(page));
+            }
+            else {
               dispatch(client_page(page));
             }
 

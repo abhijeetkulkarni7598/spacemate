@@ -184,6 +184,19 @@ export const Enquiry_page = createAsyncThunk(
     }
   }
 );
+export const Order_page = createAsyncThunk(
+  "order_page",
+  async (username, thunkAPI) => {
+    try {
+      // configure header's Content-Type as JSON
+
+      console.log("order_page", username);
+      return username;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 export const Filter_Enquiry = createAsyncThunk(
   "filter_enquiry",
   async (username, thunkAPI) => {
@@ -191,6 +204,20 @@ export const Filter_Enquiry = createAsyncThunk(
       // configure header's Content-Type as JSON
 
       console.log("filter_enquiry", username);
+      return username;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+export const Login_show = createAsyncThunk(
+  "login_show_s",
+  async (username, thunkAPI) => {
+    try {
+      // configure header's Content-Type as JSON
+
+      console.log("Login_show", username);
       return username;
     } catch (err) {
       return thunkAPI.rejectWithValue(err);
@@ -269,11 +296,13 @@ const initialState = {
   item_page: 1,
   enquiry_page: 1,
   design_page: 1,
+  order_page: 1,
+  login_show: false,
+
   filter_enquiry: {
     name: [""],
     email: [""],
     mobile: [""],
-  
   },
 };
 
@@ -300,12 +329,13 @@ const userSlice = createSlice({
         quotation_page: 1,
         enquiry_page: 1,
         design_page: 1,
+        order_page: 1,
+        login_show: false,
+
         filter_enquiry: {
           name: [""],
           email: [""],
           mobile: [""],
-
-        
         },
       };
     },
@@ -373,6 +403,13 @@ const userSlice = createSlice({
       .addCase(Filter_Enquiry.fulfilled, (state, action) => {
         state.filter_enquiry = action.payload;
       })
+      .addCase(Order_page.fulfilled, (state, action) => {
+        state.order_page = action.payload;
+      })
+      .addCase(Login_show.fulfilled, (state, action) => {
+        state.login_show = action.payload;
+      })
+
       .addCase(Enquiry_page.fulfilled, (state, action) => {
         state.enquiry_page = action.payload;
       });

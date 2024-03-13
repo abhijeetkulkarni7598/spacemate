@@ -1,16 +1,221 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, InputNumber, message } from "antd";
+import React, { useEffect } from "react";
+import { MdClose } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { Login_show } from "../../store/mutation/userSlice";
+import { useCancelOrderMutation, useCreateOrderMutation, useFailedOrderMutation, useSuccessOrderMutation } from "../../store/store";
+import logo from "./../../assets/img/logo512.png"
+import { validateEmail, validateNumber } from "../Functions/State";
 
 const PayOnline = ({ customStyle, isValid, title }) => {
-  return (
-    <BtnStyle>
+  const dispatch=useDispatch()
+  const Login = () => {
+    const [createProduct, creatProductResponseInfo] = useCreateOrderMutation();
+  const [cancelOrder, cancelOrderResponseInfo] = useCancelOrderMutation();
+  const [failedOrder, failedOrderResponseInfo] = useFailedOrderMutation();
+  const [successOrder, successOrderResponseInfo] = useSuccessOrderMutation();
+
+
+  useEffect(() => {
+ if(cancelOrderResponseInfo?.isSuccess){
+  message.success("Order Cancelled")
+ }
+ if(cancelOrderResponseInfo?.isError){
+  message.error("Something went wrong")
+
+ }
+  }, [cancelOrderResponseInfo]);
+  useEffect(() => {
+ if(successOrderResponseInfo?.isSuccess){
+  message.success("Order Success")
+ }
+ if(successOrderResponseInfo?.isError){
+  message.error("Something went wrong")
+
+ }
+  }, [successOrderResponseInfo]);
+  useEffect(() => {
+ if(failedOrderResponseInfo?.isSuccess){
+  message.success("Order Failed")
+ }
+ if(failedOrderResponseInfo?.isError){
+  message.error("Something went wrong")
+
+ }
+  }, [failedOrderResponseInfo]);
+  useEffect(() => {
+    console.log(creatProductResponseInfo);
+
+    if (creatProductResponseInfo?.isSuccess) {
+      var options = {
+        key: "" + creatProductResponseInfo?.data?.key_id + "",
+        amount: "" + creatProductResponseInfo?.data?.amount + "",
+        currency: "INR",
+        name: "" + creatProductResponseInfo?.data?.product_name + "",
+        description: "" + creatProductResponseInfo?.data?.description + "",
+        image: "https://dummyimage.com/600x400/000/fff",
+        order_id: "" + creatProductResponseInfo?.data?.order_id + "",
+        handler: function (response) {
+          message.success("Payment Succeeded");
+        successOrder({order_id:creatProductResponseInfo?.data?.order_id})
+        dispatch(Login_show(false))
+          // razorpayObject.modal.close()
+          //success api call
+          // window.open("/profile-page","_self")
+        },
+        modal: {
+          ondismiss: function () {
+            message.error("Payment Cancelled");
+            //cancel function
+            cancelOrder({order_id:creatProductResponseInfo?.data?.order_id})
+          },
+        },
+        prefill: {
+          contact: "" + creatProductResponseInfo?.data?.contact + "",
+          name: "" + creatProductResponseInfo?.data?.name + "",
+          email: "" + creatProductResponseInfo?.data?.email + "",
+        },
+        notes: {
+          description: "" + creatProductResponseInfo?.data?.description + "",
+        },
+        theme: {
+          color: "#2300a3",
+        },
+      };
+      var razorpayObject = new window.Razorpay(options);
+
+      razorpayObject.on("payment.failed", function (response) {
+        message.error("Payment Failed");
+        failedOrder({order_id:creatProductResponseInfo?.data?.order_id})
+
+        // console.log(response)
+        //fail api call
+      });
+      console.log(razorpayObject);
+      razorpayObject.open();
+    }
+  }, [creatProductResponseInfo]);
+
+    
+  const validatePhoneNumber = (rule, value, callback) => {
+    if (value && value.length !== 10) {
+      callback('Please enter a 10-digit number!');
+    } else {
+      callback();
+    }
+  };
+    return (
+      <div className="model-main-login">
+        <div className="model-main-box-login">
+          <div
+            style={{ position: "absolute", right: "10px", cursor: "pointer" }}
+            onClick={() => {
+              dispatch(Login_show(false));
+            }}
+          >
+            <MdClose />
+          </div>
+
+         
+            <Form
+              style={{ marginTop: "30px" }}
+              onFinish={(data) => createProduct(data)}
+            >
+<img src={logo} alt="" onClick={()=> dispatch(Login_show(false))}  style={{width:"200px",marginBottom:"20px"}}/>
+              
+              <Form.Item name="customer_name">
+                <Input
+                  required
+                  className="input-login-google"
+                  placeholder="Enter Your Name"
+                />
+              </Form.Item>
+              <Form.Item name="customer_email"  rules={[
+          {
+            required: true,
+            message: 'Please input your Gmail!',
+          },
+          {
+            validator: validateEmail,
+          },
+        ]}>
+                <Input
+                  required
+                  className="input-login-google"
+                  placeholder="Enter Your Gmail"
+                />
+              </Form.Item>
+              <Form.Item name="customer_number" rules={[
+          {
+            required: true,
+            message: 'Please input your number!',
+          },
+          {
+            validator: validatePhoneNumber,
+          },
+        ]}>
+                <Input
+                  required
+                  type="number"
+                  className="input-login-google"
+                  placeholder="Enter Your Number"
+                />
+              </Form.Item>
+              <Form.Item name="amount"  rules={[
+          {
+            required: true,
+            message: 'Please input your amount!',
+          },
+          {
+            validator: validateNumber,
+          },
+        ]} >
+                <InputNumber
+                style={{width:"100%"}}
+                  type="number"
+                  className="input-login-google"
+                  placeholder="Enter Your Amount"
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <Button
+                  loading={false}
+                  type="primary"
+                  htmlType="submit"
+                  style={{
+                    width: "100%",
+                    background: "var(--pr-color)",
+                    color: "white",
+                  }}
+                >
+                  Pay
+                </Button>
+               
+              </Form.Item>
+            </Form>
+        
+
+      
+        </div>
+      </div>
+    );
+  };
+  const { user, userToken, loading, checkAuthLoading ,isAuthenticated,login_show} = useSelector(
+    (state) => state.user
+  );
+  return (<>
+    <BtnStyle onClick={()=>dispatch(Login_show(true))}>
       <button className={!isValid ? "button-65" : "button-65 customstyle"}>
-        <a href="https://www.instamojo.com/@SPACEMATE" target="blank">
+
           {title}
-        </a>
+     
       </button>
+
     </BtnStyle>
+    {login_show?<Login/>:null}
+  </>
   );
 };
 

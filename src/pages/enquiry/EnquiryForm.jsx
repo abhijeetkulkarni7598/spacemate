@@ -218,6 +218,7 @@ const EnquiryForm = ({ user, enquiry }) => {
 
           <Form.Item>
             <Button
+            loading={updateEnquiryResponseInfo?.isLoading||createEnquiryResponseInfo?.isLoading}
               type="primary"
               htmlType="submit"
               style={{ marginRight: "40px", background: "var(--pr-color) " }}

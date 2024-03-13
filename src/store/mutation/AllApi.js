@@ -83,6 +83,25 @@ const allApi = createApi({
           };
         },
       }),
+      fetchOrder: build.query({
+        query: ({page}) => {
+          return {
+            url: `/razorpay/order/?page=${page}`,
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          };
+        },
+        providesTags: (result = [], error, arg) =>
+        result?.results?.length
+          ? [
+              ...result.results.map(({ id }) => ({ type: "Payment", id })),
+              "Payment",
+            ]
+          : ["Payment"],
+    }),
       createInvoice: build.mutation({
         query: (createJobcardData) => {
           const { user, ...data } = createJobcardData;
@@ -108,11 +127,29 @@ const allApi = createApi({
       }),
       createOrder: build.mutation({
         query: (createJobcardData) => {
-         
-
           return {
             url: `/razorpay/pay/`,
             method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              // Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+
+        invalidatesTags: (result, error, arg) => [
+          { type: "Payment", id: arg.id },
+        ],
+      }),
+      updateOrder: build.mutation({
+        query: (createJobcardData) => {
+          const {id,...data}=createJobcardData
+          return {
+            url: `/razorpay/order/${id}/`,
+            method: "PATCH",
             body: createJobcardData,
             headers: {
               Accept: "application/json",
@@ -122,7 +159,70 @@ const allApi = createApi({
             },
           };
         },
-      
+
+        invalidatesTags: (result, error, arg) => [
+          { type: "Payment", id: arg.id },
+        ],
+      }),
+      cancelOrder: build.mutation({
+        query: (createJobcardData) => {
+          const {order_id,...data}=createJobcardData
+          return {
+            url: `/razorpay/cancel_order/${order_id}/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              "content-Type": "application/json",
+
+
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+
+        invalidatesTags: (result, error, arg) => [
+          { type: "Payment", id: arg.id },
+        ],
+      }),
+      failedOrder: build.mutation({
+        query: (createJobcardData) => {
+          const {order_id,...data}=createJobcardData
+          return {
+            url: `/razorpay/failed_order/${order_id}/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              "content-Type": "application/json",
+
+
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+
+        invalidatesTags: (result, error, arg) => [
+          { type: "Payment", id: arg.id },
+        ],
+      }),
+      successOrder: build.mutation({
+        query: (createJobcardData) => {
+          const {order_id,...data}=createJobcardData
+          return {
+            url: `/razorpay/success_order/${order_id}/`,
+            method: "POST",
+            body: createJobcardData,
+            headers: {
+              Accept: "application/json",
+              "content-Type": "application/json",
+
+
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+
         invalidatesTags: (result, error, arg) => [
           { type: "Payment", id: arg.id },
         ],
@@ -249,7 +349,7 @@ const allApi = createApi({
         },
       }),
       getDesigns: build.query({
-        query: ({id}) => {
+        query: ({ id }) => {
           if (id !== undefined) {
             return {
               url: `/enquiry/designs/${id}/`,
@@ -299,13 +399,15 @@ const allApi = createApi({
       }),
 
       fetchClient: build.query({
-        query: ({ val, id ,status,search}) => {
+        query: ({ val, id, status, search }) => {
           if (id === undefined) {
             id = "";
           }
           return {
             // url: `/api/client/?page=${val}&user_client_id=${id}`,
-            url: `/enquiry/enquires/?page=${val}&user=${id}&status=${status?status:""}&search=${search}`,
+            url: `/enquiry/enquires/?page=${val}&user=${id}&status=${
+              status ? status : ""
+            }&search=${search}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -473,7 +575,6 @@ const allApi = createApi({
         invalidatesTags: (result, error, arg) => [
           { type: "Enquiry", id: arg.id },
           { type: "Client", id: arg.id },
-
         ],
       }),
 
@@ -584,7 +685,7 @@ const allApi = createApi({
       deleteProject: build.mutation({
         query: (createJobcardData) => {
           const { ...data } = createJobcardData;
-          const { id,...other } = createJobcardData;
+          const { id, ...other } = createJobcardData;
 
           var formdata = new FormData();
           Object.keys(data).map((form_key) =>
@@ -607,7 +708,7 @@ const allApi = createApi({
       }),
       deleteExecutionDesign: build.mutation({
         query: (createJobcardData) => {
-          const { id,...data } = createJobcardData;
+          const { id, ...data } = createJobcardData;
 
           return {
             url: `/execution/designs/${id}/`,
@@ -702,7 +803,7 @@ const allApi = createApi({
           { type: "Vendor", id: arg.id },
         ],
       }),
-    
+
       updateEnquiry: build.mutation({
         query: (upadate_value) => {
           const { id, ...other } = upadate_value;
@@ -737,7 +838,7 @@ const allApi = createApi({
           Object.keys(data).map((form_key) =>
             formdata.append(form_key, data[form_key] || "")
           );
-          console.log(formdata)
+          console.log(formdata);
           return {
             url: `/enquiry/designs/${id}/`,
             method: "PUT",
@@ -762,7 +863,7 @@ const allApi = createApi({
           Object.keys(data).map((form_key) =>
             formdata.append(form_key, data[form_key] || "")
           );
-          console.log(formdata)
+          console.log(formdata);
           return {
             url: `/execution/stepsModel/${id}/`,
             method: "PUT",
@@ -844,8 +945,7 @@ const allApi = createApi({
               headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
-              Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-
+                Authorization: `Bearer ${localStorage.getItem("userToken")}`,
               },
             };
           }
@@ -910,7 +1010,7 @@ const allApi = createApi({
             : ["Vendor"],
       }),
       fetchEnquiry: build.query({
-        query: ({user,page,name,created_by,email,mobile}) => {
+        query: ({ user, page, name, created_by, email, mobile }) => {
           return {
             url: `/enquiry/enquires/?page=${page}&customer_id=${user}&name=${name}&created_by=${created_by}&email=${email}&mobile=${mobile}`,
             method: "GET",
@@ -929,7 +1029,7 @@ const allApi = createApi({
             : ["Enquiry"],
       }),
       fetchDesigns: build.query({
-        query: ({ enquiry,approval,page }) => {
+        query: ({ enquiry, approval, page }) => {
           return {
             url: `/enquiry/designs/?page=${page}&enquiry=${enquiry}&approval=${approval}`,
             method: "GET",
@@ -1349,9 +1449,12 @@ export const {
   useCreateProjectMutation,
   useDeleteProjectMutation,
 
-
   useCreateOrderMutation,
-
+  useCancelOrderMutation,
+  useFailedOrderMutation,
+  useSuccessOrderMutation,
+  useFetchOrderQuery,
+  useUpdateOrderMutation,
 } = allApi;
 
 export { allApi };

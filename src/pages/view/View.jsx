@@ -15,8 +15,11 @@ import Slidebar from "../../components/sidebar/Slidebar";
 import { Button } from "antd";
 import { roundUpTenPercent } from "../../components/Functions/State";
 import PayNow from "./PayNow";
+import { useSelector } from "react-redux";
+import { useQuery } from "react-query";
 // import logo2 from "./../../assets/img/logo2new.png";
 // import logo1 from "./../../assets/img/logo1new.png";
+
 const View = () => {
   const componentRef = useRef();
   const toWords = new ToWords();
@@ -40,14 +43,20 @@ const View = () => {
     "Furniture other than mentioned in the list will be charged on a per SQ FT basis",
     "Wall Panelling: 450 Rs/ Sq. Feet",
   ];
-
   const { id } = useParams();
   // console.log(id)
+  const { user, userToken, checkAuthLoading ,isAuthenticated} = useSelector(
+    (state) => state.user
+  );
   const {
     data: formdata,
     isLoading: loading,
     isSuccess: here,
   } = useGetQuotationQuery(id);
+  // const { formdata, isLoading } = useQuery('interiorGallery', useGetQuotationQuery, {
+  //   refetchInterval: 5000, // Fetch data every 5 seconds
+  //   refetchIntervalInBackground: true, // Refetch data even when the tab is in background
+  // });
   const uniqueCategories = [
     ...new Set(formdata?.item.map((item) => item.item_category)),
   ];
@@ -477,7 +486,10 @@ const View = () => {
           </div>
         </div>
       </div>
-    <PayNow total={total}/>
+      {user?.is_customer===true&&isAuthenticated?
+
+<PayNow total={total}/>
+:null}
       <Footer />
     </>
   );

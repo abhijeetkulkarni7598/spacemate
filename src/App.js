@@ -22,7 +22,7 @@ import Auth from "./store/Auth";
 import Client from "./pages/Client";
 import "./App.css";
 import { useDispatch } from "react-redux";
-import { checkAuth } from "./store/mutation/userSlice";
+import { checkAuth, getUser } from "./store/mutation/userSlice";
 import Quotation from "./pages/Quotation";
 
 import CreateQuotation from "./pages/CreateQuotation";
@@ -49,11 +49,13 @@ import FloorPlan from "./pages/enquiry/floorplan/FloorPlan";
 import { modifyUrl } from "./components/Functions/State";
 import MoodPlan from "./pages/enquiry/floorplan/MoodPlan";
 import FurniturePlan from "./pages/enquiry/floorplan/FurniturePlan";
+import OrderTable from "./pages/order/OrderTable";
+import DesignClientTable from "./pages/enquiry/form/DesignClientTable";
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(checkAuth());
+    dispatch(getUser());
   }, []);
   console.log(modifyUrl("http://127.0.0.1:8000/image/floor_plans/WhatsApp_Image_2023-10-07_at_10.16.47_AM_1_U6eqANy.jpeg"))
   return (
@@ -115,6 +117,22 @@ const App = () => {
             element={
               <Auth>
                 <MoodPlan />
+              </Auth>
+            }
+          />
+          <Route
+            path="/order-table"
+            element={
+              <Auth>
+                <OrderTable/>
+              </Auth>
+            }
+          />
+          <Route
+            path="/design-client"
+            element={
+              <Auth>
+                <DesignClientTable/>
               </Auth>
             }
           />

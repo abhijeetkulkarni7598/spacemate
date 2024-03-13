@@ -42,6 +42,11 @@ export const SlidebarDataSuper = [
     ],
   },
   {
+    title: "Design Client",
+    path: "/design-client",
+    icon: <FaIcons.FaClipboardList />,
+  },
+  {
     title: "Execution Table",
     path: "/execution-table",
     icon: <FaIcons.FaClipboardList />,
@@ -84,6 +89,11 @@ export const SlidebarDataSuper = [
         icon: <FaIcons.FaClipboardList />,
       },
     ],
+  },
+  {
+    title: "Order Table",
+    path: "/order-table",
+    icon: <FaIcons.FaClipboardList />,
   },
 
 
@@ -187,6 +197,16 @@ export const SlidebarDataExecutionarHead = [
   {
     title: "Mood Board",
     path: "/enquiry-table",
+    icon: <FaIcons.FaClipboardList />,
+  },
+
+
+];
+export const SliderForDesignHead = [
+
+  {
+    title: "Design Client",
+    path: "/design-client",
     icon: <FaIcons.FaClipboardList />,
   },
 

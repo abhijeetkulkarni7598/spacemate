@@ -28,6 +28,7 @@ return sortedData
 
 export const ApprovalArray=["Approved","Rejected","Pending"]
 export const EnquiryStatusArray=["Enquiry","Prospect","Client"]
+export const PaymentArray=["Success","Failed","Pending","Cancelled","Rejected"]
 
 export  const getQueryParamsObject = (id) => {
     // Assuming you have the full URL or use the window.location.search
@@ -107,8 +108,8 @@ export function generatePassword(length) {
 
 
 export const modifyUrl=(url)=> {
-  if (url&&url.startsWith("http")) {
-      return url.replace(/^http:\/\/[^\/]+\/image\//, '/');
+  if (url&&url.startsWith("https")) {
+      return url.replace(/^https:\/\/[^\/]+\/image\//, '/');
   } else {
       return url;
   }
@@ -117,3 +118,19 @@ export const modifyUrl=(url)=> {
 export const roundUpTenPercent=(number)=> {
   return Math.ceil(number * 0.1);
 }
+export  const validateEmail = (rule, value, callback) => {
+  const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+  if (!gmailPattern.test(value)) {
+    callback('Please enter a valid Gmail address!');
+  } else {
+    callback();
+  }
+};
+
+export  const validateNumber = (rule, value, callback) => {
+  if (value && value.toString().indexOf('.') !== -1) {
+    callback('Please enter a whole number!');
+  } else {
+    callback();
+  }
+};
