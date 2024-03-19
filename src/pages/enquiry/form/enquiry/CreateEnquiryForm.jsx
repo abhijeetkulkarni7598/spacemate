@@ -9,7 +9,6 @@ const CreateEnquiryForm = ({enquiry}) => {
   );
   return (
     <div>
-      <Slidebar/>
       <EnquiryForm enquiry={enquiry?enquiry:null} user={user} />
     </div>
   )

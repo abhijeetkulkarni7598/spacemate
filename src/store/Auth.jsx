@@ -30,7 +30,7 @@ function Auth({ children }) {
     );
     if (loading) return <p>loafding</p>;
 
-  if ( !userToken||isAuthenticated===false||!userToken) {
+  if ( !userToken||isAuthenticated===false) {
     return <Navigate to={"/login"} />;
   }
   

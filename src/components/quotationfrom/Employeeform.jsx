@@ -104,7 +104,7 @@ import {
             // initialValues={thisone}
           >
             <Form.Item name={["name"]} label="Employee Name">
-              <Input placeholder="Enter Your Employee Name" />
+              <Input required placeholder="Enter Your Employee Name" />
             </Form.Item>
             <Form.Item name={["number"]} label="Contact No">
               <InputNumber

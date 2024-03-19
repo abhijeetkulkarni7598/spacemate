@@ -29,7 +29,7 @@ const Employee = () => {
   const { user } = useSelector((state) => state.user);
   const [user_id, setUser_id] = useState("");
   useEffect(() => {
-    if (user?.role === "ADMIN") {
+    if (user?.is_superuser ||user?.is_admin) {
     } else {
       setUser_id(user?.id);
     }
@@ -68,29 +68,30 @@ const Employee = () => {
           title: "Name",
           dataIndex: "name",
           key: "id",
-          width: "100",
-          fixed: "left",
+          width: 150,
 
           //   ...getColumnSearchProps('name'),
         },
 
         {
-          title: "Cx Email",
+          title: "Email",
           dataIndex: "email",
           key: "id",
-          width: 200,
+          width: 250,
         },
         {
           title: "Phone",
-          dataIndex: "phone",
+          dataIndex: "number",
           key: "id",
+          width: 150,
+
         },
 
         {
-          title: "Site Address",
-          dataIndex: "site_address",
+          title: "Permanent Address",
+          dataIndex: "permanent_address",
           key: "id",
-          width: 300,
+          width: 500,
         },
         {
           title: " ",
@@ -117,6 +118,7 @@ const Employee = () => {
           key: "id",
           //   ...getColumnSearchProps('name'),
           width: 100,
+          fixed: "left",
           render: (text, record, index) => {
             return <span>{client_page * 10 - 10 + index + 1}</span>;
           },
@@ -125,28 +127,30 @@ const Employee = () => {
           title: "Name",
           dataIndex: "name",
           key: "id",
-          width: "100",
+          width: 150,
 
           //   ...getColumnSearchProps('name'),
         },
 
         {
-          title: "Cx Email",
+          title: "Email",
           dataIndex: "email",
           key: "id",
-          width: 200,
+          width: 250,
         },
         {
           title: "Phone",
           dataIndex: "number",
           key: "id",
+          width: 150,
+
         },
 
         {
-          title: "Site Address",
+          title: "Permanent Address",
           dataIndex: "permanent_address",
           key: "id",
-          width: 300,
+          width: 500,
         },
         {
           title: " ",
@@ -164,7 +168,6 @@ const Employee = () => {
             />
           ),
         },
-
         {
           title: " ",
           key: "id",

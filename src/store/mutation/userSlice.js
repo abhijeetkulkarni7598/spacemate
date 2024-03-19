@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { message } from "antd";
 import axios from "axios";
 // import url from "./url"
-const url = "http://127.0.0.1:8000/";
+// const url = "http://127.0.0.1:8000/";
 //  const url = "https://spacemate.pythonanywhere.com/";
-//  const url = "https://www.spacemate.in/";
+ const url = "https://www.spacemate.in/";
 
 // export const url = "https://abundancesystems.pythonanywhere.com/";
 
@@ -364,11 +364,12 @@ const userSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.isAuthenticated = true;
+
         // state.user = action.payload;
       })
       .addCase(getUser.rejected, (state) => {
         state.loading = false;
-        state.isAuthenticated = false;
         state.userToken = "";
       })
       //   check authenticated or not authenticated

@@ -169,7 +169,7 @@ const EnquiryForm = ({ user, enquiry }) => {
               style={{ color: "black" }}
             />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name={["proposed_furniture_plan"]}
             label="Furniture Plan"
             valuePropName="fileList"
@@ -192,7 +192,7 @@ const EnquiryForm = ({ user, enquiry }) => {
               disabled={user?.is_customer}
               style={{ color: "black" }}
             />
-          </Form.Item>
+          </Form.Item> */}
           {/* } */}
           <Form.Item name={["unit_size"]} label="Unit Size">
             <Input
