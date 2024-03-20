@@ -51,6 +51,7 @@ import MoodPlan from "./pages/enquiry/floorplan/MoodPlan";
 import FurniturePlan from "./pages/enquiry/floorplan/FurniturePlan";
 import OrderTable from "./pages/order/OrderTable";
 import DesignClientTable from "./pages/enquiry/form/DesignClientTable";
+import SuperEnquiryForm from "./pages/enquiry/form/enquiry/SuperEnquiryForm";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -88,6 +89,7 @@ const App = () => {
           <Route path="/execution-project/:id" element={<MainExecution />} />
           <Route path="/create-enquiry" element={<MainEnquiryForm />} />
           <Route path="/create-enquiry/:id" element={<MainEnquiryForm />} />
+          <Route path="/client-edit/:id" element={<SuperEnquiryForm />} />
           <Route
             path="/home"
             element={

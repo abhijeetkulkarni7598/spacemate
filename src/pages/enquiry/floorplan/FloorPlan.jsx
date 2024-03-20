@@ -9,8 +9,8 @@ const FloorPlan = () => {
         (state) => state.user
       );
   return (<>
-  <Slidebar/>
-    <div className='body-width-vw'  style={{margin:"auto"}}>
+  {/* <Slidebar/> */}
+    <div  style={{margin:"auto"}}>
     <h2 className="e-table-h2">Floor Plan</h2>
 
        <PdfViewer data={`${url}${user?.enquiry?.floor_plain}`} />

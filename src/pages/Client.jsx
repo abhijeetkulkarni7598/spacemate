@@ -50,7 +50,7 @@ const Client = () => {
   } = useFetchClientQuery({
     val: client_page,
     id: user_id,
-    status: "Prospect",
+    status: "&status=Prospect&status=Client",
     search: searchText,
   });
 
@@ -67,6 +67,7 @@ const Client = () => {
   const handleRegister = (record) => {
     setDataInstance(record);
     const newObj = {
+      name: record.name,
       username: record.email,
       email: record.email,
 
@@ -86,16 +87,47 @@ const Client = () => {
     }
   }, [updateEnquiryResponseInfo]);
   const handleSelectStatus = (record) => {
-    const { status, floor_plain, customer_id,moon_board,proposed_furniture_plan, ...other } = dataInstance;
+    const {
+      status,
+      floor_plain,
+      customer_id,
+      moon_board,
+      proposed_furniture_plan,
+      ...other
+    } = dataInstance;
     const newData = { status: "Client", customer_id: record.id, ...other };
     updateEnquiry(newData);
   };
-  const handleSelect = (data, record) => {
+  const handleSelect = (text,data, record) => {
     // record.status=data
-    const { customer_status, floor_plain,moon_board,proposed_furniture_plan, ...remain } = record;
-    const newData = { ...remain, customer_status: data };
+    if(text==="DEAL WON"){
+if(record?.status==="Prospect"){
+  message.error("Please Register the Prospect")
+}else{
+  const {
+    customer_status,
+    floor_plain,
+    moon_board,
+    proposed_furniture_plan,
+    ...remain
+  } = record;
+  const newData = { ...remain, customer_status: data };
 
-    updateEnquiry(newData);
+  updateEnquiry(newData);
+}
+    }else{
+      const {
+        customer_status,
+        floor_plain,
+        moon_board,
+        proposed_furniture_plan,
+        ...remain
+      } = record;
+      const newData = { ...remain, customer_status: data };
+  
+      updateEnquiry(newData);
+    }
+    
   };
   const {
     data: status,
@@ -200,7 +232,7 @@ const Client = () => {
               <>
                 <Select
                   optionFilterProp="children"
-                  onSelect={(data) => handleSelect(data, record)}
+                  onSelect={(data,option) => handleSelect(option.children,data, record)}
                   value={
                     status?.filter(
                       (item) =>
@@ -299,10 +331,13 @@ const Client = () => {
           render: (record) => (
             <FaEye
               className="bi-edit"
-              style={{ width: "100%", height: "20px" }}
+              style={{ width: "100%", height: "20px",cursor:record?.latest_quotation_id?"pointer":"not-allowed" }}
               onClick={(e) => {
                 e.stopPropagation();
-                viewQuotation(record);
+                if(record?.latest_quotation_id){
+
+                  viewQuotation(record);
+                }
               }}
             />
           ),
@@ -336,16 +371,23 @@ const Client = () => {
 
           render: (record) => (
             <Popconfirm
+              disabled={record?.status === "Client" ? true : false}
               title="Sure to Create An User?"
               onConfirm={() => handleRegister(record)}
             >
-              <Button loading={createCustomerResponseInfo?.isLoading} size="small">Register</Button>
+              <Button
+                disabled={record?.status === "Client" ? true : false}
+                loading={createCustomerResponseInfo?.isLoading}
+                size="small"
+              >
+                Register
+              </Button>
             </Popconfirm>
           ),
         },
       ]);
     }
-  }, [user_id, client_page, status,createCustomerResponseInfo]);
+  }, [user_id, client_page, status, createCustomerResponseInfo]);
   const [formdata, setFormdata] = useState();
 
   const create_client = () => {

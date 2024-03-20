@@ -22,6 +22,7 @@ import Slidebar from "../../components/sidebar/Slidebar";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
 import { IDate } from "../../components/Functions/State";
+import { FaEdit } from "react-icons/fa";
 
 const OriginalClient = () => {
   const [show, setShow] = useState(false);
@@ -44,7 +45,7 @@ const OriginalClient = () => {
   } = useFetchClientQuery({
     val: client_page,
     id: user_id,
-    status: "Client",
+    status: "&status=Client",
     search:""
   });
 
@@ -240,12 +241,13 @@ const OriginalClient = () => {
           fixed: "right",
           width: 50,
           render: (record) => (
-            <BiEdit
+            <FaEdit
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
-                editfun(record);
+                navigate(`/client-edit/${record.id}`)
+
               }}
             />
           ),

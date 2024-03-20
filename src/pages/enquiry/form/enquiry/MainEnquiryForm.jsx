@@ -5,7 +5,7 @@ import { useGetEnquiryQuery } from "../../../../store/store";
 import LoadingBox from "../../../dashboard/LoadingBox";
 import Slidebar from "../../../../components/sidebar/Slidebar";
 
-const MainEnquiryForm = () => {
+const MainEnquiryForm = ({page}) => {
   const { id } = useParams();
   const {
     data: enquiry,
@@ -15,9 +15,10 @@ const MainEnquiryForm = () => {
   } = useGetEnquiryQuery(id);
   return (
     <>
+
       <Slidebar/>
 
-      {enquiry_fetch ? <LoadingBox /> : <CreateEnquiryForm enquiry={enquiry} />}
+      {enquiry_fetch ? <LoadingBox /> : <CreateEnquiryForm enquiry={enquiry} page={page}/>}
     </>
   );
 };

@@ -2,7 +2,12 @@ import { Button, message } from "antd";
 import React, { useEffect } from "react";
 
 import { roundUpTenPercent } from "../../components/Functions/State";
-import { useCancelOrderMutation, useCreateOrderMutation, useFailedOrderMutation, useSuccessOrderMutation } from "../../store/store";
+import {
+  useCancelOrderMutation,
+  useCreateOrderMutation,
+  useFailedOrderMutation,
+  useSuccessOrderMutation,
+} from "../../store/store";
 import { useSelector } from "react-redux";
 
 const PayNow = ({ total }) => {
@@ -19,31 +24,28 @@ const PayNow = ({ total }) => {
   } = useSelector((state) => state.user);
 
   useEffect(() => {
- if(cancelOrderResponseInfo?.isSuccess){
-  message.success("Order Cancelled")
- }
- if(cancelOrderResponseInfo?.isError){
-  message.error("Something went wrong")
-
- }
+    if (cancelOrderResponseInfo?.isSuccess) {
+      message.success("Order Cancelled");
+    }
+    if (cancelOrderResponseInfo?.isError) {
+      message.error("Something went wrong");
+    }
   }, [cancelOrderResponseInfo]);
   useEffect(() => {
- if(successOrderResponseInfo?.isSuccess){
-  message.success("Order Success")
- }
- if(successOrderResponseInfo?.isError){
-  message.error("Something went wrong")
-
- }
+    if (successOrderResponseInfo?.isSuccess) {
+      message.success("Order Success");
+    }
+    if (successOrderResponseInfo?.isError) {
+      message.error("Something went wrong");
+    }
   }, [successOrderResponseInfo]);
   useEffect(() => {
- if(failedOrderResponseInfo?.isSuccess){
-  message.success("Order Failed")
- }
- if(failedOrderResponseInfo?.isError){
-  message.error("Something went wrong")
-
- }
+    if (failedOrderResponseInfo?.isSuccess) {
+      message.success("Order Failed");
+    }
+    if (failedOrderResponseInfo?.isError) {
+      message.error("Something went wrong");
+    }
   }, [failedOrderResponseInfo]);
   useEffect(() => {
     console.log(creatProductResponseInfo);
@@ -59,7 +61,7 @@ const PayNow = ({ total }) => {
         order_id: "" + creatProductResponseInfo?.data?.order_id + "",
         handler: function (response) {
           message.success("Payment Succeeded");
-        successOrder({order_id:creatProductResponseInfo?.data?.order_id})
+          successOrder({ order_id: creatProductResponseInfo?.data?.order_id });
 
           // razorpayObject.modal.close()
           //success api call
@@ -69,7 +71,7 @@ const PayNow = ({ total }) => {
           ondismiss: function () {
             message.error("Payment Cancelled");
             //cancel function
-            cancelOrder({order_id:creatProductResponseInfo?.data?.order_id})
+            cancelOrder({ order_id: creatProductResponseInfo?.data?.order_id });
           },
         },
         prefill: {
@@ -88,7 +90,7 @@ const PayNow = ({ total }) => {
 
       razorpayObject.on("payment.failed", function (response) {
         message.error("Payment Failed");
-        failedOrder({order_id:creatProductResponseInfo?.data?.order_id})
+        failedOrder({ order_id: creatProductResponseInfo?.data?.order_id });
 
         // console.log(response)
         //fail api call
@@ -127,7 +129,7 @@ const PayNow = ({ total }) => {
           cursor: "pointer",
         }}
       >
-        Pay Rs. {roundUpTenPercent(total)}
+        Pay Booking Amount Online 10% Rs. {roundUpTenPercent(total)}
       </Button>
     </div>
   );

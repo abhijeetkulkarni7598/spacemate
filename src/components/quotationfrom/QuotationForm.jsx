@@ -21,7 +21,7 @@ import {
   useCreateQuotationMutation,
   useDeleteQuotationMutation,
   useFetchCategoryQuery,
-  useFetchClientQuery,
+  
   useFetchInventoryQuery,
   useFetchInvoiceQuery,
   useFetchQuotationQuery,

@@ -5,10 +5,10 @@ const CommonPage = () => {
   return (
     <>
     <Slidebar/>
-    <h2>
+    <h1 style={{textAlign:"center"}}>
 
       Welcome to Space Mate
-    </h2>
+    </h1>
     </>
   )
 }

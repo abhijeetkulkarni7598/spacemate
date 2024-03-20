@@ -399,13 +399,13 @@ const allApi = createApi({
       }),
 
       fetchClient: build.query({
-        query: ({ val, id, status, search }) => {
+        query: ({ val, id, status, search,created_by }) => {
           if (id === undefined) {
             id = "";
           }
           return {
             // url: `/api/client/?page=${val}&user_client_id=${id}`,
-            url: `/enquiry/enquires/?page=${val}&user=${id}&status=${
+            url: `/enquiry/enquires/?page=${val}&created_by=${id}${
               status ? status : ""
             }&search=${search}`,
             method: "GET",

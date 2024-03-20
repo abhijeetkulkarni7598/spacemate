@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteClientMutation,
   useDeleteEmployeeMutation,
-  useFetchClientQuery,
+  
   useFetchEmployeeQuery,
   useGetClientQuery,
 } from "../store/store";

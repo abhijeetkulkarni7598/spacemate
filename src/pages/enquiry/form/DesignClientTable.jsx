@@ -87,7 +87,7 @@ const dispatch=useDispatch()
   } = useFetchClientQuery({
     val: client_page,
     id: user_id,
-    status: "Client",
+    status: "&status=Client",
     search:""
   });
   const [columns, setColumn] = useState();

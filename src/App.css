@@ -9,7 +9,8 @@ body{
 }
 :root{
   /* --pr-color:#53cfcd; */
-  --pr-color:#0253a2;
+  /* --pr-color:#0253a2; */
+  --pr-color:#6bc9d6;
   --pr-text-color:white;
   --clr-hover-DropdownLink:white;
   --clr-dark-secondary:#6bc9d6;

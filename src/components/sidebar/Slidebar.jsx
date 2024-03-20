@@ -6,9 +6,7 @@ import * as AiIcons from "react-icons/ai";
 import {
   SlidebarData,
   SlidebarDataAdmin,
-  
   SlidebarDataExecutionarHead,
-  
   SlidebarDataExecutionarHead2,
   SlidebarDataSalesAndMarketing,
   SlidebarDataSuper,
@@ -19,6 +17,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/mutation/userSlice";
 import logo from "./../../assets/img/logo512.png";
 import { useFetchExecutionModelQuery } from "./../../store/store";
+import * as RiIcons from "react-icons/ri";
+import * as MdIcons from "react-icons/md";
+import PayOnline from "../button/PayOnline";
+
 // import  FaIcons from "react-icons/fa";
 // import  AiIcons from "react-icons/ai";
 const Nav = styled.div`
@@ -95,40 +97,50 @@ function Slidebar() {
   const { loading, error, user, userToken, isAuthenticated } = useSelector(
     (state) => state?.user
   );
- const SliderForCustomer = [
-
+  const SliderForCustomer = [
     {
-      title: "Requirement",
-      path: `/create-enquiry/${user?.enquiry?.id}`,
-      icon: <FaIcons.FaClipboardList />,
+      title: "PreSales",
+      icon: <MdIcons.MdOutlineInventory2 />,
+      iconclosed: <RiIcons.RiArrowDownFill />,
+      iconopened: <RiIcons.RiArrowUpFill />,
+      subnav: [
+        {
+          title: "Profile",
+          path: `/home`,
+          icon: <FaIcons.FaClipboardList />,
+        },
+        {
+          title: "Requirement",
+          path: `/create-enquiry/${user?.enquiry?.id}`,
+          icon: <FaIcons.FaClipboardList />,
+        },
+        // {
+        //   title: "Floor Plan",
+        //   path: "/floor-plan",
+        //   icon: <FaIcons.FaClipboardList />,
+        // },
+        // {
+        //   title: "Unit Size",
+        //   path: "/enquiry-table",
+        //   icon: <FaIcons.FaClipboardList />,
+        // },
+        {
+          title: "Estimate/Quotation",
+          path: `/view/${user?.enquiry?.latest_quotation_id}`,
+          icon: <FaIcons.FaClipboardList />,
+        },
+        // {
+        //   title: "Furniture Plan",
+        //   path: "/furniture-plan",
+        //   icon: <FaIcons.FaClipboardList />,
+        // },
+        // {
+        //   title: "Mood Board",
+        //   path: "/mood-plan",
+        //   icon: <FaIcons.FaClipboardList />,
+        // },
+      ],
     },
-    {
-      title: "Floor Plan",
-      path: "/floor-plan",
-      icon: <FaIcons.FaClipboardList />,
-    },
-    {
-      title: "Unit Size",
-      path: "/enquiry-table",
-      icon: <FaIcons.FaClipboardList />,
-    },
-    {
-      title: "Estimate/Quotation",
-      path: `/view/${user?.enquiry?.latest_quotation_id}`,
-      icon: <FaIcons.FaClipboardList />,
-    },
-    {
-      title: "Furniture Plan",
-      path: "/furniture-plan",
-      icon: <FaIcons.FaClipboardList />,
-    },
-    {
-      title: "Mood Board",
-      path: "/mood-plan",
-      icon: <FaIcons.FaClipboardList />,
-    },
-  
-  
   ];
   const [sidebar, setSidebar] = useState(false);
   const [token, settoken] = useState(localStorage.getItem("usertoken"));
@@ -141,8 +153,6 @@ function Slidebar() {
     // console.log(JSON.parse(localStorage.getItem("user")))
     settoken(localStorage.getItem("userToken"));
   }, [localStorage.getItem("usertoken"), localStorage.getItem("usera")]);
-
- 
 
   const {
     data: project_data,
@@ -158,6 +168,7 @@ function Slidebar() {
   if (userToken) {
     authLinks = (
       <Divstyle>
+   
         <li
           className="li-sidebar"
           style={{
@@ -176,6 +187,18 @@ function Slidebar() {
         >
           Logout
         </li>
+        <li
+          className="li-sidebar"
+          style={{
+            textAlign: "right",
+            color: "#fff",
+
+            fontSize: "1.3rem",
+          }}
+        >
+                  <PayOnline title="Pay Now" />
+
+        </li>
         <li className="li-sidebar">
           <Link
             to="/setting"
@@ -184,6 +207,7 @@ function Slidebar() {
             <AiIcons.AiFillSetting color="white" />
           </Link>
         </li>
+
       </Divstyle>
     );
   } else {
@@ -316,22 +340,14 @@ function Slidebar() {
                 )}
               </>
             ) : null}
-            {user?.is_design_head === true||user?.is_design_staff===true ? (
-             
-              
-                  <>
-                    {SliderForDesignHead.map((item, index) => {
-                      return (
-                        <Slidemenu
-                          item={item}
-                          key={index}
-                          onClick={Autoclose}
-                        />
-                      );
-                    })}
-                  </>
-              
-          
+            {user?.is_design_head === true || user?.is_design_staff === true ? (
+              <>
+                {SliderForDesignHead.map((item, index) => {
+                  return (
+                    <Slidemenu item={item} key={index} onClick={Autoclose} />
+                  );
+                })}
+              </>
             ) : null}
           </SlidebarWrap>
         </SlidebarNav>

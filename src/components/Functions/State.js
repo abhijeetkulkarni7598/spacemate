@@ -108,8 +108,8 @@ export function generatePassword(length) {
 
 
 export const modifyUrl=(url)=> {
-  if (url&&url.startsWith("https")) {
-      return url.replace(/^https:\/\/[^\/]+\/image\//, '/');
+  if (url&&url.startsWith("http")) {
+      return url.replace(/^http:\/\/[^\/]+\/image\//, '/');
   } else {
       return url;
   }

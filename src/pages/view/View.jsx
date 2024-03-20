@@ -45,7 +45,7 @@ const View = () => {
   ];
   const { id } = useParams();
   // console.log(id)
-  const { user, userToken, checkAuthLoading ,isAuthenticated} = useSelector(
+  const { user, userToken, checkAuthLoading, isAuthenticated } = useSelector(
     (state) => state.user
   );
   const {
@@ -95,22 +95,18 @@ const View = () => {
     }
   }, [formdata]);
 
-
-
-
-
-
-
-
   return (
     <>
       <Slidebar />
       <div style={{ display: "flex", flexDirection: "column" }}>
+      {!user?.is_customer === true && isAuthenticated ? (
         <div className="view-print">
-          <button className="print-btn" onClick={handlePrint}>
-            Print Out
-          </button>
-        </div>
+        <button className="print-btn" onClick={handlePrint}>
+          Print Out
+        </button>
+      </div>
+      ) : null}
+       
         <div
           className="view-body print-body"
           ref={componentRef}
@@ -486,10 +482,9 @@ const View = () => {
           </div>
         </div>
       </div>
-      {user?.is_customer===true&&isAuthenticated?
-
-<PayNow total={total}/>
-:null}
+      {user?.is_customer === true && isAuthenticated ? (
+        <PayNow total={total} />
+      ) : null}
       <Footer />
     </>
   );
