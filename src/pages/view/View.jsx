@@ -42,6 +42,10 @@ const View = () => {
     "Polishing rate will be decided on area application.",
     "Furniture other than mentioned in the list will be charged on a per SQ FT basis",
     "Wall Panelling: 450 Rs/ Sq. Feet",
+    "10% Design Advance of total estimate value",
+    "40% Work commencement of total estimate value",
+    "40% On plywood structure completion of total estimate value",
+    "10% On work completion of total estimate value",
   ];
   const { id } = useParams();
   // console.log(id)
@@ -99,14 +103,14 @@ const View = () => {
     <>
       <Slidebar />
       <div style={{ display: "flex", flexDirection: "column" }}>
-      {!user?.is_customer === true && isAuthenticated ? (
-        <div className="view-print">
-        <button className="print-btn" onClick={handlePrint}>
-          Print Out
-        </button>
-      </div>
-      ) : null}
-       
+        {!user?.is_customer === true && isAuthenticated ? (
+          <div className="view-print">
+            <button className="print-btn" onClick={handlePrint}>
+              Print Out
+            </button>
+          </div>
+        ) : null}
+
         <div
           className="view-body print-body"
           ref={componentRef}

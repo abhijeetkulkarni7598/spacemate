@@ -45,7 +45,7 @@ const OriginalClient = () => {
   } = useFetchClientQuery({
     val: client_page,
     id: user_id,
-    status: "&status=Client",
+    status: "&customer_status=1",
     search:""
   });
 

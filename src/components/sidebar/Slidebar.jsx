@@ -4,11 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import {
+  SalesAndMarketing,
   SlidebarData,
   SlidebarDataAdmin,
   SlidebarDataExecutionarHead,
   SlidebarDataExecutionarHead2,
-  SlidebarDataSalesAndMarketing,
   SlidebarDataSuper,
   SliderForDesignHead,
 } from "./SlidebarData";
@@ -168,7 +168,6 @@ function Slidebar() {
   if (userToken) {
     authLinks = (
       <Divstyle>
-   
         <li
           className="li-sidebar"
           style={{
@@ -187,18 +186,19 @@ function Slidebar() {
         >
           Logout
         </li>
-        <li
-          className="li-sidebar"
-          style={{
-            textAlign: "right",
-            color: "#fff",
+        {user?.is_customer ? (
+          <li
+            className="li-sidebar"
+            style={{
+              textAlign: "right",
+              color: "#fff",
 
-            fontSize: "1.3rem",
-          }}
-        >
-                  <PayOnline title="Pay Now" />
-
-        </li>
+              fontSize: "1.3rem",
+            }}
+          >
+            <PayOnline title="Pay Now" />
+          </li>
+        ) : null}
         <li className="li-sidebar">
           <Link
             to="/setting"
@@ -207,7 +207,6 @@ function Slidebar() {
             <AiIcons.AiFillSetting color="white" />
           </Link>
         </li>
-
       </Divstyle>
     );
   } else {
@@ -247,6 +246,19 @@ function Slidebar() {
   }, []);
   const showSidebar = () => setSidebar(!sidebar);
   const Autoclose = () => setSidebar(false);
+  const allMenus = [];
+
+  if (user?.is_sales_and_marketing === true) {
+    allMenus.push(SalesAndMarketing);
+  }
+
+  if (user?.is_execution_head === true || user?.is_execution_staff === true) {
+    allMenus.push(SlidebarDataExecutionarHead);
+  }
+  if (user?.is_design_head === true || user?.is_design_staff === true) {
+    allMenus.push(SliderForDesignHead);
+  }
+  console.log(allMenus);
   return (
     <>
       <Style>
@@ -293,56 +305,29 @@ function Slidebar() {
                 })}
               </>
             ) : null}
-            {user?.is_sales_and_marketing === true ? (
+            {user?.is_sales_and_marketing === true ||
+            user?.is_design_head === true ||
+            user?.is_design_staff === true ||
+            user?.is_execution_head === true ||
+            user?.is_execution_staff === true ? (
               <>
-                {SlidebarDataSalesAndMarketing.map((item, index) => {
-                  return (
-                    <Slidemenu item={item} key={index} onClick={Autoclose} />
-                  );
-                })}
+                {allMenus.map((menu, index) => (
+                  <React.Fragment key={index}>
+                    {menu.map((item, itemIndex) => (
+                      <Slidemenu
+                        item={item}
+                        key={itemIndex}
+                        onClick={Autoclose}
+                      />
+                    ))}
+                  </React.Fragment>
+                ))}
               </>
             ) : null}
-            {user?.is_execution_head === true ? (
-              <>
-                {SlidebarDataExecutionarHead.map((item, index) => {
-                  return (
-                    <Slidemenu item={item} key={index} onClick={Autoclose} />
-                  );
-                })}
-              </>
-            ) : null}
+
             {user?.is_customer === true ? (
               <>
-                {project_data && project_data.length > 0 ? (
-                  <>
-                    {SliderForCustomer.map((item, index) => {
-                      return (
-                        <Slidemenu
-                          item={item}
-                          key={index}
-                          onClick={Autoclose}
-                        />
-                      );
-                    })}
-                  </>
-                ) : (
-                  <>
-                    {SliderForCustomer.map((item, index) => {
-                      return (
-                        <Slidemenu
-                          item={item}
-                          key={index}
-                          onClick={Autoclose}
-                        />
-                      );
-                    })}
-                  </>
-                )}
-              </>
-            ) : null}
-            {user?.is_design_head === true || user?.is_design_staff === true ? (
-              <>
-                {SliderForDesignHead.map((item, index) => {
+                {SliderForCustomer.map((item, index) => {
                   return (
                     <Slidemenu item={item} key={index} onClick={Autoclose} />
                   );

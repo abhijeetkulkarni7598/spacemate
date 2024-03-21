@@ -50,7 +50,7 @@ const Client = () => {
   } = useFetchClientQuery({
     val: client_page,
     id: user_id,
-    status: "&status=Prospect&status=Client",
+    status: "&status=Prospect&status=Client&customer_status=1",
     search: searchText,
   });
 
