@@ -99,16 +99,12 @@ function Slidebar() {
   );
   const SliderForCustomer = [
     {
-      title: "PreSales",
+      title: "PreDesign",
       icon: <MdIcons.MdOutlineInventory2 />,
       iconclosed: <RiIcons.RiArrowDownFill />,
       iconopened: <RiIcons.RiArrowUpFill />,
       subnav: [
-        {
-          title: "Profile",
-          path: `/home`,
-          icon: <FaIcons.FaClipboardList />,
-        },
+      
         {
           title: "Requirement",
           path: `/create-enquiry/${user?.enquiry?.id}`,
@@ -129,17 +125,28 @@ function Slidebar() {
           path: `/view/${user?.enquiry?.latest_quotation_id}`,
           icon: <FaIcons.FaClipboardList />,
         },
-        // {
-        //   title: "Furniture Plan",
-        //   path: "/furniture-plan",
-        //   icon: <FaIcons.FaClipboardList />,
-        // },
-        // {
-        //   title: "Mood Board",
-        //   path: "/mood-plan",
-        //   icon: <FaIcons.FaClipboardList />,
-        // },
+        {
+          title: "Furniture Plan",
+          path: "/furniture-plan",
+          icon: <FaIcons.FaClipboardList />,
+        },
+        {
+          title: "Mood Board",
+          path: "/mood-plan",
+          icon: <FaIcons.FaClipboardList />,
+        },
+        
       ],
+    },
+    {
+      title: "Design Table",
+      path: `/design-table/${user?.enquiry?.id}`,
+      icon: <FaIcons.FaClipboardList />,
+    },
+    {
+      title: "Execution Table",
+      path: "/execution-table",
+      icon: <FaIcons.FaClipboardList />,
     },
   ];
   const [sidebar, setSidebar] = useState(false);

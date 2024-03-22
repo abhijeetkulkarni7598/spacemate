@@ -27,6 +27,8 @@ return sortedData
 
 
 export const ApprovalArray=["Approved","Rejected","Pending"]
+export const typeArray=["2D","3D"]
+export const titleArray=["LR","Lobby","Entrance"]
 export const EnquiryStatusArray=["Enquiry","Prospect","Client"]
 export const PaymentArray=["Success","Failed","Pending","Cancelled","Rejected"]
 

@@ -23,6 +23,22 @@ import { useQuery } from "react-query";
 const View = () => {
   const componentRef = useRef();
   const toWords = new ToWords();
+  const PaymentVar = () => {
+    return (
+      <>
+        <b>Payment Terms</b>
+        <br />
+        10% Design Advance of total estimate value,
+        <br />
+        40% Work commencement of total estimate value,
+        <br />
+        40% On plywood structure completion of total estimate value,
+        <br />
+        10% On work completion of total estimate value.
+        <br />
+      </>
+    );
+  };
   const statements = [
     "We have considered Iso & Is mark MR grade alternate ply",
     "Antique Handles for furniture is excluded from our scope",
@@ -42,10 +58,6 @@ const View = () => {
     "Polishing rate will be decided on area application.",
     "Furniture other than mentioned in the list will be charged on a per SQ FT basis",
     "Wall Panelling: 450 Rs/ Sq. Feet",
-    "10% Design Advance of total estimate value",
-    "40% Work commencement of total estimate value",
-    "40% On plywood structure completion of total estimate value",
-    "10% On work completion of total estimate value",
   ];
   const { id } = useParams();
   // console.log(id)
@@ -349,6 +361,25 @@ const View = () => {
                     <td
                       style={{
                         border: "1px solid lightgrey",
+                        textAlign: "center",
+                      }}
+                    >
+                      19
+                    </td>
+                    <td
+                      style={{
+                        border: "1px solid lightgrey",
+                        textAlign: "left",
+                      }}
+                      colSpan={3}
+                    >
+                      <PaymentVar />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      style={{
+                        border: "1px solid lightgrey",
                         textAlign: "left",
                         color: "white",
                       }}
@@ -374,6 +405,7 @@ const View = () => {
                       }}
                     ></td>
                   </tr>
+                  
                   <tr>
                     <td
                       style={{

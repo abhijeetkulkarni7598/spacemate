@@ -171,6 +171,19 @@ export const Design_page = createAsyncThunk(
     }
   }
 );
+export const Design_page2 = createAsyncThunk(
+  "design_page2",
+  async (username, thunkAPI) => {
+    try {
+      // configure header's Content-Type as JSON
+
+      console.log("design_page2", username);
+      return username;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
 export const Enquiry_page = createAsyncThunk(
   "enquiry_page",
   async (username, thunkAPI) => {
@@ -296,6 +309,7 @@ const initialState = {
   item_page: 1,
   enquiry_page: 1,
   design_page: 1,
+  design_page2: 1,
   order_page: 1,
   login_show: false,
 
@@ -329,6 +343,7 @@ const userSlice = createSlice({
         quotation_page: 1,
         enquiry_page: 1,
         design_page: 1,
+        design_page2: 1,
         order_page: 1,
         login_show: false,
 
@@ -400,6 +415,9 @@ const userSlice = createSlice({
       })
       .addCase(Design_page.fulfilled, (state, action) => {
         state.design_page = action.payload;
+      })
+      .addCase(Design_page2.fulfilled, (state, action) => {
+        state.design_page2 = action.payload;
       })
       .addCase(Filter_Enquiry.fulfilled, (state, action) => {
         state.filter_enquiry = action.payload;

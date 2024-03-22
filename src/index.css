@@ -13,6 +13,9 @@
   --bgcolor: rgb(234, 252, 252);
   /* --primary-color: rgba(222, 205, 43, 1); */
   --primary-color: rgb(83, 207, 205);
+  --primary-color-pay: rgba(41, 56, 79, 0.8);
+  /* --primary-color-pay: red; */
+
   --secondary-color: #e8effd;
   --design-color: #6fccdd;
   --design-secondary-color: #cfb1d4;
@@ -53,29 +56,37 @@ h6 {
 }
 
 @media (min-width: 1500px) {
-    .container,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl,
-    .container-xxl {
-      /* max-width: 1500px !important; */
-    }
-  }
-  
-  @media (min-width: 1400px) {
-    .container,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl,
-    .container-xxl {
-      /* max-width: 1400px; */
-    }
-  }
 
-@media (min-width: 1400px){
-.container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-  max-width: 1320px;
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    /* max-width: 1500px !important; */
+  }
 }
+
+@media (min-width: 1400px) {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    /* max-width: 1400px; */
+  }
+}
+
+@media (min-width: 1400px) {
+
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+    max-width: 1320px;
+  }
 }

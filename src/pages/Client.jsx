@@ -23,7 +23,7 @@ import Clientform from "../components/quotationfrom/Clientform";
 import Slidebar from "../components/sidebar/Slidebar";
 import { BiAddToQueue, BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaUpload } from "react-icons/fa";
 import Search from "antd/es/input/Search";
 import { generatePassword } from "../components/Functions/State";
 
@@ -50,7 +50,7 @@ const Client = () => {
   } = useFetchClientQuery({
     val: client_page,
     id: user_id,
-    status: "&status=Prospect&status=Client&customer_status=1",
+    status: "&status=Prospect&status=Client&customer_status=7",
     search: searchText,
   });
 
@@ -98,24 +98,24 @@ const Client = () => {
     const newData = { status: "Client", customer_id: record.id, ...other };
     updateEnquiry(newData);
   };
-  const handleSelect = (text,data, record) => {
+  const handleSelect = (text, data, record) => {
     // record.status=data
-    if(text==="DEAL WON"){
-if(record?.status==="Prospect"){
-  message.error("Please Register the Prospect")
-}else{
-  const {
-    customer_status,
-    floor_plain,
-    moon_board,
-    proposed_furniture_plan,
-    ...remain
-  } = record;
-  const newData = { ...remain, customer_status: data };
+    if (text === "DEAL WON") {
+      if (record?.status === "Prospect") {
+        message.error("Please Register the Prospect");
+      } else {
+        const {
+          customer_status,
+          floor_plain,
+          moon_board,
+          proposed_furniture_plan,
+          ...remain
+        } = record;
+        const newData = { ...remain, customer_status: data };
 
-  updateEnquiry(newData);
-}
-    }else{
+        updateEnquiry(newData);
+      }
+    } else {
       const {
         customer_status,
         floor_plain,
@@ -124,10 +124,9 @@ if(record?.status==="Prospect"){
         ...remain
       } = record;
       const newData = { ...remain, customer_status: data };
-  
+
       updateEnquiry(newData);
     }
-    
   };
   const {
     data: status,
@@ -160,69 +159,6 @@ if(record?.status==="Prospect"){
           },
         },
         {
-          title: "Name",
-          dataIndex: "name",
-          key: "id",
-          width: "100",
-          fixed: "left",
-
-          //   ...getColumnSearchProps('name'),
-        },
-        {
-          title: "Representative",
-          dataIndex: "created_by",
-          key: "id",
-          //   ...getColumnSearchProps('age'),
-        },
-
-        {
-          title: "Cx Email",
-          dataIndex: "email",
-          key: "id",
-          width: 200,
-        },
-        {
-          title: "Phone",
-          dataIndex: "modile",
-          key: "id",
-        },
-
-        {
-          title: "Site Address",
-          dataIndex: "address",
-          key: "id",
-          width: 300,
-        },
-        {
-          title: " ",
-          key: "id",
-          fixed: "right",
-          width: 50,
-          render: (record) => (
-            <BiEdit
-              className="bi-edit"
-              style={{ width: "100%", height: "20px" }}
-              onClick={(e) => {
-                e.stopPropagation();
-                editfun(record);
-              }}
-            />
-          ),
-        },
-      ]);
-    } else {
-      setColumn([
-        {
-          title: "Sr.no",
-          dataIndex: "id",
-          key: "id",
-          //   ...getColumnSearchProps('name'),
-          width: 100,
-          render: (text, record, index) => {
-            return <span>{client_page * 10 - 10 + index + 1}</span>;
-          },
-        },
-        {
           title: "Status",
           dataIndex: "customer_status",
           key: "id",
@@ -232,7 +168,9 @@ if(record?.status==="Prospect"){
               <>
                 <Select
                   optionFilterProp="children"
-                  onSelect={(data,option) => handleSelect(option.children,data, record)}
+                  onSelect={(data, option) =>
+                    handleSelect(option.children, data, record)
+                  }
                   value={
                     status?.filter(
                       (item) =>
@@ -290,6 +228,201 @@ if(record?.status==="Prospect"){
           key: "id",
           width: 300,
         },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaUpload
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (record?.latest_quotation_id) {
+                  console.log(record);
+
+                }
+              }}
+            />
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => {
+            if (record.latest_quotation_id) {
+              return (
+                <BiEdit
+                  className="bi-edit"
+                  style={{ width: "100%", height: "20px" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateQuotation(record);
+                  }}
+                />
+              );
+            } else {
+              return (
+                <BiAddToQueue
+                  className="bi-edit"
+                  style={{ width: "100%", height: "20px" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    createQuotation(record);
+                  }}
+                />
+              );
+            }
+          },
+        },
+
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaEye
+              className="bi-edit"
+              style={{
+                width: "100%",
+                height: "20px",
+                cursor: record?.latest_quotation_id ? "pointer" : "not-allowed",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (record?.latest_quotation_id) {
+                  viewQuotation(record);
+                }
+              }}
+            />
+          ),
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 120,
+
+          render: (record) => (
+            <Popconfirm
+              disabled={record?.status === "Client" ? true : false}
+              title="Sure to Create An User?"
+              onConfirm={() => handleRegister(record)}
+            >
+              <Button
+                disabled={record?.status === "Client" ? true : false}
+                loading={createCustomerResponseInfo?.isLoading}
+                size="small"
+              >
+                Register
+              </Button>
+            </Popconfirm>
+          ),
+        },
+      ]);
+    } else {
+      setColumn([
+        {
+          title: "Sr.no",
+          dataIndex: "id",
+          key: "id",
+          //   ...getColumnSearchProps('name'),
+          width: 100,
+          render: (text, record, index) => {
+            return <span>{client_page * 10 - 10 + index + 1}</span>;
+          },
+        },
+        {
+          title: "Status",
+          dataIndex: "customer_status",
+          key: "id",
+          width: 160,
+          render: (text, record, index) => {
+            return (
+              <>
+                <Select
+                  optionFilterProp="children"
+                  onSelect={(data, option) =>
+                    handleSelect(option.children, data, record)
+                  }
+                  value={
+                    status?.filter(
+                      (item) =>
+                        parseInt(item.id) === parseInt(record.customer_status)
+                    )[0]?.status
+                  }
+                  style={{ width: "150px" }}
+                >
+                  {status?.map((item) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.status}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            );
+          },
+        },
+        {
+          title: "Value",
+          dataIndex: "total_value_with_discount",
+          key: "id",
+          width: "100",
+
+          //   ...getColumnSearchProps('name'),
+        },
+        {
+          title: "Name",
+          dataIndex: "name",
+          key: "id",
+          width: "100",
+
+          //   ...getColumnSearchProps('name'),
+        },
+        {
+          title: "Phone",
+          dataIndex: "mobile",
+          key: "id",
+        },
+        {
+          title: "Executive",
+          dataIndex: "created_by",
+          key: "id",
+          //   ...getColumnSearchProps('age'),
+        },
+        {
+          title: "Remark",
+          dataIndex: "remark",
+          key: "id",
+          //   ...getColumnSearchProps('age'),
+        },
+        {
+          title: "Site Address",
+          dataIndex: "address",
+          key: "id",
+          width: 300,
+        },
+        {
+          title: " ",
+          key: "id",
+          fixed: "right",
+          width: 50,
+          render: (record) => (
+            <FaUpload
+              className="bi-edit"
+              style={{ width: "100%", height: "20px" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                  console.log(record);
+                  navigate(`/mood-edit/${record.id}`)
+              }}
+            />
+          ),
+        },
 
         {
           title: " ",
@@ -331,11 +464,14 @@ if(record?.status==="Prospect"){
           render: (record) => (
             <FaEye
               className="bi-edit"
-              style={{ width: "100%", height: "20px",cursor:record?.latest_quotation_id?"pointer":"not-allowed" }}
+              style={{
+                width: "100%",
+                height: "20px",
+                cursor: record?.latest_quotation_id ? "pointer" : "not-allowed",
+              }}
               onClick={(e) => {
                 e.stopPropagation();
-                if(record?.latest_quotation_id){
-
+                if (record?.latest_quotation_id) {
                   viewQuotation(record);
                 }
               }}

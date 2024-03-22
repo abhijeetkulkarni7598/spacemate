@@ -7,7 +7,6 @@ import {
   useFetchDesignsQuery,
   useFetchEnquiryQuery,
   useUpdateDesignsMutation,
-
 } from "../../../store/store";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
@@ -16,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const DesignTable = () => {
-  const {id}=useParams();
+  const { id } = useParams();
 
   const [updateDesign, UpdateDesignsResponseInfo] = useUpdateDesignsMutation();
   useEffect(() => {
@@ -24,23 +23,44 @@ const DesignTable = () => {
       message.success("Approval Set Successfull");
     }
   }, [UpdateDesignsResponseInfo]);
-  const { user, userToken, checkAuthLoading, design_page,isAuthenticated } = useSelector(
-    (state) => state.user
-  );
+  const {
+    user,
+    userToken,
+    checkAuthLoading,
+    design_page,
+    design_page2,
+    isAuthenticated,
+  } = useSelector((state) => state.user);
   const [approval, setApproval] = useState("");
   const [user_id, setUser_id] = useState("");
   useEffect(() => {
- if(user?.is_customer){
-  setApproval("Rejected")
-  setUser_id(user.id)
- }
+    if (user?.is_customer) {
+      setApproval("Rejected");
+      setUser_id(user.id);
+    }
   }, [user]);
   const {
     data: data,
     isLoading: loading,
     isFetching: fetch,
     error: error,
-  } = useFetchDesignsQuery({enquiry:id,approval:approval,page:design_page});
+  } = useFetchDesignsQuery({
+    enquiry: id,
+    approval: approval,
+    page: design_page,
+    type:"2D"
+  });
+  const {
+    data: data2,
+    isLoading: loading2,
+    isFetching: fetch2,
+    error: error2,
+  } = useFetchDesignsQuery({
+    enquiry: id,
+    approval: approval,
+    page: design_page2,
+    type:"3D"
+  });
   const {
     data: customer_data,
     isLoading: customer_loading,
@@ -55,7 +75,6 @@ const DesignTable = () => {
   const deletethis = () => {};
   const editfun = (data) => {
     navigate(`/design-form/enquiry=${id}&design=${data.id}`);
-
   };
   const navi = () => {};
   const handleSelect = (data, record) => {
@@ -65,7 +84,6 @@ const DesignTable = () => {
     updateDesign(newData);
   };
 
-
   useEffect(() => {
     if (user_id) {
       setColumn([
@@ -74,7 +92,7 @@ const DesignTable = () => {
           dataIndex: "id",
           key: "id",
           //   ...getColumnSearchProps('name'),
-          width: 20,
+          width: 40,
           fixed: "left",
           render: (text, record, index) => {
             return <span>{design_page * 10 - 10 + index + 1}</span>;
@@ -85,10 +103,18 @@ const DesignTable = () => {
           dataIndex: "title",
           key: "id",
           width: 100,
-          fixed: "left",
 
           //   ...getColumnSearchProps('name'),
         },
+        {
+          title: "Type",
+          dataIndex: "type",
+          key: "type",
+          width: 50,
+
+          //   ...getColumnSearchProps('name'),
+        },
+
         {
           title: "Approval",
           dataIndex: "approval",
@@ -133,7 +159,7 @@ const DesignTable = () => {
           title: " ",
           key: "id",
           fixed: "right",
-          width: 20,
+          width: 30,
           render: (record) => (
             <BiEdit
               className="bi-edit"
@@ -153,7 +179,7 @@ const DesignTable = () => {
           dataIndex: "id",
           key: "id",
           //   ...getColumnSearchProps('name'),
-          width: 30,
+          width: 40,
           fixed: "left",
           render: (text, record, index) => {
             return <span>{design_page * 10 - 10 + index + 1}</span>;
@@ -167,6 +193,7 @@ const DesignTable = () => {
 
           //   ...getColumnSearchProps('name'),
         },
+       
 
         {
           title: "Approval",
@@ -212,7 +239,7 @@ const DesignTable = () => {
           title: " ",
           key: "id",
           fixed: "right",
-          width: 20,
+          width: 30,
           render: (record) => (
             <BiEdit
               className="bi-edit"
@@ -228,7 +255,7 @@ const DesignTable = () => {
         {
           title: " ",
           key: "id",
-          width: 20,
+          width: 30,
           fixed: "right",
           render: (record) => (
             <Popconfirm
@@ -255,28 +282,30 @@ const DesignTable = () => {
       <Slidebar />
 
       <div className="for-etable">
-        <h2 className="e-table-h2">Design Table</h2>
-        <button
-          style={{
-            padding: "10px 40px",
-            borderRadius: "7px",
-            border: "none",
-            backgroundColor: "#0253a2",
-            color: "white",
-            fontSize: "15px",
-            fontWeight: "bolder",
-            cursor: "pointer",
-            marginBottom: "30px",
-          }}
-          onClick={create_client}
-        >
-          Create New Design
-        </button>
+        {user?.is_customer ? null : (
+          <button
+            style={{
+              padding: "10px 40px",
+              borderRadius: "7px",
+              border: "none",
+              backgroundColor: "#0253a2",
+              color: "white",
+              fontSize: "15px",
+              fontWeight: "bolder",
+              cursor: "pointer",
+            }}
+            onClick={create_client}
+          >
+            Create New Design
+          </button>
+        )}
+        <h2 className="e-table-h2">2D Design Table</h2>
 
         {loading && columns ? (
           <Skeleton />
         ) : (
           <ETable
+          size={"small"}
             data={data}
             columns={columns}
             loading={fetch || UpdateDesignsResponseInfo?.isLoading}
@@ -284,6 +313,24 @@ const DesignTable = () => {
             error={error}
             navi={navi}
             field={"design"}
+            scroll={"100%"}
+          />
+        )}
+        <h2 className="e-table-h2">3D Design Table</h2>
+
+        {loading2 && columns ? (
+          <Skeleton />
+        ) : (
+          <ETable
+          size={"small"}
+
+            data={data2}
+            columns={columns}
+            loading={fetch || UpdateDesignsResponseInfo?.isLoading}
+            page={design_page2}
+            error={error2}
+            navi={navi}
+            field={"design2"}
             scroll={"100%"}
           />
         )}

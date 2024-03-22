@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Design_page,
+  Design_page2,
   Enquiry_page,
   Order_page,
   client_page,
@@ -63,8 +64,12 @@ const ETable = (props) => {
               dispatch(item_page(page));
             } else if (props?.field === "enquiry") {
               dispatch(Enquiry_page(page));
-            } else if (props?.field === "design") {
+            } 
+            else if (props?.field === "design") {
               dispatch(Design_page(page));
+            }
+            else if (props?.field === "design2") {
+              dispatch(Design_page2(page));
             }
             else if (props?.field === "order") {
               dispatch(Order_page(page));

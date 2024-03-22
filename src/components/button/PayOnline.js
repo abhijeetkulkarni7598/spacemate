@@ -110,7 +110,8 @@ const PayOnline = ({ customStyle, isValid, title }) => {
     } = useSelector((state) => state.user);
 
     const validatePhoneNumber = (rule, value, callback) => {
-      if (value && value.length !== 10) {
+      console.log(value)
+      if (value && value.toString().length !== 10) {
         callback("Please enter a 10-digit number!");
       } else {
         callback();
@@ -208,7 +209,6 @@ const PayOnline = ({ customStyle, isValid, title }) => {
             >
               <Input
                 required
-                type="number"
                 className="input-login-google"
                 placeholder="Enter Your Number"
               />
@@ -286,12 +286,12 @@ const BtnStyle = styled.div`
     align-items: center;
     justify-content: center;
     backface-visibility: hidden;
-    background-color: var(--primary-color);
+    background-color: var(--primary-color-pay);
     border-radius: 10px;
     border-style: none;
     box-shadow: none;
     box-sizing: border-box;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     display: inline-block;
     font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial,

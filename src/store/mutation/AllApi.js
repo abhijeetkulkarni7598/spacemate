@@ -1029,9 +1029,9 @@ const allApi = createApi({
             : ["Enquiry"],
       }),
       fetchDesigns: build.query({
-        query: ({ enquiry, approval, page }) => {
+        query: ({ enquiry, approval, page ,type}) => {
           return {
-            url: `/enquiry/designs/?page=${page}&enquiry=${enquiry}&approval=${approval}`,
+            url: `/enquiry/designs/?page=${page}&enquiry=${enquiry}&approval=${approval}&type=${type}`,
             method: "GET",
             headers: {
               "Content-Type": "application/json",

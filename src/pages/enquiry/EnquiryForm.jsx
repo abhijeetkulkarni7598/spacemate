@@ -83,6 +83,9 @@ const EnquiryForm = ({ user, enquiry, page }) => {
         }else if(page==="client"){
           navigate("/client");
 
+        }else if(page==="mood"){
+          navigate("/prospect");
+
         } else {
           navigate("/enquiry-table");
         }
@@ -128,6 +131,9 @@ const EnquiryForm = ({ user, enquiry, page }) => {
           // initialValues={thisone}
         >
           <Form.Item name={["id"]} style={{ display: "none" }}></Form.Item>
+          
+          <div style={{display:page==="mood"?"none":"block"}}>
+
           <div style={{ display: user?.is_customer ? "none" : "block" }}>
             <Form.Item
               name={["customer_id"]}
@@ -174,6 +180,34 @@ const EnquiryForm = ({ user, enquiry, page }) => {
             </Form.Item>
           </div>
           {/* {enquiry?.floor_plain?null: */}
+          
+          {/* } */}
+          {!user?.is_customer ? (
+            <>
+            
+
+              <Form.Item name={["unit_size"]} label="Unit Size">
+                <Input
+                  placeholder="Enter Unit Size"
+                  disabled={user?.is_customer}
+                  style={{ color: "black" }}
+                />
+              </Form.Item>
+              {enquiry || user ? (
+                <Form.Item name={["booking_amount"]} label="Booking Amount">
+                  <Input
+                    type="number"
+                    placeholder="Enter Booking Amount"
+                    disabled={user?.is_customer}
+                    style={{ color: "black" }}
+                  />
+                </Form.Item>
+              ) : null}
+            </>
+          ) : null}
+          <Form.Item name={["requirement"]} label="Requirement">
+            <TextArea placeholder="Enter Requirement" />
+          </Form.Item>
           <Form.Item
             name={["floor_plain"]}
             label="Floor Plan"
@@ -195,8 +229,10 @@ const EnquiryForm = ({ user, enquiry, page }) => {
             >
               <Button icon={<UploadOutlined />}>Upload</Button>
             </Upload>
+
           </Form.Item>
-                <div style={{display:page === "client"?"block":"none"}}>
+          </div>
+                <div style={{display:page === "client"||page==="mood"?"block":"none"}}>
                   <Form.Item
                     name={["proposed_furniture_plan"]}
                     label="Furniture Plan"
@@ -240,34 +276,6 @@ const EnquiryForm = ({ user, enquiry, page }) => {
                     </Upload>
                   </Form.Item>
                 </div>
-          {/* } */}
-          {!user?.is_customer ? (
-            <>
-            
-
-              <Form.Item name={["unit_size"]} label="Unit Size">
-                <Input
-                  placeholder="Enter Unit Size"
-                  disabled={user?.is_customer}
-                  style={{ color: "black" }}
-                />
-              </Form.Item>
-              {enquiry || user ? (
-                <Form.Item name={["booking_amount"]} label="Booking Amount">
-                  <Input
-                    type="number"
-                    placeholder="Enter Booking Amount"
-                    disabled={user?.is_customer}
-                    style={{ color: "black" }}
-                  />
-                </Form.Item>
-              ) : null}
-            </>
-          ) : null}
-          <Form.Item name={["requirement"]} label="Requirement">
-            <TextArea placeholder="Enter Requirement" />
-          </Form.Item>
-
           <Form.Item>
             <Button
               loading={

@@ -156,12 +156,13 @@ const OriginalClient = () => {
           fixed: "right",
           width: 50,
           render: (record) => (
-            <BiEdit
+            <FaEdit
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
                 e.stopPropagation();
-                editfun(record);
+                navigate(`/client-edit/${record.id}`)
+
               }}
             />
           ),

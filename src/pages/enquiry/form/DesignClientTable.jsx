@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaEdit, FaEye } from "react-icons/fa";
 import PdfViewer from "./../../commonpage/PdfViewer";
 import { MdViewList } from "react-icons/md";
-import { Filter_Enquiry } from "../../../store/mutation/userSlice";
+import { Enquiry_page, Filter_Enquiry } from "../../../store/mutation/userSlice";
 import { EnquiryStatusArray } from "../../../components/Functions/State";
 
 const ViewModel = ({ performCancel, getData }) => {
@@ -67,10 +67,14 @@ const DesignClientTable = () => {
     }
   }, [updateEnquiryResponseInfo]);
   const navigate = useNavigate();
+const dispatch=useDispatch()
+
+  useEffect(() => {
+    dispatch(Enquiry_page(1))
+  }, []);
   const { user, userToken, enquiry_page,filter_enquiry,client_page, checkAuthLoading, isAuthenticated } =
     useSelector((state) => state.user);
   const [user_id, setUser_id] = useState("");
-const dispatch=useDispatch()
   const handleChange = (pagination, filters, sorter) => {
     console.log(pagination);
     dispatch(Filter_Enquiry(filters));
