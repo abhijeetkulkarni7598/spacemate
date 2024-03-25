@@ -17,7 +17,8 @@ const layout = {
 const onFinish = (data, createEnquiry, query) => {
   data.enquiry = query.enquiry;
   console.log(data);
-  createEnquiry(data);
+  const {id,...newData}=data
+  createEnquiry(newData);
 };
 
 const CreateDesignForm = ({ query, datas }) => {
@@ -91,7 +92,100 @@ const CreateDesignForm = ({ query, datas }) => {
     >
       <div style={{ width: "800px" }}>
         {user_id ? (
-          <>{datas?.image ? <PdfViewer data={datas.image} /> : null}</>
+          <>{datas?.image ?<>
+          
+          <Form
+              form={form}
+              name="dynamic_form_nest_item"
+              onFinish={(data) => {
+                if (datas) {
+                  onUpdate(data, updateEnquiry);
+                } else {
+                  onFinish(data, createEnquiry, query);
+                }
+              }}
+              style={{
+                maxWidth: "100%",
+              }}
+              // autoComplete="off"
+              {...layout}
+              initialValues={datas}
+              // initialValues={thisone}
+            >
+              <div style={{display:"none"}}>
+
+              <Form.Item name={["id"]}></Form.Item>
+              <Form.Item name={["title"]} label="Title">
+                <Select placeholder="Select Title" style={{ width: "150px" }}>
+                  {titleArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item name={["type"]} label="Type">
+              <Select placeholder="Select Type" style={{ width: "150px" }}>
+                  {typeArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              {/* <Form.Item name={["company_name"]} label="Company Name">
+                    <Input placeholder="Enter Your Company name" />
+                  </Form.Item> */}
+              {/* <Form.Item name={["allocate_name"]} label="Allocated Name">
+                    <Input placeholder="Enter Your Allocated Name" />
+                  </Form.Item> */}
+
+              <Form.Item
+                name={["image"]}
+                label="Image"
+                valuePropName="fileList"
+                >
+                <Input
+                  placeholder="Enter your Floor Plan"
+                  type="file"
+                  onChange={(event) => {
+                    // Assuming `setImage` is a state variable
+                    // Make sure to declare `const [image, setImage] = useState(null);` in your functional component
+                    setImage(event.target.value);
+                    form.setFieldsValue({ image: event.target.files[0] });
+                  }}
+                />
+              </Form.Item>
+                  </div>
+              {datas?.image ? <PdfViewer data={datas.image} /> : null}
+
+              <Form.Item name={["approval"]} label="Approval">
+              <Select placeholder="Select Status" style={{ width: "150px" }}>
+                  {ApprovalArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item name={["enquiry"]} className="none"></Form.Item>
+
+              <Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={createEnquiryResponseInfo?.isLoading||upadteEnquiryResponseInfo?.isLoading}
+                  style={{
+                    marginRight: "40px",
+                    background: "var(--pr-color) ",
+                  }}
+                >
+                  {datas ? <>Update</> : <>Submit</>}
+                </Button>
+              </Form.Item>
+            </Form>
+          </> : null}</>
         ) : (
           <>
             <Form
@@ -173,6 +267,7 @@ const CreateDesignForm = ({ query, datas }) => {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  loading={createEnquiryResponseInfo?.isLoading||upadteEnquiryResponseInfo?.isLoading}
                   style={{
                     marginRight: "40px",
                     background: "var(--pr-color) ",

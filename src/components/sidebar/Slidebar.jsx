@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
+import './sidebar.css'
 import {
   SalesAndMarketing,
   SlidebarData,
@@ -104,7 +105,6 @@ function Slidebar() {
       iconclosed: <RiIcons.RiArrowDownFill />,
       iconopened: <RiIcons.RiArrowUpFill />,
       subnav: [
-      
         {
           title: "Requirement",
           path: `/create-enquiry/${user?.enquiry?.id}`,
@@ -135,7 +135,6 @@ function Slidebar() {
           path: "/mood-plan",
           icon: <FaIcons.FaClipboardList />,
         },
-        
       ],
     },
     {
@@ -176,13 +175,14 @@ function Slidebar() {
     authLinks = (
       <Divstyle>
         <li
-          className="li-sidebar"
+          className="li-sidebar profile-button"
           style={{
             textAlign: "right",
             color: "#fff",
-
+            cursor: "pointer",
             fontSize: "1.3rem",
           }}
+          onClick={()=>navigate("/profile")}
         >
           Logged In as: <b>{user?.username}</b>
         </li>
@@ -203,7 +203,7 @@ function Slidebar() {
               fontSize: "1.3rem",
             }}
           >
-            <PayOnline title="Pay Now" />
+            <PayOnline title="Pay Now" brand={"brand"} />
           </li>
         ) : null}
         <li className="li-sidebar">

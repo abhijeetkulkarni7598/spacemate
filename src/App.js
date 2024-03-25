@@ -54,6 +54,7 @@ import DesignClientTable from "./pages/enquiry/form/DesignClientTable";
 import SuperEnquiryForm from "./pages/enquiry/form/enquiry/SuperEnquiryForm";
 import MoodBoardEdit from "./pages/enquiry/form/enquiry/MoodBoardEdit";
 import Policy from "./pages/return/Policy";
+import Profile from "./pages/commonpage/Profile";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -99,6 +100,14 @@ const App = () => {
             element={
               <Auth>
                 <CommonPage />
+              </Auth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Auth>
+                <Profile />
               </Auth>
             }
           />

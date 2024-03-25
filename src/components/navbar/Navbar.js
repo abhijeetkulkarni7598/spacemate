@@ -46,7 +46,7 @@ const Navbar = () => {
         </div>
         <div className="social-media">
           {/* <PayOnline title="Pay Online" /> */}
-          <PayOnline title="Pay Online" />
+          <PayOnline title="Pay Online"/>
         
 
           <div className="navbar-header hamburger-menu mt-3">

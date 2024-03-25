@@ -1,0 +1,4 @@
+.profile-button:hover{
+    color:grey!important;
+    transition: all 0.5 ease;
+}
