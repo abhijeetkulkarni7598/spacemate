@@ -10,9 +10,10 @@ import {
 } from "../../../store/store";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import { Option } from "antd/es/mentions";
-import { ApprovalArray } from "../../../components/Functions/State";
+import { ApprovalArray, ApprovalArrayCustomeer } from "../../../components/Functions/State";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { FaEye } from "react-icons/fa";
 
 const DesignTable = () => {
   const { id } = useParams();
@@ -99,8 +100,16 @@ const DesignTable = () => {
           },
         },
         {
-          title: "Title",
+          title: "Area Name",
           dataIndex: "title",
+          key: "id",
+          width: 100,
+
+          //   ...getColumnSearchProps('name'),
+        },
+        {
+          title: "Design Name",
+          dataIndex: "design_name",
           key: "id",
           width: 100,
 
@@ -136,7 +145,7 @@ const DesignTable = () => {
                   }
                   style={{ width: "150px" }}
                 >
-                  {ApprovalArray?.map((item) => (
+                  {ApprovalArrayCustomeer?.map((item) => (
                     <Option value={item} key={item}>
                       {item}
                     </Option>
@@ -161,7 +170,7 @@ const DesignTable = () => {
           fixed: "right",
           width: 30,
           render: (record) => (
-            <BiEdit
+            <FaEye
               className="bi-edit"
               style={{ width: "100%", height: "20px" }}
               onClick={(e) => {
@@ -186,15 +195,21 @@ const DesignTable = () => {
           },
         },
         {
-          title: "Title",
+          title: "Area Name",
           dataIndex: "title",
           key: "id",
           width: 100,
 
           //   ...getColumnSearchProps('name'),
         },
-       
+        {
+          title: "Design Name",
+          dataIndex: "design_name",
+          key: "id",
+          width: 100,
 
+          //   ...getColumnSearchProps('name'),
+        },
         {
           title: "Approval",
           dataIndex: "approval",

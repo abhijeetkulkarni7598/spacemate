@@ -132,3 +132,6 @@ padding: 10px;
 height: 600px;
 background-color: white;
 }
+.none{
+  display: none;
+}

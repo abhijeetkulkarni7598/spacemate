@@ -26,7 +26,8 @@ return sortedData
 // Mapping types to months
 
 
-export const ApprovalArray=["Approved","Rejected","Pending"]
+export const ApprovalArray=["Approved","Review","Pending"]
+export const ApprovalArrayCustomeer=["Approved","Review"]
 export const typeArray=["2D","3D"]
 export const titleArray=["LR","Lobby","Entrance"]
 export const EnquiryStatusArray=["Enquiry","Prospect","Client"]
@@ -136,3 +137,8 @@ export  const validateNumber = (rule, value, callback) => {
     callback();
   }
 };
+
+export const RemoveUnderScroll=(originalString)=>{
+  const stringWithSpaces = originalString.replace(/_/g, " ");
+return stringWithSpaces
+}

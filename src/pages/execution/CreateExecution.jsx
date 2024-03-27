@@ -12,6 +12,8 @@ import DesignUpload from "./form/DesignUpload";
 import { BiTrash } from "react-icons/bi";
 import PdfViewer from "../commonpage/PdfViewer";
 import { useSelector } from "react-redux";
+import { RemoveUnderScroll } from "../../components/Functions/State";
+import RemarkUpload from "./form/RemarkUpload";
 
 const CreateExecution = ({ data }) => {
   const [id, setid] = useState(data[0].id);
@@ -103,7 +105,8 @@ const CreateExecution = ({ data }) => {
                       item?.status === "DONE" ? "white" : "var(--pr-color) ",
                   }}
                 >
-                  {item.model_name}
+                  
+                  {RemoveUnderScroll(item.model_name)}
                 </h3>
               </div>
             ))}
@@ -187,6 +190,7 @@ const CreateExecution = ({ data }) => {
                       </h3>
                       <div>
                         <PdfViewer data={item.img} />
+                        <RemarkUpload item={item}/>
                       </div>
                       {/* <h4>{item.img}</h4> */}
                     </div>

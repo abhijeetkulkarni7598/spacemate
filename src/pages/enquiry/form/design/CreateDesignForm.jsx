@@ -8,8 +8,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import PdfViewer from "../../../commonpage/PdfViewer";
 import { useSelector } from "react-redux";
-import { ApprovalArray, titleArray, typeArray } from "../../../../components/Functions/State";
+import { ApprovalArray, ApprovalArrayCustomeer, titleArray, typeArray } from "../../../../components/Functions/State";
 import { Option } from "antd/es/mentions";
+import ManualSelect from "../../../../components/button/ManualSelect";
 const layout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 20 },
@@ -158,20 +159,26 @@ const CreateDesignForm = ({ query, datas }) => {
                 />
               </Form.Item>
                   </div>
+                  <div>
+                    <h2>Area Name : {datas?.title}</h2>
+                    <h2>Type : {datas?.type}</h2>
+                  </div>
               {datas?.image ? <PdfViewer data={datas.image} /> : null}
 
               <Form.Item name={["approval"]} label="Approval">
               <Select placeholder="Select Status" style={{ width: "150px" }}>
-                  {ApprovalArray?.map((item) => (
+                  {ApprovalArrayCustomeer?.map((item) => (
                     <Option value={item} key={item}>
                       {item}
                     </Option>
                   ))}
                 </Select>
               </Form.Item>
+              <Form.Item name={["remark"]} label="Remark">
+              <TextArea/>
+              </Form.Item>
               <Form.Item name={["enquiry"]} className="none"></Form.Item>
-
-              <Form.Item>
+              <Form.Item style={{display:"flex",justifyContent:"center"}}>
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -207,15 +214,28 @@ const CreateDesignForm = ({ query, datas }) => {
               // initialValues={thisone}
             >
               <Form.Item name={["id"]}></Form.Item>
-              <Form.Item name={["title"]} label="Title">
-                <Select placeholder="Select Title" style={{ width: "150px" }}>
+              {/* <Form.Item name={["title"]} label="Area Name">
+                <Select placeholder="Select Title" style={{ width: "150px" }} >
                   {titleArray?.map((item) => (
                     <Option value={item} key={item}>
                       {item}
                     </Option>
                   ))}
                 </Select>
-              </Form.Item>
+              </Form.Item> */}
+              <ManualSelect nameValue={"title"} array={titleArray} placeholder={"Please Select Area Name"} label={"Area Name"}/>
+
+              {/* <Form.Item name={["design_name"]} label="Design Name"> */}
+                {/* <Select placeholder="Select Title" style={{ width: "150px" }} >
+                  {titleArray?.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select> */}
+
+                <ManualSelect nameValue={"design_name"} array={titleArray} placeholder={"Please Select Design Name"} label={"Design Name"}/>
+              {/* </Form.Item> */}
               <Form.Item name={["type"]} label="Type">
               <Select placeholder="Select Type" style={{ width: "150px" }}>
                   {typeArray?.map((item) => (
@@ -261,9 +281,12 @@ const CreateDesignForm = ({ query, datas }) => {
                   ))}
                 </Select>
               </Form.Item>
+              <Form.Item name={["remark"]} label="Remark" >
+              <TextArea disabled style={{color:"black"}}/>
+              </Form.Item>  
               <Form.Item name={["enquiry"]} className="none"></Form.Item>
 
-              <Form.Item>
+              <Form.Item style={{display:"flex",justifyContent:"center"}}>
                 <Button
                   type="primary"
                   htmlType="submit"

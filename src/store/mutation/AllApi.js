@@ -723,6 +723,23 @@ const allApi = createApi({
           { type: "ExecutionDesign", id: arg.id },
         ],
       }),
+      updateExecutionDesign: build.mutation({
+        query: (createJobcardData) => {
+          const { id, ...data } = createJobcardData;
+
+          return {
+            url: `/execution/designs/${id}/`,
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              // ...formdata.getHeaders(),
+            },
+          };
+        },
+        invalidatesTags: (result, error, arg) => [
+          { type: "ExecutionDesign", id: arg.id },
+        ],
+      }),
       createDesign: build.mutation({
         query: (createJobcardData) => {
           const { ...data } = createJobcardData;
@@ -1455,6 +1472,8 @@ export const {
   useSuccessOrderMutation,
   useFetchOrderQuery,
   useUpdateOrderMutation,
+
+  useUpdateExecutionDesignMutation,
 } = allApi;
 
 export { allApi };
